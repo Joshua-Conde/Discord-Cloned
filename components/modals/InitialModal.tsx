@@ -138,7 +138,7 @@ export default function InitialModal() {
             <DialogFooter className="bg-gray-100 px-6 py-4">
               <Button
                 disabled={isLoading}
-                variant="primary"
+                variant="primary" // OUR ADDITION
               >
                 Create
               </Button>

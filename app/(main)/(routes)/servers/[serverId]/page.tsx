@@ -1,7 +1,3 @@
-import React from 'react'
-
-function page() {
-  return <div>page</div>
+export default function ServerIDPage() {
+  return <div>ServerIDPage</div>
 }
-
-export default page

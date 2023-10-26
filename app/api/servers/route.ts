@@ -1,11 +1,12 @@
 import { NextResponse } from 'next/server'
 import { v4 as uuidv4 } from 'uuid'
 
+import { MemberRole } from '@prisma/client'
 import currentProfile from '../../../lib/current-profile'
 import { db } from '../../../lib/db'
-import { MemberRole } from '@prisma/client'
 
 export async function POST(req: Request) {
+  // no "export default"?
   try {
     const { name, imageUrl } = await req.json()
     const profile = await currentProfile()
