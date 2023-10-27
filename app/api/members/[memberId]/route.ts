@@ -1,0 +1,66 @@
+import { NextResponse } from 'next/server'
+import currentProfile from '../../../../lib/current-profile'
+import { db } from '../../../../lib/db'
+
+export async function PATCH( // a NAMED export is required - a default export is forbidden
+  req: Request,
+  { params }: { params: { memberId: string } },
+) {
+  try {
+    const profile = await currentProfile()
+    if (!profile) {
+      return new NextResponse('Unauthorized', { status: 401 })
+    }
+
+    const { searchParams } = new URL(req.url) // this is thanks to query-string
+    const { role } = await req.json()
+
+    const serverId = searchParams.get('serverId')
+    if (!serverId) {
+      return new NextResponse('Server ID missing', { status: 400 })
+    }
+
+    if (!params.memberId) {
+      // this .memberId comes from the "above" dynamic route segment
+      return new NextResponse('Member ID missing', { status: 400 })
+    }
+
+    const server = await db.server.update({
+      where: {
+        id: serverId, // this is thanks to "query-string," which allows our being able to access other dynamic route segments besides the one we're currently in (memberId)
+        profileId: profile.id, // this confirms that ONLY the admin can change the role of a server member
+      },
+      data: {
+        members: {
+          update: {
+            where: {
+              id: params.memberId,
+              profileId: {
+                not: profile.id, // this is our protecting the admin against their being able to (accidentally) alter their own role
+              },
+            },
+            data: {
+              role, // this role will, per his words, be passed in as being either "MODERATOR" or "ADMIN"
+            },
+          },
+        },
+      },
+      include: {
+        // this is for our being able to uphold a close-enough to our current ordering of the members list (managed by <MembersModal />)
+        members: {
+          include: {
+            profile: true,
+          },
+          orderBy: {
+            role: 'asc',
+          },
+        },
+      },
+    })
+
+    return NextResponse.json(server)
+  } catch (error) {
+    console.log('/api/members/[memberId]/route.ts: ', error)
+    return new NextResponse('Internal Error', { status: 500 })
+  }
+}
