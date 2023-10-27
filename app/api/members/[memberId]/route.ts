@@ -64,3 +64,63 @@ export async function PATCH( // a NAMED export is required - a default export is
     return new NextResponse('Internal Error', { status: 500 })
   }
 }
+
+export async function DELETE(
+  req: Request,
+  { params }: { params: { memberId: string } },
+) {
+  // ANY axios calls made to custom api endpoints (and their corresponding route handlers) MUST be contained within a "try-catch-(finally)" block
+  try {
+    const profile = await currentProfile()
+
+    if (!profile) {
+      return new NextResponse('Unauthorized', { status: 401 })
+    }
+
+    const { searchParams } = new URL(req.url) // a new URL from req.URL
+
+    const serverId = searchParams.get('serverId') // this is spelled IDENTICALLY to how it was (originally) spelled within the query object
+    // take into account, too, the fact that searchParams defines a .get() method that allows to these "external" dynamic route segments
+
+    if (!serverId) {
+      return new NextResponse('Server ID missing', { status: 400 })
+    }
+
+    if (!params.memberId) {
+      // memberId cannot be ref.'d directly, only through the specified params object
+      return new NextResponse('Member ID missing', { status: 400 })
+    }
+
+    const server = await db.server.update({
+      where: {
+        id: serverId,
+        profileId: profile.id, // this confirms (or not) our admin status?
+      },
+      data: {
+        members: {
+          delete: {
+            id: params.memberId,
+            profileId: {
+              not: profile.id, // the admin CANNOT kick themselves!
+            },
+          },
+        },
+      },
+      include: {
+        members: {
+          include: {
+            profile: true,
+          },
+          orderBy: {
+            role: 'asc',
+          },
+        },
+      },
+    })
+
+    return NextResponse.json(server)
+  } catch (error) {
+    console.log('/api/members/[memberId]/route.ts: ', error)
+    return new NextResponse('Internal Error', { status: 500 })
+  }
+}

@@ -80,8 +80,27 @@ export default function MembersModal() {
       // axios.patch REQUIRES that we give it (as a second argument) an object of some sort
 
       router.refresh()
-
       onOpen('members', { server: response.data })
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setLoadingId('')
+    }
+  }
+
+  const onKick = async (memberId: string) => {
+    try {
+      setLoadingId(memberId) // does this make it so that the member being manipulated on has an adjacent, concurrent loading icon?
+      const url = qs.stringifyUrl({
+        url: `/api/members/${memberId}`,
+        query: {
+          serverId: server?.id,
+        },
+      })
+      const response = await axios.delete(url)
+
+      router.refresh()
+      onOpen('members', { server: response.data }) // the second argument, here, is just our assigning a value to the server propety of "ModalData" (use-modal-store.tsx)
     } catch (error) {
       console.log(error)
     } finally {
@@ -156,9 +175,7 @@ export default function MembersModal() {
                           </DropdownMenuPortal>
                         </DropdownMenuSub>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem
-                        // onClick={() => onKick(member.id)}
-                        >
+                        <DropdownMenuItem onClick={() => onKick(member.id)}>
                           <Gavel className="h-4 w-4 mr-2" />
                           Kick
                         </DropdownMenuItem>
