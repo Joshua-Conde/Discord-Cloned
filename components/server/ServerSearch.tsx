@@ -13,7 +13,7 @@ import {
   CommandList,
 } from '@/components/ui/command'
 
-interface ServerSearchProps {
+type ServerSearchProps = {
   data: {
     label: string
     type: 'channel' | 'member'
@@ -24,7 +24,7 @@ interface ServerSearchProps {
           id: string
         }[]
       | undefined
-  }[]
+  }[] // the above "pair of pipes" is valid syntax
 }
 
 export default function ServerSearch({ data }: ServerSearchProps) {
@@ -55,12 +55,12 @@ export default function ServerSearch({ data }: ServerSearchProps) {
   }) => {
     setOpen(false)
 
-    if (type === 'member') {
-      return router.push(`/servers/${params?.serverId}/conversations/${id}`)
-    }
-
     if (type === 'channel') {
       return router.push(`/servers/${params?.serverId}/channels/${id}`)
+    }
+
+    if (type === 'member') {
+      return router.push(`/servers/${params?.serverId}/conversations/${id}`)
     }
   }
 
@@ -85,8 +85,11 @@ export default function ServerSearch({ data }: ServerSearchProps) {
         <CommandInput placeholder="Search all channels and members" />
         <CommandList>
           <CommandEmpty>No Results found</CommandEmpty>
-          {data.map(({ label, type, data }) => {
-            if (!data?.length) return null
+          {data?.map(({ label, type, data }) => {
+            // i added the conditional chain for some enhanced security
+            if (!data?.length) {
+              return null
+            }
 
             return (
               <CommandGroup
