@@ -1,13 +1,13 @@
 'use client'
+
 import '@uploadthing/react/styles.css'
 import { UploadDropzone } from '../lib/uploadthing'
-
 import Image from 'next/image'
 import { X } from 'lucide-react'
 
 type FileUploadProps = {
   endpoint: 'messageFile' | 'serverImage'
-  value: string // the image url
+  value: string // the "image" url
   onChange: (url?: string) => void
 }
 export default function FileUpload({

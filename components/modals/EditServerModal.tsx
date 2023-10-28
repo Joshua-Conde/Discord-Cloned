@@ -1,18 +1,15 @@
 'use client'
 
 import { useForm } from 'react-hook-form'
-
 import { useRouter } from 'next/navigation'
-
 import { zodResolver } from '@hookform/resolvers/zod'
 import z from 'zod'
-
 import axios from 'axios'
-
 import { Input } from '@/components/ui/input'
 import { Button } from '../ui/button'
-
 import FileUpload from '../FileUpload'
+import { useModal } from '../../hooks/use-modal-store'
+import { useEffect } from 'react'
 
 import {
   Form,
@@ -31,8 +28,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { useModal } from '../../hooks/use-modal-store'
-import { useEffect } from 'react'
 
 const formSchema = z.object({
   name: z.string().min(1, {
@@ -139,7 +134,7 @@ export default function EditServerModal() {
                         disabled={isLoading}
                         className="text-black bg-zinc-300/50 border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
                         placeholder="Enter server name"
-                        {...field} // this supplies our form with onChange, onBlur, and the onFocus "handlers" (just to name a few) => react-hook-form
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />

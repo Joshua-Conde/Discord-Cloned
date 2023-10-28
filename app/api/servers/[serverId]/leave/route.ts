@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server'
-import { v4 as uuidv4 } from 'uuid'
 import currentProfile from '../../../../../lib/current-profile'
 import { db } from '../../../../../lib/db'
 
@@ -14,6 +13,8 @@ export async function PATCH(
       return new NextResponse('Unauthorized', { status: 401 })
     }
 
+    // is it safe to assume that our route handlers should, too, confirm that any (if any) dynamic route segments are NOT null?
+
     if (!params.serverId) {
       return new NextResponse('Server ID missing', { status: 400 })
     }
@@ -21,18 +22,27 @@ export async function PATCH(
     const server = await db.server.update({
       where: {
         id: params.serverId,
-        profileId: profile.id, // this check, does indeed, guarentee that ONLY admins are allowed to perform this task
+        profileId: {
+          not: profile.id, // NOT the owner
+        },
+        members: {
+          some: {
+            profileId: profile.id, // a server member
+          },
+        },
       },
       data: {
-        inviteCode: uuidv4(),
+        members: {
+          deleteMany: {
+            profileId: profile.id, // removing "that" server member
+          },
+        },
       },
     })
 
-    return NextResponse.json(server) // no "new?"
-    // we suffer from continued 404's... (a good reason for our needing to create a new "invite" route group)
+    return NextResponse.json(server)
   } catch (error) {
-    console.log('/api/servers/[serverId]/route.ts: ', error)
-
+    console.log('/api/servers/[serverId]/leave/route.ts: ', error)
     return new NextResponse('Internal Error', { status: 500 })
   }
 }

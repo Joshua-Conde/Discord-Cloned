@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import currentProfile from '../../../../lib/current-profile'
 import { db } from '../../../../lib/db'
 
-export async function PATCH( // a NAMED export is required - a default export is forbidden
+export async function PATCH( // a NAMED export is required -> a default export is forbidden
   req: Request,
   { params }: { params: { memberId: string } },
 ) {
@@ -40,7 +40,7 @@ export async function PATCH( // a NAMED export is required - a default export is
               },
             },
             data: {
-              role, // this role will, per his words, be passed in as being either "MODERATOR" or "ADMIN"
+              role, // this role will, per his words, be passed in as its being either "MODERATOR" or "ADMIN"
             },
           },
         },
@@ -87,7 +87,7 @@ export async function DELETE(
     }
 
     if (!params.memberId) {
-      // memberId cannot be ref.'d directly, only through the specified params object
+      // memberId cannot be ref.'d directly; only through the specified params object
       return new NextResponse('Member ID missing', { status: 400 })
     }
 
@@ -101,7 +101,7 @@ export async function DELETE(
           delete: {
             id: params.memberId,
             profileId: {
-              not: profile.id, // the admin CANNOT kick themselves!
+              not: profile.id, // an admin CANNOT kick themselves!
             },
           },
         },

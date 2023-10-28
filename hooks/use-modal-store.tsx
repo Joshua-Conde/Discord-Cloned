@@ -7,6 +7,8 @@ export type ModalType =
   | 'editServer'
   | 'members'
   | 'createChannel'
+  | 'leaveServer'
+  | 'deleteServer'
 
 type ModalData = {
   server?: Server
@@ -20,6 +22,7 @@ type ModalStore = {
   onClose: () => void
 }
 
+// could the below being changed into a default export work?
 export const useModal = create<ModalStore>((set) => ({
   type: null,
   data: {},

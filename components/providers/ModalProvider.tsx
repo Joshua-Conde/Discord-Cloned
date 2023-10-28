@@ -1,4 +1,5 @@
 'use client'
+
 import { useEffect, useState } from 'react'
 
 import CreateServerModal from '../modals/CreateServerModal'
@@ -6,6 +7,8 @@ import InviteModal from '../modals/InviteModal'
 import EditServerModal from '../modals/EditServerModal'
 import MembersModal from '../modals/MembersModal'
 import CreateChannelModal from '../modals/CreateChannelModal'
+import LeaveServerModal from '../modals/LeaveServerModal'
+import DeleteServerModal from '../modals/DeleteServerModal'
 
 export default function ModalProvider() {
   const [isMounted, setIsMounted] = useState(false)
@@ -18,7 +21,7 @@ export default function ModalProvider() {
     return null
   }
 
-  // our modals will never be rendered unless contained inside of <ModalProvider />
+  // our modals will NEVER get rendered unless contained inside of <ModalProvider />
 
   return (
     <>
@@ -27,6 +30,8 @@ export default function ModalProvider() {
       <EditServerModal />
       <MembersModal />
       <CreateChannelModal />
+      <LeaveServerModal />
+      <DeleteServerModal />
     </>
   )
 }

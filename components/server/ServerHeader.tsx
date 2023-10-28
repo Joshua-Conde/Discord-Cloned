@@ -1,9 +1,8 @@
 'use client'
 
 import { MemberRole } from '@prisma/client'
-import { ServerWithMembersAndProfiles } from '../../types'
-
 import { useModal } from '../../hooks/use-modal-store'
+import { ServerWithMembersAndProfiles } from '../../types'
 
 import {
   ChevronDown,
@@ -29,7 +28,7 @@ type ServerHeaderProps = {
 }
 
 export default function ServerHeader({ server, role }: ServerHeaderProps) {
-  const { onOpen } = useModal() // this is our way of interfacing with AND using the modal store for actually selecting whichever modal we'd like to render
+  const { onOpen } = useModal() // this is our way of interfacing with AND using the modal store for actually selecting which/whatever modal we'd like to see rendered
 
   const isAdmin = role === MemberRole.ADMIN
   const isModerator = isAdmin || role === MemberRole.MODERATOR
@@ -85,7 +84,7 @@ export default function ServerHeader({ server, role }: ServerHeaderProps) {
         {isModerator && <DropdownMenuSeparator />}
         {isAdmin && (
           <DropdownMenuItem
-            // onClick={() => onOpen('deleteServer', { server })}
+            onClick={() => onOpen('deleteServer', { server })}
             className="text-rose-500 px-3 py-2 text-sm cursor-pointer"
           >
             Delete Server
@@ -94,7 +93,7 @@ export default function ServerHeader({ server, role }: ServerHeaderProps) {
         )}
         {!isAdmin && (
           <DropdownMenuItem
-            // onClick={() => onOpen('leaveServer', { server })}
+            onClick={() => onOpen('leaveServer', { server })}
             className="text-rose-500 px-3 py-2 text-sm cursor-pointer"
           >
             Leave Server

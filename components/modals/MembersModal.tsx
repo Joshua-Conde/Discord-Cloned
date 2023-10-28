@@ -1,5 +1,15 @@
 'use client'
 
+import UserAvatar from '../UserAvatar'
+import axios from 'axios'
+import qs from 'query-string'
+import { useModal } from '../../hooks/use-modal-store'
+import { useState } from 'react'
+import { ServerWithMembersAndProfiles } from '../../types'
+import { ScrollArea } from '../ui/scroll-area'
+import { MemberRole } from 'prisma/prisma-client'
+import { useRouter } from 'next/navigation'
+
 import {
   Dialog,
   DialogContent,
@@ -7,10 +17,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-
-import { useModal } from '../../hooks/use-modal-store'
-
-import { useState } from 'react'
 
 import {
   Check,
@@ -23,9 +29,6 @@ import {
   ShieldQuestion,
 } from 'lucide-react'
 
-import { ServerWithMembersAndProfiles } from '../../types'
-import { ScrollArea } from '../ui/scroll-area'
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -37,16 +40,6 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu'
-
-import UserAvatar from '../UserAvatar'
-
-import { MemberRole } from 'prisma/prisma-client'
-
-import qs from 'query-string'
-
-import axios from 'axios'
-
-import { useRouter } from 'next/navigation'
 
 const roleIconMap = {
   GUEST: null,
@@ -66,18 +59,18 @@ export default function MembersModal() {
     try {
       setLoadingId(memberId)
 
-      // npm install query-string. it'll help us generate url queries
+      // "npm install query-string" -> it'll help us generate some url queries
       const url = qs.stringifyUrl({
         url: `/api/members/${memberId}`,
         query: {
-          serverId: server?.id, // is this space only needed for our having the freedom to pass in any dynamic route segments that wouldn't normally be accessible from within the route handler corresponding to this custom, api endpoint?
+          serverId: server?.id, // is this space only needed for our NEEDING the freedom to pass in any dynamic route segments that wouldn't normally be accessible from within the route handler corresponding to this custom, api endpoint?
 
           // memberId, -> this isn't needed thanks to the above `${memberId}`
         },
       })
 
       const response = await axios.patch(url, { role }) // this is an object literal with a standalone "role" property/value
-      // axios.patch REQUIRES that we give it (as a second argument) an object of some sort
+      // "axios.patch" REQUIRES that we pass to it (as a second argument) an object of some sort
 
       router.refresh()
       onOpen('members', { server: response.data })
@@ -100,7 +93,7 @@ export default function MembersModal() {
       const response = await axios.delete(url)
 
       router.refresh()
-      onOpen('members', { server: response.data }) // the second argument, here, is just our assigning a value to the server propety of "ModalData" (use-modal-store.tsx)
+      onOpen('members', { server: response.data }) // the second argument, here, is just our assigning a value to the "server" property of "ModalData" (use-modal-store.tsx)
     } catch (error) {
       console.log(error)
     } finally {
@@ -183,7 +176,7 @@ export default function MembersModal() {
                     </DropdownMenu>
                   </div>
                 )}
-              {/* !=== results in the below's seemingly-endless cyclical spinning */}
+              {/* !== results in the below's seemingly-endless, cyclical spinning */}
               {loadingId === member.id && (
                 <Loader2 className="animate-spin text-zinc-500 ml-auto w-4 h-4" />
               )}

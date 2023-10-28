@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server'
 import currentProfile from '../../../../lib/current-profile'
-import { redirectToSignIn } from '@clerk/nextjs'
 import { db } from '../../../../lib/db'
 
 export async function PATCH(
@@ -25,6 +24,32 @@ export async function PATCH(
       data: {
         name,
         imageUrl,
+      },
+    })
+
+    return NextResponse.json(server)
+  } catch (error) {
+    console.log('/api/servers/[serverId]/route.tsx: ', error)
+    return new NextResponse('Internal Error', { status: 500 })
+  }
+}
+
+export async function DELETE(
+  req: Request, // unused; do we still need to (explicity) accept it?
+  { params }: { params: { serverId: string } },
+) {
+  try {
+    const profile = await currentProfile()
+
+    if (!profile) {
+      return new NextResponse('Unauthorized', { status: 401 })
+    }
+
+    // why, now, doesn't he care to confirm that the ${serverId} is NOT null?
+    const server = await db.server.delete({
+      where: {
+        id: params?.serverId,
+        profileId: profile.id,
       },
     })
 

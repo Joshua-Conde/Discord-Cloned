@@ -30,7 +30,7 @@ export default function ActionTooltip({
         >
           <p className="font-semibold text-sm capitalize">
             {label.toLowerCase()}
-            {/* how come the beginning of every word remains capitalized? */}
+            {/* how come the beginning of every word remains capitalized? answer: ("capitalize" !== "uppercase") */}
           </p>
         </TooltipContent>
       </Tooltip>

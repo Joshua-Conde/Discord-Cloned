@@ -13,7 +13,7 @@ export default async function ServerSidebar({ serverId }: ServerSidebarProps) {
   const profile = await currentProfile()
 
   if (!profile) {
-    return redirectToSignIn() // why, here, does he do a regular redirect? the one from "next/navigation"
+    return redirectToSignIn() // why, here, doesn't he do a regular redirect? (the one from "next/navigation")
   }
 
   const server = await db.server.findUnique({
@@ -21,7 +21,7 @@ export default async function ServerSidebar({ serverId }: ServerSidebarProps) {
       id: serverId,
     },
     include: {
-      // an inevitable "include"?
+      // a server "include"
       channels: {
         orderBy: {
           createdAt: 'asc',
@@ -29,8 +29,8 @@ export default async function ServerSidebar({ serverId }: ServerSidebarProps) {
       },
       members: {
         include: {
-          // and a non-inevitable, nested "include"?
-          profile: true, // what does "profile" even mean, here? does it refer to the same "profile" received from the call to currentProfile()?
+          // a nested, member "include"
+          profile: true, // what does "profile" even mean, here? does it refer to the same "profile" received from the above call to currentProfile()?
         },
         orderBy: {
           role: 'asc',
@@ -45,7 +45,7 @@ export default async function ServerSidebar({ serverId }: ServerSidebarProps) {
 
   const members = server?.members.filter(
     (member) => member.profileId !== profile.id,
-  ) // we could care less about rendering ourselves in the list
+  ) // we could care less about rendering ourselves in this list
 
   const textChannel = server?.channels.filter(
     (channel) => channel.type === ChannelType.TEXT,

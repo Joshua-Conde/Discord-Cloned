@@ -1,7 +1,13 @@
 'use client'
 
+import axios from 'axios'
 import { Input } from '@/components/ui/input'
 import { Button } from '../ui/button'
+import { useModal } from '../../hooks/use-modal-store'
+import { Label } from '../ui/label'
+import { useOrigin } from '../../hooks/use-origin'
+import { useState } from 'react'
+import { Check, Copy, RefreshCw } from 'lucide-react'
 
 import {
   Dialog,
@@ -9,12 +15,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { useModal } from '../../hooks/use-modal-store'
-import { Label } from '../ui/label'
-import { useOrigin } from '../../hooks/use-origin'
-import { useState } from 'react'
-import axios from 'axios'
-import { Check, Copy, RefreshCw } from 'lucide-react'
 
 export default function InviteModal() {
   const { type, data, isOpen, onOpen, onClose } = useModal()
@@ -43,7 +43,7 @@ export default function InviteModal() {
       const response = await axios.patch(
         `/api/servers/${server?.id}/invite-code`,
       )
-      onOpen('invite', { server: response?.data }) // is the conditional chaining, here, necessary?
+      onOpen('invite', { server: response?.data }) // is the conditional chaining, here, really that necessary?
     } catch (error) {
       console.log(error)
     } finally {

@@ -1,16 +1,15 @@
 'use client'
 
 import { useForm } from 'react-hook-form'
-
 import { useParams, useRouter } from 'next/navigation'
-
 import { zodResolver } from '@hookform/resolvers/zod'
 import z from 'zod'
-
 import axios from 'axios'
-
 import { Input } from '@/components/ui/input'
 import { Button } from '../ui/button'
+import { useModal } from '../../hooks/use-modal-store'
+import { ChannelType } from 'prisma/prisma-client'
+import qs from 'query-string'
 
 import {
   Form,
@@ -29,8 +28,6 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 
-import { useModal } from '../../hooks/use-modal-store'
-
 import {
   Select,
   SelectContent,
@@ -38,10 +35,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-
-import { ChannelType } from 'prisma/prisma-client'
-
-import qs from 'query-string'
 
 const formSchema = z.object({
   name: z
@@ -80,7 +73,7 @@ export default function CreateChannelModal() {
         query: {
           serverId: params?.serverId, // a perfect use-case for useParams()!
 
-          // it's funny how the route handlers have immediate access to the dynamic params
+          // remember: route handlers have immediate access to "any" dynamic params
         },
       })
       await axios.post(url, values)
@@ -129,7 +122,7 @@ export default function CreateChannelModal() {
                         className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
                         placeholder="Enter channel name"
                         {...field}
-                        // npx shadcn-ui@latest add select (for our being able to assign a "type" to our channels; TEXT, AUDIO, VIDEO)
+                        // "npx shadcn-ui@latest add select" -> (for our being able to assign a "type" to our channels; TEXT, AUDIO, VIDEO)
                       />
                     </FormControl>
                     <FormMessage />
