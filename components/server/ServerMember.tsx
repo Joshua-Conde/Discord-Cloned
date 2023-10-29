@@ -8,8 +8,8 @@ import UserAvatar from '../UserAvatar'
 UserAvatar
 
 type ServerMemberProps = {
-  member: Member & { profile: Profile }
   server: Server
+  member: Member & { profile: Profile } // i'm so confused with determining exactly where to leverage this "extends" syntax; (&)
 }
 
 const roleIconMap = {
@@ -39,7 +39,7 @@ export const ServerMember = ({ member, server }: ServerMemberProps) => {
       )}
     >
       <UserAvatar
-        src={member.profile.imageUrl}
+        src={member.profile.imageUrl} // i'm assuming that "&" is crucial when attempting to access any deeply nested property(ies)
         className="h-8 w-8 md:h-8 md:w-8"
       />
       <p

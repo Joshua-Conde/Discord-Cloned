@@ -1,24 +1,11 @@
 'use client'
 
-import { useForm } from 'react-hook-form'
-import { useParams, useRouter } from 'next/navigation'
-import { zodResolver } from '@hookform/resolvers/zod'
-import z from 'zod'
-import axios from 'axios'
-import { Input } from '@/components/ui/input'
-import { Button } from '../ui/button'
-import { useModal } from '../../hooks/use-modal-store'
-import { ChannelType } from 'prisma/prisma-client'
 import qs from 'query-string'
-
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form'
+import axios from 'axios'
+import * as z from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { ChannelType } from '@prisma/client'
 
 import {
   Dialog,
@@ -27,7 +14,18 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import { useRouter } from 'next/navigation'
+import { useModal } from '@/hooks/use-modal-store'
 import {
   Select,
   SelectContent,
@@ -49,48 +47,42 @@ const formSchema = z.object({
   type: z.nativeEnum(ChannelType),
 })
 
-export default function CreateChannelModal() {
-  const { type, data, isOpen, onClose } = useModal()
-
+export default function EditChannelModal() {
+  const { isOpen, onClose, type, data } = useModal()
   const router = useRouter()
-  const params = useParams()
 
-  const isModalOpen = isOpen && type === 'createChannel'
-  const { channelType } = data // we'll ONLY ever provide a value for channelType within <ServerSection />
+  const isModalOpen = isOpen && type === 'editChannel'
+  const { channel, server } = data
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: '',
-      type: channelType || ChannelType.TEXT, // an empty string, here, results in an error
+      type: channel?.type || ChannelType.TEXT,
     },
   })
 
   useEffect(() => {
-    if (channelType) {
-      form.setValue('type', channelType)
-    } else {
-      form.setValue('type', ChannelType.TEXT)
+    if (channel) {
+      form.setValue('name', channel.name)
+      form.setValue('type', channel.type)
     }
-  }, [form, channelType])
+  }, [form, channel])
 
   const isLoading = form.formState.isSubmitting
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      // we need a ref. to the server that we'd like to create a channel on
       const url = qs.stringifyUrl({
-        url: '/api/channels',
+        url: `/api/channels/${channel?.id}`,
         query: {
-          serverId: params?.serverId, // a perfect use-case for useParams()!
-
-          // remember: route handlers have immediate access to "any" dynamic params
+          serverId: server?.id,
         },
       })
-      await axios.post(url, values)
+      await axios.patch(url, values)
+
       form.reset()
       router.refresh()
-      // why no window.location.reload()?
       onClose()
     } catch (error) {
       console.log(error)
@@ -99,9 +91,9 @@ export default function CreateChannelModal() {
 
   const handleClose = () => {
     form.reset()
-    // why no router.refresh()?
     onClose()
   }
+
   return (
     <Dialog
       open={isModalOpen}
@@ -110,7 +102,7 @@ export default function CreateChannelModal() {
       <DialogContent className="bg-white text-black p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold">
-            Create Channel
+            Edit Channel
           </DialogTitle>
         </DialogHeader>
         <Form {...form}>
@@ -133,7 +125,6 @@ export default function CreateChannelModal() {
                         className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
                         placeholder="Enter channel name"
                         {...field}
-                        // "npx shadcn-ui@latest add select" -> (for our being able to assign a "type" to our channels; TEXT, AUDIO, VIDEO)
                       />
                     </FormControl>
                     <FormMessage />
@@ -178,7 +169,7 @@ export default function CreateChannelModal() {
                 variant="primary"
                 disabled={isLoading}
               >
-                Create
+                Save
               </Button>
             </DialogFooter>
           </form>

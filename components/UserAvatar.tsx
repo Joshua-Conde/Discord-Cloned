@@ -5,7 +5,8 @@ type UserAvatarProps = {
   src?: string
   className?: string
 }
-// how differently could we get a user's profile picture rendered with this code below?
+
+// <UserAvatar /> = profile picture
 export default function UserAvatar({ src, className }: UserAvatarProps) {
   return (
     <Avatar className={cn('h-7 w-7 md:h-10 md:w-10', className)}>

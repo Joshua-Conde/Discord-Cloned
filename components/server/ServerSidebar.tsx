@@ -80,7 +80,7 @@ export default async function ServerSidebar({ serverId }: ServerSidebarProps) {
 
   const role = server?.members.find(
     (member) => member.profileId === profile.id,
-  )?.role // what's our role?
+  )?.role // what's the role of the currently logged-in user?
 
   return (
     <div className="flex flex-col h-full text-primary w-full dark:bg-[#2B2D31] bg-[#F2F3F5]">
@@ -98,7 +98,7 @@ export default async function ServerSidebar({ serverId }: ServerSidebarProps) {
                 data: textChannels?.map((channel) => ({
                   id: channel.id,
                   name: channel.name,
-                  icon: iconMap[channel.type],
+                  icon: iconMap[channel.type], // OR ChannelType.TEXT
                 })),
               },
               {
@@ -132,7 +132,7 @@ export default async function ServerSidebar({ serverId }: ServerSidebarProps) {
           />
         </div>
         <Separator className="bg-zinc-200 dark:bg-zinc-700 rounded-md my-2" />
-        {!!textChannels?.length && (
+        {!!textChannels?.length && ( // he had mentioned this determining whether the length resolved to an "even" or "odd" number...?
           <div className="mb-2">
             <ServerSection
               sectionType="channels"
