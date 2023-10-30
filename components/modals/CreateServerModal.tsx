@@ -1,17 +1,12 @@
 'use client'
 
 import { useForm } from 'react-hook-form'
-
 import { useRouter } from 'next/navigation'
-
 import { zodResolver } from '@hookform/resolvers/zod'
 import z from 'zod'
-
 import axios from 'axios'
-
 import { Input } from '@/components/ui/input'
 import { Button } from '../ui/button'
-
 import FileUpload from '../FileUpload'
 
 import {
@@ -44,9 +39,10 @@ const formSchema = z.object({
 
 export default function CreateServerModal() {
   const { type, isOpen, onClose } = useModal()
-  const isModalOpen = isOpen && type === 'createServer'
 
   const router = useRouter()
+
+  const isModalOpen = isOpen && type === 'createServer'
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -126,8 +122,8 @@ export default function CreateServerModal() {
                     <FormControl>
                       <Input
                         disabled={isLoading}
-                        className="text-black bg-zinc-300/50 border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
                         placeholder="Enter server name"
+                        className="text-black bg-zinc-300/50 border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
                         {...field} // this supplies our form with onChange, onBlur, and the onFocus "handlers" (just to name a few) => react-hook-form
                       />
                     </FormControl>

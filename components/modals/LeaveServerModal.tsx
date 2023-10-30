@@ -17,12 +17,14 @@ import {
 
 export default function LeaveServerModal() {
   const { isOpen, onClose, type, data } = useModal()
-  const router = useRouter()
-
-  const isModalOpen = isOpen && type === 'leaveServer'
-  const { server } = data
 
   const [isLoading, setIsLoading] = useState(false)
+
+  const router = useRouter()
+
+  const { server } = data
+
+  const isModalOpen = isOpen && type === 'leaveServer'
 
   const onClick = async () => {
     try {
@@ -60,16 +62,16 @@ export default function LeaveServerModal() {
         <DialogFooter className="bg-gray-100 px-6 py-4">
           <div className="flex items-center justify-between w-full">
             <Button
-              disabled={isLoading}
               onClick={onClose}
+              disabled={isLoading}
               variant="ghost"
             >
               Cancel
             </Button>
             <Button
+              onClick={onClick}
               disabled={isLoading}
               variant="primary"
-              onClick={onClick}
             >
               Confirm
             </Button>

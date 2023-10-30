@@ -15,7 +15,7 @@ export default function FileUpload({
   value,
   onChange,
 }: FileUploadProps) {
-  const fileType = value?.split('.').pop()
+  const fileType = value?.split('.')?.pop()
 
   if (value && fileType !== 'pdf') {
     // IF it's an image
@@ -28,9 +28,9 @@ export default function FileUpload({
           className="rounded-full"
         />
         <button
+          type="button"
           onClick={() => onChange('')}
           className="bg-rose-500 text-white p-1 rounded-full absolute top-0 right-0 shadow-sm"
-          type="button"
         >
           <X className="h-4 w-4" />
         </button>
@@ -42,7 +42,7 @@ export default function FileUpload({
     <UploadDropzone
       endpoint={endpoint}
       onClientUploadComplete={(res) => {
-        onChange(res?.[0].url)
+        onChange(res?.[0]?.url)
       }}
       onUploadError={(error: Error) => {
         console.log(error)

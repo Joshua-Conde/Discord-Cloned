@@ -25,9 +25,9 @@ export default function NavigationItem({
 
   return (
     <ActionTooltip
+      label={name}
       side="right"
       align="center"
-      label={name}
     >
       <button
         onClick={onClick}

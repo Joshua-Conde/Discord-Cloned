@@ -20,7 +20,7 @@ export default async function NavigationSidebar() {
     where: {
       members: {
         some: {
-          profileId: profile.id,
+          profileId: profile?.id,
         },
       },
     },
@@ -33,15 +33,15 @@ export default async function NavigationSidebar() {
       <Separator className="h-[2px] bg-zinc-300 dark:bg-zinc-700 rounded-md w-10 mx-auto" />
       {/* installed shadcn-ui's "scroll-area" */}
       <ScrollArea className="flex-1 w-full">
-        {servers.map((server) => (
+        {servers?.map((server) => (
           <div
-            key={server.id}
+            key={server?.id}
             className="mb-4"
           >
             <NavigationItem
-              id={server.id}
-              name={server.name}
-              imageUrl={server.imageUrl}
+              id={server?.id}
+              name={server?.name}
+              imageUrl={server?.imageUrl}
             />
           </div>
         ))}

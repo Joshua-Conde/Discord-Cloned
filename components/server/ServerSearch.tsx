@@ -29,6 +29,7 @@ type ServerSearchProps = {
 
 export default function ServerSearch({ data }: ServerSearchProps) {
   const [open, setOpen] = useState(false)
+
   const router = useRouter()
   const params = useParams()
 

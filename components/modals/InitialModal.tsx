@@ -119,8 +119,8 @@ export default function InitialModal() {
                     <FormControl>
                       <Input
                         disabled={isLoading}
-                        className="text-black bg-zinc-300/50 border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
                         placeholder="Enter server name"
+                        className="text-black bg-zinc-300/50 border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
                         {...field} // this supplies our form with onChange, onBlur, and the onFocus "handlers" (just to name a few) => react-hook-form
                       />
                     </FormControl>

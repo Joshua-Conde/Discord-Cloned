@@ -40,10 +40,12 @@ const formSchema = z.object({
 
 export default function EditServerModal() {
   const { type, data, isOpen, onClose } = useModal()
+
   const router = useRouter()
 
-  const isModalOpen = isOpen && type === 'editServer'
   const { server } = data
+
+  const isModalOpen = isOpen && type === 'editServer'
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -53,6 +55,8 @@ export default function EditServerModal() {
     },
   })
 
+  const isLoading = form.formState.isSubmitting
+
   useEffect(() => {
     if (server) {
       form.setValue('name', server.name)
@@ -60,8 +64,6 @@ export default function EditServerModal() {
     }
     // the onClose(), here, required that i click on "Server Settings" TWICE before it would/could open the modal
   }, [server, form])
-
-  const isLoading = form.formState.isSubmitting
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
@@ -132,8 +134,8 @@ export default function EditServerModal() {
                     <FormControl>
                       <Input
                         disabled={isLoading}
-                        className="text-black bg-zinc-300/50 border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
                         placeholder="Enter server name"
+                        className="text-black bg-zinc-300/50 border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
                         {...field}
                       />
                     </FormControl>

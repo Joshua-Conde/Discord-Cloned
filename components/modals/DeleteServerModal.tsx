@@ -17,12 +17,14 @@ import {
 
 export default function DeleteServerModal() {
   const { isOpen, onClose, type, data } = useModal()
-  const router = useRouter()
-
-  const isModalOpen = isOpen && type === 'deleteServer'
-  const { server } = data
 
   const [isLoading, setIsLoading] = useState(false)
+
+  const router = useRouter()
+
+  const { server } = data
+
+  const isModalOpen = isOpen && type === 'deleteServer'
 
   const onClick = async () => {
     try {
@@ -68,8 +70,8 @@ export default function DeleteServerModal() {
             </Button>
             <Button
               disabled={isLoading}
-              variant="primary"
               onClick={onClick}
+              variant="primary"
             >
               Confirm
             </Button>

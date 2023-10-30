@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input'
 import { Button } from '../ui/button'
 import { useModal } from '../../hooks/use-modal-store'
 import { ChannelType } from 'prisma/prisma-client'
+import { useEffect } from 'react'
 import qs from 'query-string'
 
 import {
@@ -35,7 +36,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { useEffect } from 'react'
 
 const formSchema = z.object({
   name: z
@@ -55,8 +55,9 @@ export default function CreateChannelModal() {
   const router = useRouter()
   const params = useParams()
 
-  const isModalOpen = isOpen && type === 'createChannel'
   const { channelType } = data // we'll ONLY ever provide a value for channelType within <ServerSection />
+
+  const isModalOpen = isOpen && type === 'createChannel'
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -130,8 +131,8 @@ export default function CreateChannelModal() {
                     <FormControl>
                       <Input
                         disabled={isLoading}
-                        className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
                         placeholder="Enter channel name"
+                        className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
                         {...field}
                         // "npx shadcn-ui@latest add select" -> (for our being able to assign a "type" to our channels; TEXT, AUDIO, VIDEO)
                       />
@@ -140,6 +141,7 @@ export default function CreateChannelModal() {
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
                 name="type"
@@ -148,8 +150,8 @@ export default function CreateChannelModal() {
                     <FormLabel>Channel Type</FormLabel>
                     <Select
                       disabled={isLoading}
-                      onValueChange={field.onChange}
                       defaultValue={field.value}
+                      onValueChange={field.onChange}
                     >
                       <FormControl>
                         <SelectTrigger className="bg-zinc-300/50 border-0 focus:ring-0 text-black ring-offset-0 focus:ring-offset-0 capitalize outline-none">

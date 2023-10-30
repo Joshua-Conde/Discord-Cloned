@@ -6,6 +6,11 @@ import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { ChannelType } from '@prisma/client'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
+import { useModal } from '@/hooks/use-modal-store'
 
 import {
   Dialog,
@@ -14,6 +19,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+
 import {
   Form,
   FormControl,
@@ -22,10 +28,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import { useRouter } from 'next/navigation'
-import { useModal } from '@/hooks/use-modal-store'
+
 import {
   Select,
   SelectContent,
@@ -33,7 +36,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { useEffect } from 'react'
 
 const formSchema = z.object({
   name: z
@@ -49,10 +51,12 @@ const formSchema = z.object({
 
 export default function EditChannelModal() {
   const { isOpen, onClose, type, data } = useModal()
+
   const router = useRouter()
 
-  const isModalOpen = isOpen && type === 'editChannel'
   const { channel, server } = data
+
+  const isModalOpen = isOpen && type === 'editChannel'
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -62,14 +66,14 @@ export default function EditChannelModal() {
     },
   })
 
+  const isLoading = form.formState.isSubmitting
+
   useEffect(() => {
     if (channel) {
       form.setValue('name', channel.name)
       form.setValue('type', channel.type)
     }
   }, [form, channel])
-
-  const isLoading = form.formState.isSubmitting
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
@@ -122,8 +126,8 @@ export default function EditChannelModal() {
                     <FormControl>
                       <Input
                         disabled={isLoading}
-                        className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
                         placeholder="Enter channel name"
+                        className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
                         {...field}
                       />
                     </FormControl>
@@ -131,6 +135,7 @@ export default function EditChannelModal() {
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
                 name="type"
@@ -139,8 +144,8 @@ export default function EditChannelModal() {
                     <FormLabel>Channel Type</FormLabel>
                     <Select
                       disabled={isLoading}
-                      onValueChange={field.onChange}
                       defaultValue={field.value}
+                      onValueChange={field.onChange}
                     >
                       <FormControl>
                         <SelectTrigger className="bg-zinc-300/50 border-0 focus:ring-0 text-black ring-offset-0 focus:ring-offset-0 capitalize outline-none">
@@ -166,8 +171,8 @@ export default function EditChannelModal() {
             </div>
             <DialogFooter className="bg-gray-100 px-6 py-4">
               <Button
-                variant="primary"
                 disabled={isLoading}
+                variant="primary"
               >
                 Save
               </Button>

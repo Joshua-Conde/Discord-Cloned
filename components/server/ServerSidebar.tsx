@@ -64,22 +64,22 @@ export default async function ServerSidebar({ serverId }: ServerSidebarProps) {
     redirect('/')
   }
 
-  const members = server?.members.filter(
-    (member) => member.profileId !== profile.id,
+  const members = server?.members?.filter(
+    (member) => member?.profileId !== profile?.id,
   ) // we could care less about rendering ourselves in this list
 
-  const textChannels = server?.channels.filter(
-    (channel) => channel.type === ChannelType.TEXT,
+  const textChannels = server?.channels?.filter(
+    (channel) => channel?.type === ChannelType.TEXT,
   )
-  const audioChannels = server?.channels.filter(
-    (channel) => channel.type === ChannelType.AUDIO,
+  const audioChannels = server?.channels?.filter(
+    (channel) => channel?.type === ChannelType.AUDIO,
   )
-  const videoChannels = server?.channels.filter(
-    (channel) => channel.type === ChannelType.VIDEO,
+  const videoChannels = server?.channels?.filter(
+    (channel) => channel?.type === ChannelType.VIDEO,
   )
 
-  const role = server?.members.find(
-    (member) => member.profileId === profile.id,
+  const role = server?.members?.find(
+    (member) => member?.profileId === profile?.id,
   )?.role // what's the role of the currently logged-in user?
 
   return (
@@ -96,36 +96,36 @@ export default async function ServerSidebar({ serverId }: ServerSidebarProps) {
                 label: 'Text Channels',
                 type: 'channel',
                 data: textChannels?.map((channel) => ({
-                  id: channel.id,
-                  name: channel.name,
-                  icon: iconMap[channel.type], // OR ChannelType.TEXT
+                  id: channel?.id,
+                  name: channel?.name,
+                  icon: iconMap[channel?.type], // OR ChannelType.TEXT
                 })),
               },
               {
                 label: 'Voice Channels',
                 type: 'channel',
                 data: audioChannels?.map((channel) => ({
-                  id: channel.id,
-                  name: channel.name,
-                  icon: iconMap[channel.type],
+                  id: channel?.id,
+                  name: channel?.name,
+                  icon: iconMap[channel?.type],
                 })),
               },
               {
                 label: 'Video Channels',
                 type: 'channel',
                 data: videoChannels?.map((channel) => ({
-                  id: channel.id,
-                  name: channel.name,
-                  icon: iconMap[channel.type],
+                  id: channel?.id,
+                  name: channel?.name,
+                  icon: iconMap[channel?.type],
                 })),
               },
               {
                 label: 'Members',
                 type: 'member',
                 data: members?.map((member) => ({
-                  id: member.id,
-                  name: member.profile.name,
-                  icon: roleIconMap[member.role],
+                  id: member?.id,
+                  name: member?.profile?.name,
+                  icon: roleIconMap[member?.role],
                 })),
               },
             ]}
@@ -135,18 +135,18 @@ export default async function ServerSidebar({ serverId }: ServerSidebarProps) {
         {!!textChannels?.length && ( // he had mentioned this determining whether the length resolved to an "even" or "odd" number...?
           <div className="mb-2">
             <ServerSection
+              label="Text Channels"
               sectionType="channels"
               channelType={ChannelType.TEXT}
               role={role}
-              label="Text Channels"
             />
             <div className="space-y-[2px]">
-              {textChannels.map((channel) => (
+              {textChannels?.map((channel) => (
                 <ServerChannel
-                  key={channel.id}
+                  key={channel?.id}
+                  server={server}
                   channel={channel}
                   role={role}
-                  server={server}
                 />
               ))}
             </div>
@@ -155,18 +155,18 @@ export default async function ServerSidebar({ serverId }: ServerSidebarProps) {
         {!!audioChannels?.length && (
           <div className="mb-2">
             <ServerSection
+              label="Voice Channels"
               sectionType="channels"
               channelType={ChannelType.AUDIO}
               role={role}
-              label="Voice Channels"
             />
             <div className="space-y-[2px]">
-              {audioChannels.map((channel) => (
+              {audioChannels?.map((channel) => (
                 <ServerChannel
-                  key={channel.id}
+                  key={channel?.id}
+                  server={server}
                   channel={channel}
                   role={role}
-                  server={server}
                 />
               ))}
             </div>
@@ -175,18 +175,18 @@ export default async function ServerSidebar({ serverId }: ServerSidebarProps) {
         {!!videoChannels?.length && (
           <div className="mb-2">
             <ServerSection
+              label="Video Channels"
               sectionType="channels"
               channelType={ChannelType.VIDEO}
               role={role}
-              label="Video Channels"
             />
             <div className="space-y-[2px]">
-              {videoChannels.map((channel) => (
+              {videoChannels?.map((channel) => (
                 <ServerChannel
-                  key={channel.id}
+                  key={channel?.id}
+                  server={server}
                   channel={channel}
                   role={role}
-                  server={server}
                 />
               ))}
             </div>
@@ -195,17 +195,17 @@ export default async function ServerSidebar({ serverId }: ServerSidebarProps) {
         {!!members?.length && (
           <div className="mb-2">
             <ServerSection
-              sectionType="members"
-              role={role}
               label="Members"
+              sectionType="members"
               server={server}
+              role={role}
             />
             <div className="space-y-[2px]">
-              {members.map((member) => (
+              {members?.map((member) => (
                 <ServerMember
-                  key={member.id}
-                  member={member}
+                  key={member?.id}
                   server={server}
+                  member={member}
                 />
               ))}
             </div>

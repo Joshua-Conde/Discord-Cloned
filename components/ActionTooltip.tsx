@@ -8,17 +8,17 @@ import {
 } from './ui/tooltip'
 
 type ActionTooltipProps = {
-  label: string // the "pop-up's" contents,
-  children: React.ReactNode
+  label: string // the "pop-up's" contents
   side?: 'top' | 'right' | 'bottom' | 'left'
   align?: 'start' | 'center' | 'end'
+  children: React.ReactNode
 }
 
 export default function ActionTooltip({
   label,
-  children,
   side,
   align,
+  children,
 }: ActionTooltipProps) {
   return (
     <TooltipProvider>

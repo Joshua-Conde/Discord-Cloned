@@ -6,12 +6,13 @@ import { useModal } from '../../hooks/use-modal-store'
 
 export default function NavigationAction() {
   const { onOpen } = useModal()
+
   return (
     <div>
       <ActionTooltip
+        label="Add a server"
         side="right"
         align="center"
-        label="Add a server"
       >
         <button
           className="group flex items-center"

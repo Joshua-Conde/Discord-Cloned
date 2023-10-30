@@ -18,19 +18,22 @@ import {
 
 export default function InviteModal() {
   const { type, data, isOpen, onOpen, onClose } = useModal()
-  const origin = useOrigin() // http://localhost:3000
 
   const [isCopied, setIsCopied] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
-  const isModalOpen = isOpen && type === 'invite'
+  const origin = useOrigin() // http://localhost:3000
 
   const { server } = data
+
   const inviteUrl = `${origin}/invite/${server?.inviteCode}`
 
+  const isModalOpen = isOpen && type === 'invite'
+
   const onCopy = () => {
-    navigator.clipboard.writeText(inviteUrl)
     setIsCopied(true)
+
+    navigator.clipboard.writeText(inviteUrl)
 
     setTimeout(() => {
       setIsCopied(false)
@@ -69,8 +72,8 @@ export default function InviteModal() {
           <div className="flex items-center mt-2 gap-x-2">
             <Input
               disabled={isLoading}
-              className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
               value={inviteUrl}
+              className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
             />
             <Button
               disabled={isLoading}

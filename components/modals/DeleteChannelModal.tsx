@@ -18,12 +18,14 @@ import {
 
 export default function DeleteChannelModal() {
   const { isOpen, onClose, type, data } = useModal()
-  const router = useRouter()
-
-  const isModalOpen = isOpen && type === 'deleteChannel'
-  const { server, channel } = data
 
   const [isLoading, setIsLoading] = useState(false)
+
+  const router = useRouter()
+
+  const { server, channel } = data
+
+  const isModalOpen = isOpen && type === 'deleteChannel'
 
   const onClick = async () => {
     try {

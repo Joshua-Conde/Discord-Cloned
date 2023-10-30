@@ -8,18 +8,18 @@ import { useModal } from '@/hooks/use-modal-store'
 
 type ServerSectionProps = {
   label: string
-  role?: MemberRole
   sectionType: 'channels' | 'members'
   channelType?: ChannelType
   server?: ServerWithMembersAndProfiles
+  role?: MemberRole
 }
 
 export const ServerSection = ({
   label,
-  role,
   sectionType,
   channelType,
   server,
+  role,
 }: ServerSectionProps) => {
   const { onOpen } = useModal()
 
