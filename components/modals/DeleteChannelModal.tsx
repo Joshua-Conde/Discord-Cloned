@@ -78,8 +78,8 @@ export default function DeleteChannelModal() {
             </Button>
             <Button
               disabled={isLoading}
-              variant="primary"
               onClick={onClick}
+              variant="primary"
             >
               Confirm
             </Button>

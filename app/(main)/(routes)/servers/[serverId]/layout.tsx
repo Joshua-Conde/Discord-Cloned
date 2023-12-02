@@ -16,7 +16,7 @@ export default async function ServerIDLayout({
 
   if (!profile) {
     return redirectToSignIn()
-    // how does this differ from the "@clert/nextjs" version?
+    // how does this differ from the "@clerk/nextjs" version?
     // is the "return," too, really necessary? this should take care of the my needing to worry about
     // the continued excution of the function, right?
   }

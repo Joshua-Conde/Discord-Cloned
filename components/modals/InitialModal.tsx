@@ -92,8 +92,8 @@ export default function InitialModal() {
             <div className="space-y-8 px-6">
               <div className="flex justify-center items-center text-center">
                 <FormField
-                  control={form.control}
                   name="imageUrl"
+                  control={form.control}
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
@@ -109,8 +109,8 @@ export default function InitialModal() {
               </div>
 
               <FormField
-                control={form.control}
                 name="name"
+                control={form.control}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">
@@ -124,7 +124,7 @@ export default function InitialModal() {
                         {...field} // this supplies our form with onChange, onBlur, and the onFocus "handlers" (just to name a few) => react-hook-form
                       />
                     </FormControl>
-                    <FormMessage />
+                    {/* <FormMessage /> */}
                   </FormItem>
                 )}
               />

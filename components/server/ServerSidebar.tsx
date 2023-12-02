@@ -83,7 +83,7 @@ export default async function ServerSidebar({ serverId }: ServerSidebarProps) {
   )?.role // what's the role of the currently logged-in user?
 
   return (
-    <div className="flex flex-col h-full text-primary w-full dark:bg-[#2B2D31] bg-[#F2F3F5]">
+    <div className="flex flex-col w-full h-full text-primary dark:bg-[#2B2D31] bg-[#F2F3F5]">
       <ServerHeader
         server={server}
         role={role}
