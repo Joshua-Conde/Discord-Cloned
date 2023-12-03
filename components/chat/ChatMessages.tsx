@@ -5,6 +5,10 @@ import { ChatWelcome } from './ChatWelcome'
 import { useChatQuery } from '../../hooks/use-chat-query'
 import { Loader2, ServerCrash } from 'lucide-react'
 import { Fragment } from 'react'
+import ChatItem from './ChatItem'
+import { format } from 'date-fns'
+
+const DATE_FORMAT = 'd MMM yyyy, HH:mm'
 
 type MessageWithMemberAndProfile = Message & {
   member: Member & {
@@ -12,8 +16,8 @@ type MessageWithMemberAndProfile = Message & {
   }
 }
 
-// "pages" query: Record<string, any>
-// "app" query: Record<string, string>
+// "pages" query: Record<string, any> = outbound
+// "app" query: Record<string, string> = inbound batch
 
 type ChatMessagesProps = {
   member: Member
@@ -79,10 +83,22 @@ export default function ChatMessages({
         type={type}
       />
       <div className=" flex flex-col-reverse mt-auto">
-        {data?.pages?.map((group, i) => (
-          <Fragment key={i}>
-            {group?.items?.map((message: MessageWithMemberAndProfile) => (
-              <div key={message?.id}>{message?.content}</div>
+        {data?.pages?.map((page, index) => (
+          <Fragment key={index}>
+            {page?.items?.map((message: MessageWithMemberAndProfile) => (
+              <ChatItem
+                key={message?.id}
+                id={message?.id}
+                content={message?.content}
+                fileUrl={message?.fileUrl}
+                timestamp={format(new Date(message?.createdAt), DATE_FORMAT)}
+                isUpdated={message?.updatedAt !== message?.createdAt}
+                deleted={message?.deleted}
+                member={message?.member}
+                currentMember={member}
+                socketUrl={socketUrl}
+                socketQuery={socketQuery}
+              />
             ))}
           </Fragment>
         ))}

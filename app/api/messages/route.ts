@@ -15,10 +15,9 @@ export async function GET(req: Request, res: NextApiResponseServerIo) {
 
     const { searchParams } = new URL(req.url)
 
-    const cursor = searchParams.get('cursor')
+    const cursor = searchParams.get('cursor') // "use-chat-query.ts" (nicely) supplies us with this!
 
     const channelId = searchParams.get('channelId') // how would we go about doing this for a contrasting "convesationId?"
-
     if (!channelId) {
       return new NextResponse('Channel ID missing', { status: 400 })
     }
@@ -67,7 +66,7 @@ export async function GET(req: Request, res: NextApiResponseServerIo) {
 
     let nextCursor = null
 
-    if (messages.length === MESSAGES_BATCH) {
+    if (messages?.length === MESSAGES_BATCH) {
       nextCursor = messages[MESSAGES_BATCH - 1]?.id
     }
 

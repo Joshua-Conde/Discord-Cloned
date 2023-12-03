@@ -40,11 +40,11 @@ export default async function ChannelIDPage({ params }: ChannelIDPageProps) {
   }
 
   return (
-    <div className="bg-white dark:bg-[#313338] flex flex-col h-full">
+    <div className="flex flex-col h-full bg-white dark:bg-[#313338]">
       <ChatHeader
-        serverId={channel?.serverId}
         name={channel?.name}
         type="channel"
+        serverId={channel?.serverId}
       />
       <ChatMessages
         member={member}
@@ -65,8 +65,8 @@ export default async function ChannelIDPage({ params }: ChannelIDPageProps) {
         type="channel"
         apiUrl="/api/socket/messages"
         query={{
-          serverId: channel?.serverId,
           channelId: channel?.id,
+          serverId: channel?.serverId,
         }}
       />
     </div>
