@@ -14,7 +14,7 @@ type EmojiPickerProps = {
   onChange: (value: string) => void
 }
 
-// export default
+// export default === ERROR
 export function EmojiPicker({ onChange }: EmojiPickerProps) {
   const { resolvedTheme } = useTheme()
 

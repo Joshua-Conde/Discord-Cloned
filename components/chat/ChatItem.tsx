@@ -1,22 +1,21 @@
 'use client'
 
-import * as z from 'zod'
-import axios from 'axios'
-import qs from 'query-string'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Member, MemberRole, Profile } from '@prisma/client'
-import { Edit, FileIcon, ShieldAlert, ShieldCheck, Trash } from 'lucide-react'
-import Image from 'next/image'
-import { useEffect, useState } from 'react'
-import { useRouter, useParams } from 'next/navigation'
-import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import { useModal } from '@/hooks/use-modal-store'
-import UserAvatar from '../UserAvatar'
+import { cn } from '@/lib/utils'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Member, MemberRole, Profile } from '@prisma/client'
+import axios from 'axios'
+import { Edit, FileIcon, ShieldAlert, ShieldCheck, Trash } from 'lucide-react'
+import Image from 'next/image'
+import qs from 'query-string'
+import { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import * as z from 'zod'
+import { useModal } from '../../hooks/use-modal-store'
 import ActionTooltip from '../ActionTooltip'
+import UserAvatar from '../UserAvatar'
 
 type ChatItemProps = {
   id: string
@@ -59,7 +58,8 @@ export default function ChatItem({
   socketQuery,
 }: ChatItemProps) {
   const [isEditing, setIsEditing] = useState(false)
-  const [isDeleting, setIsDeleting] = useState(false)
+
+  const { onOpen } = useModal()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -68,6 +68,19 @@ export default function ChatItem({
     },
   })
 
+  const isLoading = form.formState.isSubmitting
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' || e.keyCode === 27) {
+        setIsEditing(false)
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
+
   useEffect(() => {
     form.reset({
       content, // === content: content
@@ -75,7 +88,20 @@ export default function ChatItem({
   }, [content])
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values)
+    try {
+      const url = qs.stringifyUrl({
+        url: `${socketUrl}/${id}`,
+        query: socketQuery, // why does query: { socketQuery } results in a type error?
+        // ^ it could be due to socketQuery's ALREADY being an object
+      })
+
+      await axios.patch(url, values)
+
+      form.reset()
+      setIsEditing(false) // does this getting invoked BEFORE (instead of AFTER) form.reset() make any differnce whatsoever?
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const fileType = fileUrl?.split('.')?.pop()
@@ -166,6 +192,7 @@ export default function ChatItem({
                       <FormControl>
                         <div className="relative w-full">
                           <Input
+                            disabled={isLoading}
                             className="p-2 bg-zinc-200/90 dark:bg-zinc-700/75 border-none border-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-zinc-600 dark:text-zinc-200"
                             placeholder="Edited message"
                             {...field}
@@ -176,6 +203,7 @@ export default function ChatItem({
                   )}
                 />
                 <Button
+                  disabled={isLoading}
                   size="sm"
                   variant="primary"
                 >
@@ -200,7 +228,15 @@ export default function ChatItem({
             </ActionTooltip>
           )}
           <ActionTooltip label="Delete">
-            <Trash className="cursor-pointer ml-auto w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition" />
+            <Trash
+              onClick={() =>
+                onOpen('deleteMessage', {
+                  apiUrl: `${socketUrl}/${id}`, // this instance of a "property syntax" is due to the name mis-match
+                  query: socketQuery,
+                })
+              }
+              className="cursor-pointer ml-auto w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition"
+            />
           </ActionTooltip>
         </div>
       )}
