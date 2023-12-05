@@ -4,8 +4,10 @@ import { db } from '@/lib/db'
 import { findOrCreateConversation } from '@/lib/conversation'
 import currentProfile from '@/lib/current-profile'
 import ChatHeader from '../../../../../../../components/chat/ChatHeader'
+import ChatMessages from '../../../../../../../components/chat/ChatMessages'
+import ChatInput from '../../../../../../../components/chat/ChatInput'
 
-interface MemberIDPageProps {
+type MemberIDPageProps = {
   params: {
     serverId: string
     memberId: string
@@ -54,6 +56,27 @@ export default async function MemberIDPage({ params }: MemberIDPageProps) {
         name={otherMember?.profile?.name}
         type="conversation"
         imageUrl={otherMember?.profile?.imageUrl}
+      />
+      <ChatMessages
+        member={currentMember}
+        name={otherMember?.profile?.name}
+        type="conversation"
+        chatId={conversation?.id}
+        paramKey="conversationId"
+        paramValue={conversation?.id}
+        apiUrl="/api/direct-messages"
+        socketUrl="/api/socket/direct-messages"
+        socketQuery={{
+          conversationId: conversation?.id,
+        }}
+      />
+      <ChatInput
+        name={otherMember?.profile?.name}
+        type="conversation"
+        apiUrl="/api/socket/direct-messages"
+        query={{
+          conversationId: conversation?.id,
+        }}
       />
     </div>
   )

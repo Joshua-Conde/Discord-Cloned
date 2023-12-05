@@ -18,8 +18,7 @@ type MessageWithMemberAndProfile = Message & {
   }
 }
 
-// "pages" query: Record<string, any> = outbound
-// "app" query: Record<string, string> = inbound batch
+// Record<string, string> & Record<string, any>(as of now) are BOTH assigned to their holding { channelId: channel?.id, serverId: channel?.serverId }
 
 type ChatMessagesProps = {
   member: Member
@@ -55,6 +54,8 @@ export default function ChatMessages({
       paramKey,
       paramValue,
     })
+
+  // console.log(data?.pages?.[0]?.items?.[0]) -> the structuring of a message instance (the most recent message appears first - console ninja)
 
   useChatSocket({ queryKey, addKey, updateKey })
 
