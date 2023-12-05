@@ -7,8 +7,8 @@ import ActionTooltip from '../ActionTooltip'
 
 export const ChatVideoButton = () => {
   const pathname = usePathname()
-  const router = useRouter()
   const searchParams = useSearchParams()
+  const router = useRouter()
 
   const isVideo = searchParams?.get('video')
 
