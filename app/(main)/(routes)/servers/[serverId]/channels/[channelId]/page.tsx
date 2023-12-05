@@ -1,10 +1,12 @@
 import { redirectToSignIn } from '@clerk/nextjs'
 import { redirect } from 'next/navigation'
+import { ChannelType } from 'prisma/prisma-client'
+import { MediaRoom } from '../../../../../../../components/MediaRoom'
 import ChatHeader from '../../../../../../../components/chat/ChatHeader'
-import currentProfile from '../../../../../../../lib/current-profile'
-import { db } from '../../../../../../../lib/db'
 import ChatInput from '../../../../../../../components/chat/ChatInput'
 import ChatMessages from '../../../../../../../components/chat/ChatMessages'
+import currentProfile from '../../../../../../../lib/current-profile'
+import { db } from '../../../../../../../lib/db'
 
 type ChannelIDPageProps = {
   params: {
@@ -46,29 +48,47 @@ export default async function ChannelIDPage({ params }: ChannelIDPageProps) {
         type="channel"
         serverId={channel?.serverId}
       />
-      <ChatMessages
-        member={member}
-        name={channel?.name}
-        type="channel"
-        chatId={channel?.id}
-        paramKey="channelId"
-        paramValue={channel?.id}
-        apiUrl="/api/messages"
-        socketUrl="/api/socket/messages"
-        socketQuery={{
-          channelId: channel?.id,
-          serverId: channel?.serverId,
-        }}
-      />
-      <ChatInput
-        name={channel?.name}
-        type="channel"
-        apiUrl="/api/socket/messages"
-        query={{
-          channelId: channel?.id,
-          serverId: channel?.serverId,
-        }}
-      />
+      {channel?.type === ChannelType.TEXT && (
+        <>
+          <ChatMessages
+            member={member}
+            name={channel?.name}
+            type="channel"
+            chatId={channel?.id}
+            paramKey="channelId"
+            paramValue={channel?.id}
+            apiUrl="/api/messages"
+            socketUrl="/api/socket/messages"
+            socketQuery={{
+              channelId: channel?.id,
+              serverId: channel?.serverId,
+            }}
+          />
+          <ChatInput
+            name={channel?.name}
+            type="channel"
+            apiUrl="/api/socket/messages"
+            query={{
+              channelId: channel?.id,
+              serverId: channel?.serverId,
+            }}
+          />
+        </>
+      )}
+      {channel?.type === ChannelType.AUDIO && (
+        <MediaRoom
+          chatId={channel?.id}
+          audio={true}
+          video={false}
+        />
+      )}
+      {channel?.type === ChannelType.VIDEO && (
+        <MediaRoom
+          chatId={channel?.id}
+          audio={true}
+          video={true}
+        />
+      )}
     </div>
   )
 }

@@ -1,7 +1,8 @@
 import { Hash } from 'lucide-react'
 import MobileToggle from '../MobileToggle'
-import UserAvatar from '../UserAvatar'
 import SocketIndicator from '../SocketIndicator'
+import UserAvatar from '../UserAvatar'
+import { ChatVideoButton } from './ChatVideoButton'
 
 type ChatHeaderProps = {
   serverId: string
@@ -30,6 +31,7 @@ export default function ChatHeader({
       )}
       <p className="font-semibold text-md text-black dark:text-white">{name}</p>
       <div className="flex items-center ml-auto">
+        {type === 'conversation' && <ChatVideoButton />}
         <SocketIndicator />
       </div>
     </div>
