@@ -144,6 +144,6 @@ export default async function handler(
     return res?.status(200)?.json(message)
   } catch (error) {
     console.log('/pages/api/socket/messages/[messageId].ts: ', error)
-    return res.status(500).json({ error: 'Internal Error' })
+    return res?.status(500)?.json({ error: 'Internal Error' })
   }
 }

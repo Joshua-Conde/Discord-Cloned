@@ -14,5 +14,3 @@ export default function MainLayout({
     </div>
   )
 }
-
-// md:pl-[72px] dictates the width of our (navigation) sidebar

@@ -22,15 +22,14 @@ export default async function ChannelIDPage({ params }: ChannelIDPageProps) {
     return redirectToSignIn()
   }
 
-  const channel = await db.channel.findUnique({
-    // why aren't we, instead, using findFirst? our schema.prisma doesn't leverage an "@unique" ANYWHERE within the "Channel" model
+  const channel = await db?.channel?.findUnique({
     where: {
       id: params?.channelId,
+      serverId: params?.serverId,
     },
   })
 
-  const member = await db.member.findFirst({
-    // but, here, we invoke findFirst...
+  const member = await db?.member?.findFirst({
     where: {
       serverId: params?.serverId,
       profileId: profile?.id,
@@ -38,7 +37,7 @@ export default async function ChannelIDPage({ params }: ChannelIDPageProps) {
   })
 
   if (!channel || !member) {
-    return redirect('/') // is redirect('/') === return redirect('/')?
+    return redirect('/')
   }
 
   return (
@@ -48,7 +47,7 @@ export default async function ChannelIDPage({ params }: ChannelIDPageProps) {
         type="channel"
         serverId={channel?.serverId}
       />
-      {channel?.type === ChannelType.TEXT && (
+      {channel?.type === ChannelType?.TEXT && (
         <>
           <ChatMessages
             member={member}
@@ -75,10 +74,10 @@ export default async function ChannelIDPage({ params }: ChannelIDPageProps) {
           />
         </>
       )}
-      {channel?.type === ChannelType.AUDIO && (
+      {channel?.type === ChannelType?.AUDIO && (
         <MediaRoom chatId={channel?.id} audio={true} video={false} />
       )}
-      {channel?.type === ChannelType.VIDEO && (
+      {channel?.type === ChannelType?.VIDEO && (
         <MediaRoom chatId={channel?.id} audio={true} video={true} />
       )}
     </div>

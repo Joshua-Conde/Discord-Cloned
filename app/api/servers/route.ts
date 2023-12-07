@@ -5,31 +5,31 @@ import currentProfile from '../../../lib/current-profile'
 import { db } from '../../../lib/db'
 
 export async function POST(req: Request) {
-  // no "export default"?
   try {
-    const { name, imageUrl } = await req.json()
     const profile = await currentProfile()
 
     if (!profile) {
       return new NextResponse('Unauthorized', { status: 401 })
     }
 
-    const server = await db.server.create({
+    const { name, imageUrl } = await req?.json()
+
+    const server = await db?.server?.create({
       data: {
-        profileId: profile.id,
+        profileId: profile?.id,
         name,
         imageUrl,
         inviteCode: uuidv4(),
         channels: {
-          create: [{ profileId: profile.id, name: 'general' }],
+          create: [{ profileId: profile?.id, name: 'general' }],
         },
         members: {
-          create: [{ profileId: profile.id, role: MemberRole.ADMIN }],
+          create: [{ profileId: profile?.id, role: MemberRole?.ADMIN }],
         },
       },
     })
 
-    return NextResponse.json(server)
+    return NextResponse?.json(server)
   } catch (error) {
     console.log('/api/servers/route.ts: ', error)
     return new NextResponse('Internal Error', { status: 500 })

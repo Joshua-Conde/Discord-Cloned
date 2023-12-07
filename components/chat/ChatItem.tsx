@@ -22,16 +22,13 @@ type ChatItemProps = {
   id: string
   content: string
   fileUrl: string | null
-
   timestamp: string
   isUpdated: boolean
   deleted: boolean
-
   member: Member & {
     profile: Profile
   }
   currentMember: Member
-
   socketUrl: string
   socketQuery: Record<string, string>
 }

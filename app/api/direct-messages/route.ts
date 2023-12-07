@@ -9,15 +9,16 @@ const MESSAGES_BATCH = 10
 export async function GET(req: Request, res: NextApiResponseServerIo) {
   try {
     const profile = await currentProfile()
+
     if (!profile) {
       return new NextResponse('Unauthorized', { status: 401 })
     }
 
-    const { searchParams } = new URL(req.url)
+    const { searchParams } = new URL(req?.url)
 
-    const cursor = searchParams.get('cursor') // "use-chat-query.ts" (nicely) supplies us with this!
+    const cursor = searchParams?.get('cursor')
 
-    const conversationId = searchParams.get('conversationId')
+    const conversationId = searchParams?.get('conversationId')
 
     if (!conversationId) {
       return new NextResponse('Conversation ID missing', { status: 400 })
@@ -26,7 +27,7 @@ export async function GET(req: Request, res: NextApiResponseServerIo) {
     let directMessages: DirectMessage[] = []
 
     if (cursor) {
-      directMessages = await db.directMessage.findMany({
+      directMessages = await db?.directMessage?.findMany({
         take: MESSAGES_BATCH,
         skip: 1,
         cursor: {
@@ -47,7 +48,7 @@ export async function GET(req: Request, res: NextApiResponseServerIo) {
         },
       })
     } else {
-      directMessages = await db.directMessage.findMany({
+      directMessages = await db?.directMessage?.findMany({
         take: MESSAGES_BATCH,
         where: {
           conversationId,
@@ -71,9 +72,7 @@ export async function GET(req: Request, res: NextApiResponseServerIo) {
       nextCursor = directMessages[MESSAGES_BATCH - 1]?.id
     }
 
-    // socket?.io?.emits are ONLY initiated within the route handlers housed inside of the "pages" router -> outbound messages
-
-    return NextResponse.json({
+    return NextResponse?.json({
       items: directMessages,
       nextCursor,
     })

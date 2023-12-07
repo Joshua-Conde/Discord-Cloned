@@ -14,25 +14,23 @@ export async function PATCH(
       return new NextResponse('Unauthorized', { status: 401 })
     }
 
-    if (!params.serverId) {
+    if (!params?.serverId) {
       return new NextResponse('Server ID missing', { status: 400 })
     }
 
-    const server = await db.server.update({
+    const server = await db?.server?.update({
       where: {
-        id: params.serverId,
-        profileId: profile.id, // this check, does indeed, guarentee that ONLY admins are allowed to perform this task
+        id: params?.serverId,
+        profileId: profile?.id,
       },
       data: {
         inviteCode: uuidv4(),
       },
     })
 
-    return NextResponse.json(server) // no "new?"
-    // we suffer from continued 404's... (a good reason for our needing to create a new "invite" route group)
+    return NextResponse?.json(server)
   } catch (error) {
     console.log('/api/servers/[serverId]/route.ts: ', error)
-
     return new NextResponse('Internal Error', { status: 500 })
   }
 }

@@ -3,6 +3,7 @@
 import { MemberRole } from '@prisma/client'
 import { useModal } from '../../hooks/use-modal-store'
 import { ServerWithMembersAndProfiles } from '../../types'
+
 import {
   ChevronDown,
   LogOut,
@@ -12,6 +13,7 @@ import {
   UserPlus,
   Users,
 } from 'lucide-react'
+
 import {
   DropdownMenu,
   DropdownMenuContent,

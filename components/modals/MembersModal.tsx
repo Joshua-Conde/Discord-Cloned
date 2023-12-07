@@ -43,7 +43,7 @@ import {
 
 const roleIconMap = {
   GUEST: null,
-  MODERATOR: <ShieldCheck className="h-4 w-4 text-indigo-500" />, // ml-2
+  MODERATOR: <ShieldCheck className="h-4 w-4 text-indigo-500" />,
   ADMIN: <ShieldAlert className="h-4 w-4 text-rose-500" />,
 }
 

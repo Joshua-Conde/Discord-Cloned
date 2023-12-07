@@ -9,15 +9,17 @@ const MESSAGES_BATCH = 10
 export async function GET(req: Request, res: NextApiResponseServerIo) {
   try {
     const profile = await currentProfile()
+
     if (!profile) {
       return new NextResponse('Unauthorized', { status: 401 })
     }
 
-    const { searchParams } = new URL(req.url)
+    const { searchParams } = new URL(req?.url)
 
-    const cursor = searchParams.get('cursor') // "use-chat-query.ts" (nicely) supplies us with this!
+    const cursor = searchParams?.get('cursor')
 
-    const channelId = searchParams.get('channelId') // how would we go about doing this for a contrasting "convesationId?"
+    const channelId = searchParams?.get('channelId')
+
     if (!channelId) {
       return new NextResponse('Channel ID missing', { status: 400 })
     }
@@ -25,7 +27,7 @@ export async function GET(req: Request, res: NextApiResponseServerIo) {
     let messages: Message[] = []
 
     if (cursor) {
-      messages = await db.message.findMany({
+      messages = await db?.message?.findMany({
         take: MESSAGES_BATCH,
         skip: 1,
         cursor: {
@@ -46,7 +48,7 @@ export async function GET(req: Request, res: NextApiResponseServerIo) {
         },
       })
     } else {
-      messages = await db.message.findMany({
+      messages = await db?.message?.findMany({
         take: MESSAGES_BATCH,
         where: {
           channelId,
@@ -70,7 +72,7 @@ export async function GET(req: Request, res: NextApiResponseServerIo) {
       nextCursor = messages[MESSAGES_BATCH - 1]?.id
     }
 
-    return NextResponse.json({
+    return NextResponse?.json({
       items: messages,
       nextCursor,
     })

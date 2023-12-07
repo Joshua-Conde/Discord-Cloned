@@ -14,31 +14,31 @@ export async function PATCH(
       return new NextResponse('Unauthorized', { status: 401 })
     }
 
-    const { name, type } = await req.json()
-
-    const { searchParams } = new URL(req.url)
-    const serverId = searchParams.get('serverId')
+    const { searchParams } = new URL(req?.url)
+    const serverId = searchParams?.get('serverId')
 
     if (!serverId) {
       return new NextResponse('Server ID missing', { status: 400 })
     }
 
-    if (!params.channelId) {
+    if (!params?.channelId) {
       return new NextResponse('Channel ID missing', { status: 400 })
     }
+
+    const { name, type } = await req?.json()
 
     if (name === 'general') {
       return new NextResponse("Name cannot be 'general'", { status: 400 })
     }
 
-    const server = await db.server.update({
+    const server = await db?.server?.update({
       where: {
         id: serverId,
         members: {
           some: {
-            profileId: profile.id,
+            profileId: profile?.id,
             role: {
-              in: [MemberRole.MODERATOR, MemberRole.ADMIN],
+              in: [MemberRole?.MODERATOR, MemberRole?.ADMIN],
             },
           },
         },
@@ -47,7 +47,7 @@ export async function PATCH(
         channels: {
           update: {
             where: {
-              id: params.channelId,
+              id: params?.channelId,
               NOT: {
                 name: 'general',
               },
@@ -61,7 +61,7 @@ export async function PATCH(
       },
     })
 
-    return NextResponse.json(server)
+    return NextResponse?.json(server)
   } catch (error) {
     console.log('/api/channels/[channelId]/route.ts: ', error)
     return new NextResponse('Internal Error', { status: 500 })
@@ -79,25 +79,26 @@ export async function DELETE(
       return new NextResponse('Unauthorized', { status: 401 })
     }
 
-    const { searchParams } = new URL(req.url)
-    const serverId = searchParams.get('serverId')
+    const { searchParams } = new URL(req?.url)
+
+    const serverId = searchParams?.get('serverId')
 
     if (!serverId) {
       return new NextResponse('Server ID missing', { status: 400 })
     }
 
-    if (!params.channelId) {
+    if (!params?.channelId) {
       return new NextResponse('Channel ID missing', { status: 400 })
     }
 
-    const server = await db.server.update({
+    const server = await db?.server?.update({
       where: {
         id: serverId,
         members: {
           some: {
-            profileId: profile.id,
+            profileId: profile?.id,
             role: {
-              in: [MemberRole.MODERATOR, MemberRole.ADMIN],
+              in: [MemberRole?.MODERATOR, MemberRole?.ADMIN],
             },
           },
         },
@@ -105,7 +106,7 @@ export async function DELETE(
       data: {
         channels: {
           delete: {
-            id: params.channelId,
+            id: params?.channelId,
             name: {
               not: 'general',
             },
@@ -114,7 +115,7 @@ export async function DELETE(
       },
     })
 
-    return NextResponse.json(server)
+    return NextResponse?.json(server)
   } catch (error) {
     console.log('/api/channels/[channelId]/route.ts: ', error)
     return new NextResponse('Internal Error', { status: 500 })

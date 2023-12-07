@@ -13,34 +13,32 @@ export async function PATCH(
       return new NextResponse('Unauthorized', { status: 401 })
     }
 
-    // is it safe to assume that our route handlers should, too, confirm that any (if any) dynamic route segments are NOT null?
-
-    if (!params.serverId) {
+    if (!params?.serverId) {
       return new NextResponse('Server ID missing', { status: 400 })
     }
 
-    const server = await db.server.update({
+    const server = await db?.server?.update({
       where: {
-        id: params.serverId,
+        id: params?.serverId,
         profileId: {
-          not: profile.id, // NOT the owner
+          not: profile?.id,
         },
         members: {
           some: {
-            profileId: profile.id, // a server member
+            profileId: profile?.id,
           },
         },
       },
       data: {
         members: {
           deleteMany: {
-            profileId: profile.id, // removing "that" server member
+            profileId: profile?.id,
           },
         },
       },
     })
 
-    return NextResponse.json(server)
+    return NextResponse?.json(server)
   } catch (error) {
     console.log('/api/servers/[serverId]/leave/route.ts: ', error)
     return new NextResponse('Internal Error', { status: 500 })

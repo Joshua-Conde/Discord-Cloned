@@ -16,12 +16,12 @@ export default async function ServerIDPage({ params }: ServerIDPageProps) {
     return redirectToSignIn()
   }
 
-  const server = await db.server.findUnique({
+  const server = await db?.server?.findUnique({
     where: {
-      id: params.serverId,
+      id: params?.serverId,
       members: {
         some: {
-          profileId: profile.id,
+          profileId: profile?.id,
         },
       },
     },

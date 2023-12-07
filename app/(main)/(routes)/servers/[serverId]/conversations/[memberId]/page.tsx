@@ -54,7 +54,7 @@ export default async function MemberIDPage({
   const { memberOne, memberTwo } = conversation
 
   const otherMember =
-    memberOne?.profileId === profile?.id ? memberTwo : memberOne // before: currentProfile?.id; (didn't work)
+    memberOne?.profileId === profile?.id ? memberTwo : memberOne
 
   return (
     <div className="bg-white dark:bg-[#313338] flex flex-col h-full">
