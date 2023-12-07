@@ -24,10 +24,7 @@ export default function ChatHeader({
         <Hash className="w-5 h-5 text-zinc-500 dark:text-zinc-400 mr-2" />
       )}
       {type === 'conversation' && (
-        <UserAvatar
-          src={imageUrl}
-          className="h-8 w-8 md:h-8 md:w-8 mr-2"
-        />
+        <UserAvatar src={imageUrl} className="h-8 w-8 md:h-8 md:w-8 mr-2" />
       )}
       <p className="font-semibold text-md text-black dark:text-white">{name}</p>
       <div className="flex items-center ml-auto">

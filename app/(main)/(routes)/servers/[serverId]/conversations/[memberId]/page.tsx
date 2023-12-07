@@ -65,11 +65,7 @@ export default async function MemberIDPage({
         imageUrl={otherMember?.profile?.imageUrl}
       />
       {searchParams?.video && (
-        <MediaRoom
-          chatId={conversation?.id}
-          audio={true}
-          video={true}
-        />
+        <MediaRoom chatId={conversation?.id} audio={true} video={true} />
       )}
       {!searchParams?.video && (
         <>

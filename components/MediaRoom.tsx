@@ -6,7 +6,7 @@ import '@livekit/components-styles'
 import { Loader2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
-interface MediaRoomProps {
+type MediaRoomProps = {
   chatId: string
   audio: boolean
   video: boolean
@@ -14,6 +14,7 @@ interface MediaRoomProps {
 
 export const MediaRoom = ({ chatId, video, audio }: MediaRoomProps) => {
   const { user } = useUser()
+
   const [token, setToken] = useState('')
 
   useEffect(() => {
@@ -27,6 +28,7 @@ export const MediaRoom = ({ chatId, video, audio }: MediaRoomProps) => {
       try {
         const res = await fetch(`/api/livekit?room=${chatId}&username=${name}`)
         const data = await res?.json()
+
         setToken(data?.token)
       } catch (error) {
         console.log(error)
@@ -46,7 +48,7 @@ export const MediaRoom = ({ chatId, video, audio }: MediaRoomProps) => {
   return (
     <LiveKitRoom
       data-lk-theme="default"
-      serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL}
+      serverUrl={process?.env?.NEXT_PUBLIC_LIVEKIT_URL}
       token={token}
       connect={true}
       audio={audio}

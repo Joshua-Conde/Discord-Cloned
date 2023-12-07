@@ -1,9 +1,5 @@
 'use client'
 
-import { Search } from 'lucide-react'
-import { useEffect, useState } from 'react'
-import { useParams, useRouter } from 'next/navigation'
-
 import {
   CommandDialog,
   CommandEmpty,
@@ -12,6 +8,9 @@ import {
   CommandItem,
   CommandList,
 } from '@/components/ui/command'
+import { Search } from 'lucide-react'
+import { useParams, useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 type ServerSearchProps = {
   data: {
@@ -19,33 +18,32 @@ type ServerSearchProps = {
     type: 'channel' | 'member'
     data:
       | {
-          icon: React.ReactNode
-          name: string
           id: string
+          name: string
+          icon: React.ReactNode
         }[]
       | undefined
-  }[] // the above "pair of pipes" is valid syntax
+  }[]
 }
 
 export default function ServerSearch({ data }: ServerSearchProps) {
   const [open, setOpen] = useState(false)
 
-  const router = useRouter()
   const params = useParams()
+  const router = useRouter()
 
   useEffect(() => {
-    const down = (e: KeyboardEvent) => {
-      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
-        // metaKey = "cmd" key on mac; ctrlKey = "ctrl" key on windows
-        e.preventDefault()
+    const down = (event: KeyboardEvent) => {
+      if (event?.key === 'k' && (event?.metaKey || event?.ctrlKey)) {
+        event?.preventDefault()
+
         setOpen((open) => !open)
       }
     }
 
-    // so... keybinding logic can be placed in useEffects, but it must ALL be undone within the "clean-up" function?
-    document.addEventListener('keydown', down)
-    return () => document.removeEventListener('keydown', down)
-  }, []) // this functions in full regardless of its being void of any dependencies?
+    document?.addEventListener('keydown', down)
+    return () => document?.removeEventListener('keydown', down)
+  }, [])
 
   const onClick = ({
     id,
@@ -57,11 +55,11 @@ export default function ServerSearch({ data }: ServerSearchProps) {
     setOpen(false)
 
     if (type === 'channel') {
-      return router.push(`/servers/${params?.serverId}/channels/${id}`)
+      return router?.push(`/servers/${params?.serverId}/channels/${id}`)
     }
 
     if (type === 'member') {
-      return router.push(`/servers/${params?.serverId}/conversations/${id}`)
+      return router?.push(`/servers/${params?.serverId}/conversations/${id}`)
     }
   }
 
@@ -79,25 +77,18 @@ export default function ServerSearch({ data }: ServerSearchProps) {
           <span className="text-xs">⌘</span>K
         </kbd>
       </button>
-      <CommandDialog
-        open={open}
-        onOpenChange={setOpen}
-      >
+      <CommandDialog open={open} onOpenChange={setOpen}>
         <CommandInput placeholder="Search all channels and members" />
         <CommandList>
           <CommandEmpty>No Results found</CommandEmpty>
           {data?.map(({ label, type, data }) => {
-            // i added the conditional chain for some enhanced security
             if (!data?.length) {
               return null
             }
 
             return (
-              <CommandGroup
-                key={label}
-                heading={label}
-              >
-                {data?.map(({ id, icon, name }) => {
+              <CommandGroup key={label} heading={label}>
+                {data?.map(({ id, name, icon }) => {
                   return (
                     <CommandItem
                       key={id}

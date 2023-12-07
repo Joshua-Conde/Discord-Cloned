@@ -7,30 +7,30 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponseServerIo,
 ) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' })
+  if (req?.method !== 'POST') {
+    return res?.status(405)?.json({ error: 'Method not allowed' })
   }
 
   try {
     const currentProfile = await currentProfilePages(req)
 
     if (!currentProfile) {
-      return res.status(401).json({ error: 'Unauthorized' })
+      return res?.status(401)?.json({ error: 'Unauthorized' })
     }
 
-    const { conversationId } = req.query
+    const { conversationId } = req?.query
 
     if (!conversationId) {
-      return res.status(400).json({ error: 'Conversation ID missing' })
+      return res?.status(400)?.json({ error: 'Conversation ID missing' })
     }
 
-    const { content, fileUrl } = req.body
+    const { content, fileUrl } = req?.body
 
     if (!content) {
-      return res.status(400).json({ error: 'Content missing' })
+      return res?.status(400)?.json({ error: 'Content missing' })
     }
 
-    const conversation = await db.conversation.findFirst({
+    const conversation = await db?.conversation?.findFirst({
       where: {
         id: conversationId as string,
         OR: [
@@ -61,7 +61,7 @@ export default async function handler(
     })
 
     if (!conversation) {
-      return res.status(404).json({ message: 'Conversation not found' })
+      return res?.status(404)?.json({ error: 'Conversation not found' })
     }
 
     const currentMember =
@@ -70,15 +70,15 @@ export default async function handler(
         : conversation?.memberTwo
 
     if (!currentMember) {
-      return res.status(404).json({ message: 'Member not found' })
+      return res?.status(404)?.json({ error: 'Member not found' })
     }
 
-    const directMessage = await db.directMessage.create({
+    const directMessage = await db?.directMessage?.create({
       data: {
-        memberId: currentMember?.id,
-        conversationId: conversationId as string,
         content,
         fileUrl,
+        conversationId: conversationId as string,
+        memberId: currentMember?.id,
       },
       include: {
         member: {
@@ -93,9 +93,9 @@ export default async function handler(
 
     res?.socket?.server?.io?.emit(conversationKey, directMessage)
 
-    return res.status(200).json(directMessage)
+    return res?.status(200)?.json(directMessage)
   } catch (error) {
-    console.log('/pages/api/socket/direct-messages.ts: ', error)
-    return res.status(500).json({ message: 'Internal Error' })
+    console.log('/pages/api/socket/direct-messages/index.ts: ', error)
+    return res?.status(500)?.json({ error: 'Internal Error' })
   }
 }

@@ -1,7 +1,7 @@
 import { ClerkProvider } from '@clerk/nextjs'
 import type { Metadata } from 'next'
 import { Open_Sans } from 'next/font/google'
-import { ThemeProvider } from '../components/providers/theme-provider'
+import { ThemeProvider } from '../components/providers/ThemeProvider'
 import { cn } from '../lib/utils'
 import './globals.css'
 import ModalProvider from '../components/providers/ModalProvider'
@@ -22,10 +22,7 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider>
-      <html
-        lang="en"
-        suppressHydrationWarning
-      >
+      <html lang="en" suppressHydrationWarning>
         <body className={cn(font.className, 'bg-white dark:bg-[#313338]')}>
           <ThemeProvider
             attribute="class"

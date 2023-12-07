@@ -19,7 +19,7 @@ type ModalData = {
   channel?: Channel
   channelType?: ChannelType
   apiUrl?: string
-  query?: Record<string, any> // why not Record<string, string>?
+  query?: Record<string, string>
 }
 
 type ModalStore = {
@@ -30,7 +30,6 @@ type ModalStore = {
   onClose: () => void
 }
 
-// could the below being changed into a default export work?
 export const useModal = create<ModalStore>((set) => ({
   type: null,
   data: {},

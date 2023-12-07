@@ -57,7 +57,7 @@ export const useChatScroll = ({
         bottomDiv?.scrollIntoView({
           behavior: 'smooth',
         })
-      }, 100) // this represents the delay before an ACTUAL scroll to the bottom commences
+      }, 100)
     }
   }, [topRef, bottomRef, isInitialized, count])
 }

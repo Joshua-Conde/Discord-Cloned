@@ -8,6 +8,7 @@ import axios from 'axios'
 import { Input } from '@/components/ui/input'
 import { Button } from '../ui/button'
 import FileUpload from '../FileUpload'
+import { useModal } from '../../hooks/use-modal-store'
 
 import {
   Form,
@@ -26,13 +27,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { useModal } from '../../hooks/use-modal-store'
 
-const formSchema = z.object({
-  name: z.string().min(1, {
+const formSchema = z?.object({
+  name: z?.string()?.min(1, {
     message: 'Server name is required.',
   }),
-  imageUrl: z.string().min(1, {
+  imageUrl: z?.string()?.min(1, {
     message: 'Server image is required.',
   }),
 })
@@ -52,31 +52,26 @@ export default function CreateServerModal() {
     },
   })
 
-  const isLoading = form.formState.isSubmitting
+  const isLoading = form?.formState?.isSubmitting
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.post('/api/servers', values)
+      await axios?.post('/api/servers', values)
 
-      form.reset()
-      router.refresh()
-      // why no window.location.reload()?
+      form?.reset()
+      router?.refresh()
     } catch (error) {
       console.log(error)
     }
   }
 
   const handleClose = () => {
-    form.reset()
-    // why no router.refresh()?
+    form?.reset()
     onClose()
   }
 
   return (
-    <Dialog
-      open={isModalOpen}
-      onOpenChange={handleClose}
-    >
+    <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent className="bg-white text-black p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold">
@@ -88,22 +83,19 @@ export default function CreateServerModal() {
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-8"
-          >
+          <form onSubmit={form?.handleSubmit(onSubmit)} className="space-y-8">
             <div className="space-y-8 px-6">
               <div className="flex justify-center items-center text-center">
                 <FormField
-                  control={form.control}
+                  control={form?.control}
                   name="imageUrl"
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
                         <FileUpload
                           endpoint="serverImage"
-                          value={field.value}
-                          onChange={field.onChange}
+                          value={field?.value}
+                          onChange={field?.onChange}
                         />
                       </FormControl>
                     </FormItem>
@@ -112,7 +104,7 @@ export default function CreateServerModal() {
               </div>
 
               <FormField
-                control={form.control}
+                control={form?.control}
                 name="name"
                 render={({ field }) => (
                   <FormItem>
@@ -124,7 +116,7 @@ export default function CreateServerModal() {
                         disabled={isLoading}
                         placeholder="Enter server name"
                         className="text-black bg-zinc-300/50 border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
-                        {...field} // this supplies our form with onChange, onBlur, and the onFocus "handlers" (just to name a few) => react-hook-form
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -133,10 +125,7 @@ export default function CreateServerModal() {
               />
             </div>
             <DialogFooter className="bg-gray-100 px-6 py-4">
-              <Button
-                disabled={isLoading}
-                variant="primary" // OUR ADDITION
-              >
+              <Button disabled={isLoading} variant="primary">
                 Create
               </Button>
             </DialogFooter>

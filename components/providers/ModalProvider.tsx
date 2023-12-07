@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-
 import CreateServerModal from '../modals/CreateServerModal'
 import InviteModal from '../modals/InviteModal'
 import EditServerModal from '../modals/EditServerModal'
@@ -24,8 +23,6 @@ export default function ModalProvider() {
   if (!isMounted) {
     return null
   }
-
-  // our modals will NEVER get rendered unless contained inside of <ModalProvider />
 
   return (
     <>

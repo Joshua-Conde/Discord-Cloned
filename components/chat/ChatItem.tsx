@@ -42,8 +42,8 @@ const roleIconMap = {
   ADMIN: <ShieldAlert className="w-4 h-4 ml-2 text-rose-500" />,
 }
 
-const formSchema = z.object({
-  content: z.string().min(1),
+const formSchema = z?.object({
+  content: z?.string()?.min(1),
 })
 
 export default function ChatItem({
@@ -62,17 +62,15 @@ export default function ChatItem({
 
   const { onOpen } = useModal()
 
-  const router = useRouter()
-
   const params = useParams()
+  const router = useRouter()
 
   const onMemberClick = () => {
     if (member?.id === currentMember?.id) {
       return
     }
 
-    router.push(`/servers/${params?.serverId}/conversations/${member?.id}`)
-    // ^ "params?.serverId" is supplied to us via. through the corresponding page.tsx file for this url (the one that is responsible for indirectly rendering this component)
+    router?.push(`/servers/${params?.serverId}/conversations/${member?.id}`)
   }
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -82,37 +80,36 @@ export default function ChatItem({
     },
   })
 
-  const isLoading = form.formState.isSubmitting
+  const isLoading = form?.formState?.isSubmitting
 
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' || e.keyCode === 27) {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event?.key === 'Escape' || event?.keyCode === 27) {
         setIsEditing(false)
       }
     }
 
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
+    window?.addEventListener('keydown', handleKeyDown)
+    return () => window?.removeEventListener('keydown', handleKeyDown)
   }, [])
 
   useEffect(() => {
-    form.reset({
-      content, // === content: content
+    form?.reset({
+      content,
     })
   }, [content])
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const url = qs.stringifyUrl({
+      const url = qs?.stringifyUrl({
         url: `${socketUrl}/${id}`,
-        query: socketQuery, // why does query: { socketQuery } results in a type error?
-        // ^ it could be due to socketQuery's ALREADY being an object
+        query: socketQuery,
       })
 
-      await axios.patch(url, values)
+      await axios?.patch(url, values)
 
-      form.reset()
-      setIsEditing(false) // does this getting invoked BEFORE (instead of AFTER) form.reset() make any differnce whatsoever?
+      form?.reset()
+      setIsEditing(false)
     } catch (error) {
       console.log(error)
     }
@@ -120,9 +117,9 @@ export default function ChatItem({
 
   const fileType = fileUrl?.split('.')?.pop()
 
-  const isAdmin = currentMember.role === MemberRole.ADMIN
-  const isModerator = currentMember.role === MemberRole.MODERATOR
-  const isOwner = currentMember.id === member.id
+  const isAdmin = currentMember?.role === MemberRole?.ADMIN
+  const isModerator = currentMember?.role === MemberRole?.MODERATOR
+  const isOwner = currentMember?.id === member?.id
   const canDeleteMessage = !deleted && (isAdmin || isModerator || isOwner)
   const canEditMessage = !deleted && isOwner && !fileUrl
   const isPDF = fileType === 'pdf' && fileUrl
@@ -222,11 +219,7 @@ export default function ChatItem({
                     </FormItem>
                   )}
                 />
-                <Button
-                  disabled={isLoading}
-                  size="sm"
-                  variant="primary"
-                >
+                <Button disabled={isLoading} size="sm" variant="primary">
                   Save
                 </Button>
               </form>
@@ -251,7 +244,7 @@ export default function ChatItem({
             <Trash
               onClick={() =>
                 onOpen('deleteMessage', {
-                  apiUrl: `${socketUrl}/${id}`, // this instance of a "property syntax" is due to the name mis-match
+                  apiUrl: `${socketUrl}/${id}`,
                   query: socketQuery,
                 })
               }

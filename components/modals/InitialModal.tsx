@@ -16,7 +16,6 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from '@/components/ui/form'
 
 import {
@@ -28,17 +27,17 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 
-const formSchema = z.object({
-  name: z.string().min(1, {
+const formSchema = z?.object({
+  name: z?.string()?.min(1, {
     message: 'Server name is required.',
   }),
-  imageUrl: z.string().min(1, {
+  imageUrl: z?.string()?.min(1, {
     message: 'Server image is required.',
   }),
 })
 
 export default function InitialModal() {
-  const [isMounted, setIsMounted] = useState(false) // this is to suppress the hydration error
+  const [isMounted, setIsMounted] = useState(false)
 
   const router = useRouter()
 
@@ -54,15 +53,15 @@ export default function InitialModal() {
     },
   })
 
-  const isLoading = form.formState.isSubmitting
+  const isLoading = form?.formState?.isSubmitting
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.post('/api/servers', values)
+      await axios?.post('/api/servers', values)
 
-      form.reset()
-      router.refresh()
-      window.location.reload()
+      form?.reset()
+      router?.refresh()
+      window?.location?.reload()
     } catch (error) {
       console.log(error)
     }
@@ -85,22 +84,19 @@ export default function InitialModal() {
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-8"
-          >
+          <form onSubmit={form?.handleSubmit(onSubmit)} className="space-y-8">
             <div className="space-y-8 px-6">
               <div className="flex justify-center items-center text-center">
                 <FormField
                   name="imageUrl"
-                  control={form.control}
+                  control={form?.control}
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
                         <FileUpload
                           endpoint="serverImage"
-                          value={field.value}
-                          onChange={field.onChange}
+                          value={field?.value}
+                          onChange={field?.onChange}
                         />
                       </FormControl>
                     </FormItem>
@@ -110,7 +106,7 @@ export default function InitialModal() {
 
               <FormField
                 name="name"
-                control={form.control}
+                control={form?.control}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">
@@ -121,19 +117,15 @@ export default function InitialModal() {
                         disabled={isLoading}
                         placeholder="Enter server name"
                         className="text-black bg-zinc-300/50 border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
-                        {...field} // this supplies our form with onChange, onBlur, and the onFocus "handlers" (just to name a few) => react-hook-form
+                        {...field}
                       />
                     </FormControl>
-                    {/* <FormMessage /> */}
                   </FormItem>
                 )}
               />
             </div>
             <DialogFooter className="bg-gray-100 px-6 py-4">
-              <Button
-                disabled={isLoading}
-                variant="primary" // OUR ADDITION
-              >
+              <Button disabled={isLoading} variant="primary">
                 Create
               </Button>
             </DialogFooter>

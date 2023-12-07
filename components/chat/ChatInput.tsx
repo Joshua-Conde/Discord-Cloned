@@ -5,7 +5,7 @@ import axios from 'axios'
 import { Plus, Smile } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import qs from 'query-string'
-import { useForm } from 'react-hook-form' // our using react-hook-form's <Form /> will result in a failed build
+import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 import { useModal } from '../../hooks/use-modal-store'
 import { Form, FormControl, FormField, FormItem } from '../ui/form'
@@ -16,7 +16,7 @@ type ChatInputProps = {
   name: string
   type: 'channel' | 'conversation'
   apiUrl: string
-  query: Record<string, any>
+  query: Record<string, string>
 }
 
 const formSchema = z?.object({
@@ -30,10 +30,10 @@ export default function ChatInput({
   query,
 }: ChatInputProps) {
   const { onOpen } = useModal()
+
   const router = useRouter()
 
   const form = useForm<z.infer<typeof formSchema>>({
-    // this instance of an inference isn't necessary
     resolver: zodResolver(formSchema),
     defaultValues: {
       content: '',
@@ -54,7 +54,7 @@ export default function ChatInput({
       form?.reset()
       router?.refresh()
     } catch (error) {
-      console?.log(error)
+      console.log(error)
     }
   }
 

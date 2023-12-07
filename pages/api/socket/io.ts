@@ -10,19 +10,18 @@ export const config = {
 }
 
 const ioHandler = (req: NextApiRequest, res: NextApiResponseServerIo) => {
-  if (!res.socket.server.io) {
-    const httpServer: NetServer = res.socket.server as any
+  if (!res?.socket?.server?.io) {
+    const httpServer: NetServer = res?.socket?.server as any
 
     const io = new ServerIO(httpServer, {
-      path: '/api/socket/io', // previously: path: path,
-      // why does a typo here not sever my Socket IO connection?
+      path: '/api/socket/io',
       addTrailingSlash: false,
     })
 
     res.socket.server.io = io
   }
 
-  res.end()
+  res?.end()
 }
 
 export default ioHandler

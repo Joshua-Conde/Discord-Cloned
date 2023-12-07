@@ -1,14 +1,6 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { useModal } from '@/hooks/use-modal-store'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -19,6 +11,15 @@ import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 import FileUpload from '../FileUpload'
 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
+
 const formSchema = z?.object({
   fileUrl: z?.string()?.min(1, {
     message: 'Attachment is required.',
@@ -27,10 +28,12 @@ const formSchema = z?.object({
 
 export default function MessageFileModal() {
   const { isOpen, onClose, type, data } = useModal()
+
+  const { apiUrl, query } = data
+
   const router = useRouter()
 
   const isModalOpen = isOpen && type === 'messageFile'
-  const { apiUrl, query } = data
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -55,22 +58,19 @@ export default function MessageFileModal() {
 
       await axios?.post(url, {
         ...values,
-        content: values?.fileUrl, // content & fileUrl = fileUrl
+        content: values?.fileUrl,
       })
 
       form?.reset()
       router?.refresh()
-      handleClose() // why is a double invocation of form?.reset() needed for the form to be clearned of any previously-uploaded images?
+      handleClose()
     } catch (error) {
-      console?.log(error)
+      console.log(error)
     }
   }
 
   return (
-    <Dialog
-      open={isModalOpen}
-      onOpenChange={handleClose}
-    >
+    <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent className="bg-white text-black p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold">
@@ -81,10 +81,7 @@ export default function MessageFileModal() {
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form
-            onSubmit={form?.handleSubmit(onSubmit)}
-            className="space-y-8"
-          >
+          <form onSubmit={form?.handleSubmit(onSubmit)} className="space-y-8">
             <div className="space-y-8 px-6">
               <div className="flex items-center justify-center text-center">
                 <FormField
@@ -105,10 +102,7 @@ export default function MessageFileModal() {
               </div>
             </div>
             <DialogFooter className="bg-gray-100 px-6 py-4">
-              <Button
-                disabled={isLoading}
-                variant="primary"
-              >
+              <Button disabled={isLoading} variant="primary">
                 Send
               </Button>
             </DialogFooter>

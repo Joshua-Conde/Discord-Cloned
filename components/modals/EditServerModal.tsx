@@ -29,11 +29,11 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 
-const formSchema = z.object({
-  name: z.string().min(1, {
+const formSchema = z?.object({
+  name: z?.string()?.min(1, {
     message: 'Server name is required.',
   }),
-  imageUrl: z.string().min(1, {
+  imageUrl: z?.string()?.min(1, {
     message: 'Server image is required.',
   }),
 })
@@ -41,9 +41,9 @@ const formSchema = z.object({
 export default function EditServerModal() {
   const { type, data, isOpen, onClose } = useModal()
 
-  const router = useRouter()
-
   const { server } = data
+
+  const router = useRouter()
 
   const isModalOpen = isOpen && type === 'editServer'
 
@@ -55,40 +55,34 @@ export default function EditServerModal() {
     },
   })
 
-  const isLoading = form.formState.isSubmitting
+  const isLoading = form?.formState?.isSubmitting
 
   useEffect(() => {
     if (server) {
-      form.setValue('name', server.name)
-      form.setValue('imageUrl', server.imageUrl)
+      form?.setValue('name', server?.name)
+      form?.setValue('imageUrl', server?.imageUrl)
     }
-    // the onClose(), here, required that i click on "Server Settings" TWICE before it would/could open the modal
   }, [server, form])
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.patch(`/api/servers/${server?.id}`, values) // we're targetting a SPECIFIC server (based on its id) for updating purposes
+      await axios?.patch(`/api/servers/${server?.id}`, values)
 
-      form.reset()
-      router.refresh()
-      // why no window.location.reload()?
-      onClose() // the onClose(), here, is crucial!
+      form?.reset()
+      router?.refresh()
+      onClose()
     } catch (error) {
       console.log(error)
     }
   }
 
   const handleClose = () => {
-    form.reset()
-    // why no router.refresh()?
+    form?.reset()
     onClose()
   }
 
   return (
-    <Dialog
-      open={isModalOpen}
-      onOpenChange={handleClose}
-    >
+    <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent className="bg-white text-black p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold">
@@ -100,22 +94,19 @@ export default function EditServerModal() {
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-8"
-          >
+          <form onSubmit={form?.handleSubmit(onSubmit)} className="space-y-8">
             <div className="space-y-8 px-6">
               <div className="flex justify-center items-center text-center">
                 <FormField
-                  control={form.control}
+                  control={form?.control}
                   name="imageUrl"
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
                         <FileUpload
                           endpoint="serverImage"
-                          value={field.value}
-                          onChange={field.onChange}
+                          value={field?.value}
+                          onChange={field?.onChange}
                         />
                       </FormControl>
                     </FormItem>
@@ -124,7 +115,7 @@ export default function EditServerModal() {
               </div>
 
               <FormField
-                control={form.control}
+                control={form?.control}
                 name="name"
                 render={({ field }) => (
                   <FormItem>

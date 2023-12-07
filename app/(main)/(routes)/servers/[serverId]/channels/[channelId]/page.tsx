@@ -76,18 +76,10 @@ export default async function ChannelIDPage({ params }: ChannelIDPageProps) {
         </>
       )}
       {channel?.type === ChannelType.AUDIO && (
-        <MediaRoom
-          chatId={channel?.id}
-          audio={true}
-          video={false}
-        />
+        <MediaRoom chatId={channel?.id} audio={true} video={false} />
       )}
       {channel?.type === ChannelType.VIDEO && (
-        <MediaRoom
-          chatId={channel?.id}
-          audio={true}
-          video={true}
-        />
+        <MediaRoom chatId={channel?.id} audio={true} video={true} />
       )}
     </div>
   )

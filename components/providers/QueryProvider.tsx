@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
-// what about "export default?"
 export function QueryProvider({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient())
 

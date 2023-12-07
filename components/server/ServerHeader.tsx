@@ -3,7 +3,6 @@
 import { MemberRole } from '@prisma/client'
 import { useModal } from '../../hooks/use-modal-store'
 import { ServerWithMembersAndProfiles } from '../../types'
-
 import {
   ChevronDown,
   LogOut,
@@ -13,7 +12,6 @@ import {
   UserPlus,
   Users,
 } from 'lucide-react'
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,22 +21,19 @@ import {
 } from '@/components/ui/dropdown-menu'
 
 type ServerHeaderProps = {
-  server: ServerWithMembersAndProfiles // "Server" (standalone) fails to include channels, members, and their respective profiles, too
+  server: ServerWithMembersAndProfiles
   role?: MemberRole
 }
 
 export default function ServerHeader({ server, role }: ServerHeaderProps) {
-  const { onOpen } = useModal() // this is our way of interfacing with AND using the modal store for actually selecting which/whatever modal we'd like to see rendered
+  const { onOpen } = useModal()
 
-  const isAdmin = role === MemberRole.ADMIN
-  const isModerator = isAdmin || role === MemberRole.MODERATOR
+  const isAdmin = role === MemberRole?.ADMIN
+  const isModerator = isAdmin || role === MemberRole?.MODERATOR
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger
-        className="focus:outline-none"
-        asChild
-      >
+      <DropdownMenuTrigger className="focus:outline-none" asChild>
         <button className="w-full text-md font-semibold px-3 flex items-center h-12 border-neutral-200 dark:border-neutral-800 border-b-2 hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition capitalize">
           {server?.name?.toLowerCase()}
           <ChevronDown className="h-5 w-5 ml-auto" />
@@ -47,7 +42,7 @@ export default function ServerHeader({ server, role }: ServerHeaderProps) {
       <DropdownMenuContent className="w-56 text-xs font-medium text-black dark:text-neutral-400 space-y-[2px]">
         {isModerator && (
           <DropdownMenuItem
-            onClick={() => onOpen('invite', { server })} // = { server: server }
+            onClick={() => onOpen('invite', { server })}
             className="text-indigo-600 dark:text-indigo-400 px-3 py-2 text-sm cursor-pointer"
           >
             Invite People

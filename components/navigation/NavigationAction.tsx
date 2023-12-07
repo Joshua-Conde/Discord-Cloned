@@ -9,11 +9,7 @@ export default function NavigationAction() {
 
   return (
     <div>
-      <ActionTooltip
-        label="Add a server"
-        side="right"
-        align="center"
-      >
+      <ActionTooltip label="Add a server" side="right" align="center">
         <button
           className="group flex items-center"
           onClick={() => onOpen('createServer')}
@@ -23,7 +19,6 @@ export default function NavigationAction() {
               className="group-hover:text-white transition text-emerald-500"
               size={25}
             />
-            {/* at this point in time is when i found the need to define <ActionTooltip />; (it, a child to the above div, just wraps the below content(s)) */}
           </div>
         </button>
       </ActionTooltip>

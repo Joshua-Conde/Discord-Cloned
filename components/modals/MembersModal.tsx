@@ -50,11 +50,11 @@ const roleIconMap = {
 export default function MembersModal() {
   const { type, data, isOpen, onOpen, onClose } = useModal()
 
+  const { server } = data as { server: ServerWithMembersAndProfiles }
+
   const [loadingId, setLoadingId] = useState('')
 
   const router = useRouter()
-
-  const { server } = data as { server: ServerWithMembersAndProfiles } // data.server, being of type Server, has no working knowledge of its members, their profiles, and the channels that it holds ^
 
   const isModalOpen = isOpen && type === 'members'
 
@@ -62,20 +62,16 @@ export default function MembersModal() {
     try {
       setLoadingId(memberId)
 
-      // "npm install query-string" -> it'll help us generate some url queries
-      const url = qs.stringifyUrl({
+      const url = qs?.stringifyUrl({
         url: `/api/members/${memberId}`,
         query: {
-          serverId: server?.id, // is this space only needed for our NEEDING the freedom to pass in any dynamic route segments that wouldn't normally be accessible from within the route handler corresponding to this custom, api endpoint?
-
-          // memberId, -> this isn't needed thanks to the above `${memberId}`
+          serverId: server?.id,
         },
       })
 
-      const response = await axios.patch(url, { role }) // this is an object literal with a standalone "role" property/value
-      // "axios.patch" REQUIRES that we pass to it (as a second argument) an object of some sort
+      const response = await axios?.patch(url, { role })
 
-      router.refresh()
+      router?.refresh()
       onOpen('members', { server: response?.data })
     } catch (error) {
       console.log(error)
@@ -86,17 +82,19 @@ export default function MembersModal() {
 
   const onKick = async (memberId: string) => {
     try {
-      setLoadingId(memberId) // does this make it so that the member being manipulated on has an adjacent, concurrent loading icon?
-      const url = qs.stringifyUrl({
+      setLoadingId(memberId)
+
+      const url = qs?.stringifyUrl({
         url: `/api/members/${memberId}`,
         query: {
           serverId: server?.id,
         },
       })
-      const response = await axios.delete(url)
 
-      router.refresh()
-      onOpen('members', { server: response?.data }) // the second argument, here, is just our assigning a value to the "server" property of "ModalData" (use-modal-store.tsx)
+      const response = await axios?.delete(url)
+
+      router?.refresh()
+      onOpen('members', { server: response?.data })
     } catch (error) {
       console.log(error)
     } finally {
@@ -105,10 +103,7 @@ export default function MembersModal() {
   }
 
   return (
-    <Dialog
-      open={isModalOpen}
-      onOpenChange={onClose}
-    >
+    <Dialog open={isModalOpen} onOpenChange={onClose}>
       <DialogContent className="bg-white text-black overflow-hidden">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold">
@@ -120,10 +115,7 @@ export default function MembersModal() {
         </DialogHeader>
         <ScrollArea className="mt-8 max-h-[420px] pr-6">
           {server?.members?.map((member) => (
-            <div
-              key={member?.id}
-              className="flex items-center gap-x-2 mb-6"
-            >
+            <div key={member?.id} className="flex items-center gap-x-2 mb-6">
               <UserAvatar src={member?.profile?.imageUrl} />
               <div className="flex flex-col gap-y-1">
                 <div className="text-xs font-semibold flex items-center gap-x-1">
@@ -157,7 +149,7 @@ export default function MembersModal() {
                                 <Shield className="h-4 w-4 mr-2" />
                                 Guest
                                 {member?.role === 'GUEST' && (
-                                  <Check className="h-4 w-4 ml-auto" /> // is there a way to increase the ml, here?
+                                  <Check className="h-4 w-4 ml-auto" />
                                 )}
                               </DropdownMenuItem>
                               <DropdownMenuItem
@@ -183,7 +175,6 @@ export default function MembersModal() {
                     </DropdownMenu>
                   </div>
                 )}
-              {/* !== results in the below's seemingly-endless, cyclical spinning */}
               {loadingId === member?.id && (
                 <Loader2 className="animate-spin text-zinc-500 ml-auto w-4 h-4" />
               )}

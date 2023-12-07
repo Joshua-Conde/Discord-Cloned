@@ -18,8 +18,6 @@ type MessageWithMemberAndProfile = Message & {
   }
 }
 
-// Record<string, string> & Record<string, any>(as of now) are BOTH assigned to their holding { channelId: channel?.id, serverId: channel?.serverId }
-
 type ChatMessagesProps = {
   member: Member
   name: string
@@ -27,8 +25,8 @@ type ChatMessagesProps = {
   chatId: string
   paramKey: 'channelId' | 'conversationId'
   paramValue: string
-  apiUrl: string // "app" router (from where to fetch all (including old) messages)
-  socketUrl: string // "pages" router (from where we trigger a sending of new messages)
+  apiUrl: string
+  socketUrl: string
   socketQuery: Record<string, string>
 }
 
@@ -55,8 +53,6 @@ export default function ChatMessages({
       paramValue,
     })
 
-  // console.log(data?.pages?.[0]?.items?.[0]) -> the structuring of a message instance (the most recent message appears first - console ninja)
-
   useChatSocket({ queryKey, addKey, updateKey })
 
   const topRef = useRef<ElementRef<'div'>>(null)
@@ -70,7 +66,6 @@ export default function ChatMessages({
     count: data?.pages?.[0]?.items?.length ?? 0,
   })
 
-  // (status === loading)
   if (status === 'pending') {
     return (
       <div className="flex flex-col flex-1 justify-center items-center">
@@ -94,17 +89,9 @@ export default function ChatMessages({
   }
 
   return (
-    <div
-      ref={topRef}
-      className="flex-1 flex flex-col py-4 overflow-y-auto"
-    >
+    <div ref={topRef} className="flex-1 flex flex-col py-4 overflow-y-auto">
       {!hasNextPage && <div className="flex-1" />}
-      {!hasNextPage && (
-        <ChatWelcome
-          type={type}
-          name={name}
-        />
-      )}
+      {!hasNextPage && <ChatWelcome type={type} name={name} />}
       {hasNextPage && (
         <div className="flex justify-center">
           {isFetchingNextPage ? (

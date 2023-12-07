@@ -14,9 +14,9 @@ type ServerChannelProps = {
 }
 
 const iconMap = {
-  [ChannelType.TEXT]: Hash,
-  [ChannelType.AUDIO]: Mic,
-  [ChannelType.VIDEO]: Video,
+  [ChannelType?.TEXT]: Hash,
+  [ChannelType?.AUDIO]: Mic,
+  [ChannelType?.VIDEO]: Video,
 }
 
 export const ServerChannel = ({
@@ -32,13 +32,12 @@ export const ServerChannel = ({
   const Icon = iconMap[channel?.type]
 
   const onClick = () => {
-    router.push(`/servers/${params?.serverId}/channels/${channel?.id}`)
+    router?.push(`/servers/${params?.serverId}/channels/${channel?.id}`)
   }
-  // assigning this to the below "onClick" (prior to my FULLY defining the above routing) resulted in a 404 AS SOON AS either one of the below two modals were rendered onto the UI
 
-  const onAction = (e: React.MouseEvent, action: ModalType) => {
-    e.stopPropagation()
-    onOpen(action, { channel, server })
+  const onAction = (event: React.MouseEvent, action: ModalType) => {
+    event?.stopPropagation()
+    onOpen(action, { server, channel })
   }
 
   return (
@@ -59,20 +58,17 @@ export const ServerChannel = ({
       >
         {channel?.name}
       </p>
-      {channel?.name !== 'general' && role !== MemberRole.GUEST && (
+      {channel?.name !== 'general' && role !== MemberRole?.GUEST && (
         <div className="ml-auto flex items-center gap-x-2">
           <ActionTooltip label="Edit">
             <Edit
-              onClick={(e) => onAction(e, 'editChannel')}
-              // onClick={() => onOpen('editChannel', { server, channel })}
-              // ^ this had lower precedence than the above, global "onClick", which was forcing (upon us) that unwanted redirect
+              onClick={(event) => onAction(event, 'editChannel')}
               className="hidden group-hover:block w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition"
             />
           </ActionTooltip>
           <ActionTooltip label="Delete">
             <Trash
-              onClick={(e) => onAction(e, 'deleteChannel')}
-              // onClick={() => onOpen('deleteChannel', { server, channel })}
+              onClick={(event) => onAction(event, 'deleteChannel')}
               className="hidden group-hover:block w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition"
             />
           </ActionTooltip>

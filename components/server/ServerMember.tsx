@@ -1,32 +1,33 @@
 'use client'
 
-import { Member, MemberRole, Profile, Server } from '@prisma/client'
+import { cn } from '@/lib/utils'
+import { Member, MemberRole, Profile } from '@prisma/client'
 import { ShieldAlert, ShieldCheck } from 'lucide-react'
 import { useParams, useRouter } from 'next/navigation'
-import { cn } from '@/lib/utils'
 import UserAvatar from '../UserAvatar'
 
 type ServerMemberProps = {
-  server: Server
-  member: Member & { profile: Profile } // i'm so confused with determining exactly where to leverage this "extends" syntax; (&)
+  member: Member & {
+    profile: Profile
+  }
 }
 
 const roleIconMap = {
-  [MemberRole.GUEST]: null,
-  [MemberRole.MODERATOR]: (
+  [MemberRole?.GUEST]: null,
+  [MemberRole?.MODERATOR]: (
     <ShieldCheck className="h-4 w-4 ml-2 text-indigo-500" />
   ),
-  [MemberRole.ADMIN]: <ShieldAlert className="h-4 w-4 ml-2 text-rose-500" />,
+  [MemberRole?.ADMIN]: <ShieldAlert className="h-4 w-4 ml-2 text-rose-500" />,
 }
 
-export const ServerMember = ({ member, server }: ServerMemberProps) => {
+export const ServerMember = ({ member }: ServerMemberProps) => {
   const params = useParams()
   const router = useRouter()
 
   const icon = roleIconMap[member?.role]
 
   const onClick = () => {
-    router.push(`/servers/${params?.serverId}/conversations/${member?.id}`)
+    router?.push(`/servers/${params?.serverId}/conversations/${member?.id}`)
   }
 
   return (
@@ -38,7 +39,7 @@ export const ServerMember = ({ member, server }: ServerMemberProps) => {
       )}
     >
       <UserAvatar
-        src={member?.profile?.imageUrl} // i'm assuming that "&" is crucial when attempting to access any deeply nested property(ies)
+        src={member?.profile?.imageUrl}
         className="h-8 w-8 md:h-8 md:w-8"
       />
       <p

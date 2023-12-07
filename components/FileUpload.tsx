@@ -7,7 +7,7 @@ import { FileIcon, X } from 'lucide-react'
 
 type FileUploadProps = {
   endpoint: 'messageFile' | 'serverImage'
-  value: string // the "image" url
+  value: string
   onChange: (url?: string) => void
 }
 export default function FileUpload({
@@ -18,15 +18,9 @@ export default function FileUpload({
   const fileType = value?.split('.')?.pop()
 
   if (value && fileType !== 'pdf') {
-    // IF it's an image
     return (
       <div className="relative h-20 w-20">
-        <Image
-          fill
-          src={value}
-          alt="Upload"
-          className="rounded-full"
-        />
+        <Image fill src={value} alt="Upload" className="rounded-full" />
         <button
           type="button"
           onClick={() => onChange('')}
@@ -67,7 +61,7 @@ export default function FileUpload({
       onClientUploadComplete={(res) => {
         onChange(res?.[0]?.url)
       }}
-      onUploadError={(error: Error) => {
+      onUploadError={(error) => {
         console.log(error)
       }}
     />

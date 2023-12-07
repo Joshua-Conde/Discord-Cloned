@@ -17,7 +17,7 @@ export const findOrCreateConversation = async (
 
 const findConversation = async (memberOneId: string, memberTwoId: string) => {
   try {
-    return await db.conversation.findFirst({
+    return await db?.conversation?.findFirst({
       where: {
         AND: [{ memberOneId: memberOneId }, { memberTwoId: memberTwoId }],
       },
@@ -44,7 +44,7 @@ const createNewConversation = async (
   memberTwoId: string,
 ) => {
   try {
-    return await db.conversation.create({
+    return await db?.conversation?.create({
       data: {
         memberOneId,
         memberTwoId,

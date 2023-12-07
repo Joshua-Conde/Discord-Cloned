@@ -5,10 +5,10 @@ const currentProfile = async () => {
   const { userId } = auth()
 
   if (!userId) {
-    return null // a "current profile" cannot be found
+    return null
   }
 
-  const profile = await db.profile.findUnique({
+  const profile = await db?.profile?.findUnique({
     where: {
       userId,
     },

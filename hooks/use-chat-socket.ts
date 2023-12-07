@@ -3,8 +3,6 @@ import { useQueryClient } from '@tanstack/react-query'
 import { Member, Message, Profile } from '@prisma/client'
 import { useSocket } from '../components/providers/SocketProvider'
 
-// keep in mind: ALL of our CUSTOM HOOKS are arrow functions, NOT "default exports", end in .ts, and do not need the up-top "use client" directive
-
 type ChatSocketProps = {
   queryKey: string
   addKey: string
@@ -31,7 +29,7 @@ export const useChatSocket = ({
       return
     }
 
-    socket.on(addKey, (message: MessageWithMemberWithProfile) => {
+    socket?.on(addKey, (message: MessageWithMemberWithProfile) => {
       queryClient?.setQueryData([queryKey], (oldData: any) => {
         if (!oldData || !oldData?.pages || oldData?.pages?.length === 0) {
           return {
@@ -57,7 +55,7 @@ export const useChatSocket = ({
       })
     })
 
-    socket.on(updateKey, (message: MessageWithMemberWithProfile) => {
+    socket?.on(updateKey, (message: MessageWithMemberWithProfile) => {
       queryClient?.setQueryData([queryKey], (oldData: any) => {
         if (!oldData || !oldData?.pages || oldData?.pages?.length === 0) {
           return oldData
@@ -83,8 +81,8 @@ export const useChatSocket = ({
     })
 
     return () => {
-      socket.off(addKey)
-      socket.off(updateKey)
+      socket?.off(addKey)
+      socket?.off(updateKey)
     }
   }, [socket, queryClient, queryKey, addKey, updateKey])
 }

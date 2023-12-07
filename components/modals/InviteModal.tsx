@@ -19,12 +19,12 @@ import {
 export default function InviteModal() {
   const { type, data, isOpen, onOpen, onClose } = useModal()
 
+  const { server } = data
+
   const [isCopied, setIsCopied] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
-  const origin = useOrigin() // http://localhost:3000
-
-  const { server } = data
+  const origin = useOrigin()
 
   const inviteUrl = `${origin}/invite/${server?.inviteCode}`
 
@@ -33,7 +33,7 @@ export default function InviteModal() {
   const onCopy = () => {
     setIsCopied(true)
 
-    navigator.clipboard.writeText(inviteUrl)
+    navigator?.clipboard?.writeText(inviteUrl)
 
     setTimeout(() => {
       setIsCopied(false)
@@ -43,10 +43,12 @@ export default function InviteModal() {
   const onNew = async () => {
     try {
       setIsLoading(true)
-      const response = await axios.patch(
+
+      const response = await axios?.patch(
         `/api/servers/${server?.id}/invite-code`,
       )
-      onOpen('invite', { server: response?.data }) // is the conditional chaining, here, really that necessary?
+
+      onOpen('invite', { server: response?.data })
     } catch (error) {
       console.log(error)
     } finally {
@@ -55,10 +57,7 @@ export default function InviteModal() {
   }
 
   return (
-    <Dialog
-      open={isModalOpen}
-      onOpenChange={onClose}
-    >
+    <Dialog open={isModalOpen} onOpenChange={onClose}>
       <DialogContent className="bg-white text-black p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold">
@@ -75,11 +74,7 @@ export default function InviteModal() {
               value={inviteUrl}
               className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
             />
-            <Button
-              disabled={isLoading}
-              onClick={onCopy}
-              size="icon"
-            >
+            <Button disabled={isLoading} onClick={onCopy} size="icon">
               {isCopied ? (
                 <Check className="w-4 h-4" />
               ) : (

@@ -8,7 +8,7 @@ import {
 } from './ui/tooltip'
 
 type ActionTooltipProps = {
-  label: string // the "pop-up's" contents
+  label: string
   side?: 'top' | 'right' | 'bottom' | 'left'
   align?: 'start' | 'center' | 'end'
   children: React.ReactNode
@@ -24,13 +24,9 @@ export default function ActionTooltip({
     <TooltipProvider>
       <Tooltip delayDuration={50}>
         <TooltipTrigger asChild>{children}</TooltipTrigger>
-        <TooltipContent
-          side={side}
-          align={align}
-        >
+        <TooltipContent side={side} align={align}>
           <p className="font-semibold text-sm capitalize">
-            {label.toLowerCase()}
-            {/* how come the beginning of every word remains capitalized? answer: ("capitalize" !== "uppercase") */}
+            {label?.toLowerCase()}
           </p>
         </TooltipContent>
       </Tooltip>
