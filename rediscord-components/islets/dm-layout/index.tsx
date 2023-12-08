@@ -1,18 +1,16 @@
-import Sidebar from '@/components/layout/sidebar'
-import FindChatButton from '@/components/islets/find-chat-button'
-
-import Header from '@/components/layout/header'
-import DMHeaderMenu from '@/components/islets/dm-header-menu'
-import DMChannelList from '@/components/islets/dm-channel-list'
-import VoiceStatusFooter from '@/components/islets/voice-status-footer'
-
-import { ListedDMChannel } from '@/lib/entities/channel'
+import { ListedDMChannel } from '../../../rediscord-lib/entities/channel'
+import { delay } from '../../../rediscord-lib/utils'
 import {
-  MOCK_DELAY,
   MOCK_CHANNELS,
+  MOCK_DELAY,
   generateRandomFakeChannels,
-} from '@/lib/utils/mock'
-import { delay } from '@/lib/utils'
+} from '../../../rediscord-lib/utils/mock'
+import Header from '../../layout/header'
+import Sidebar from '../../layout/sidebar'
+import DMChannelList from '../dm-channel-list'
+import DMHeaderMenu from '../dm-header-menu'
+import FindChatButton from '../find-chat-button'
+import VoiceStatusFooter from '../voice-status-footer'
 
 export const getData = async (): Promise<{ channels: ListedDMChannel[] }> => {
   const channels: ListedDMChannel[] = generateRandomFakeChannels(MOCK_CHANNELS)

@@ -1,6 +1,6 @@
-import { List, ListItem } from '@/components/ui/list'
-import TextSkeleton from '@/components/ui/text/text-skeleton'
-import { clsx } from '@/lib/utils'
+import clsx from '../../../rediscord-lib/clsx'
+import { List, ListItem } from '../../ui/list'
+import TextSkeleton from '../../ui/text/text-skeleton'
 
 const HeaderMenuListItemSkeleton = () => (
   <ListItem

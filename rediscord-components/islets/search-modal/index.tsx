@@ -1,10 +1,12 @@
 'use client'
 
+import { useEffect, useState } from 'react'
+import { Input } from '@/components/ui/input'
+
 import {
   SEARCH_MODAL_EVENT,
   SearchModalEvent,
-} from '@/lib/events/searchModalEvent'
-import { useEffect, useState } from 'react'
+} from '../../../rediscord-lib/events/searchModalEvent'
 
 import {
   Dialog,
@@ -12,7 +14,6 @@ import {
   DialogDescription,
   DialogHeader,
 } from '@/components/ui/dialog'
-import { Input } from '@/components/ui/input'
 
 export default function SearchModal() {
   const [open, setOpen] = useState(false)
@@ -43,7 +44,7 @@ export default function SearchModal() {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
         <DialogHeader>
-          <Input placeholder="Where you want me to take you?" size="lg" />
+          <Input placeholder="Where you want me to take you?" size={100} />
         </DialogHeader>
         <DialogDescription>
           <div className="text-xs font-semibold text-gray-400">

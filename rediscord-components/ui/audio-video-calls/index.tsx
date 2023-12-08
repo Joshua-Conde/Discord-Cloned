@@ -10,7 +10,7 @@ import {
 } from '@livekit/components-react'
 import React from 'react'
 import { Track } from 'livekit-client'
-import { User } from '@/lib/entities/user'
+import { User } from '../../../rediscord-lib/entities/user'
 
 interface AudioVideoCallProps {
   user: User | undefined
@@ -66,7 +66,6 @@ export default function AudioVideoCall({
   )
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function MyVideoConference({ currentUser }: { currentUser: User | null }) {
   const tracks = useTracks(
     [

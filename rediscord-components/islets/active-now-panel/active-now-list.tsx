@@ -1,20 +1,21 @@
 'use client'
-import Avatar from '@/components/ui/avatar'
-import Divider from '@/components/ui/divider'
-import { List, ListItem } from '@/components/ui/list'
+
+import Image from 'next/image'
+import { useFriendStore } from '../../../rediscord-state/friend-list'
+import { useAddChannel } from '../../../rediscord-customHooks/useAddChannel'
+import { ActivityTypes } from '../../../rediscord-lib/entities/activity'
+import { List, ListItem } from '../../ui/list'
+import Avatar from '../../ui/avatar'
+import { calculateHoursBetweenDates } from '../../../rediscord-lib/utils'
+import Divider from '../../ui/divider'
+import { UserStatuses } from '../../../rediscord-lib/entities/user'
+
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import { useAddChannel } from '@/customHooks/useAddChannel'
-import { ActivityTypes } from '@/lib/entities/activity'
-import { UserStatuses } from '@/lib/entities/user'
-import { calculateHoursBetweenDates } from '@/lib/utils'
-
-import { useFriendStore } from '@/state/friend-list'
-import Image from 'next/image'
 
 export const ActiveNowListItemSkeleton = () => (
   <div className="h-[70px] animate-pulse rounded-md bg-gray-900"></div>

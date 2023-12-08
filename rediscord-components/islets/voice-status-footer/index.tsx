@@ -1,18 +1,18 @@
 'use client'
-import Avatar from '@/components/ui/avatar'
 import {
   TooltipProvider,
   TooltipTrigger,
   Tooltip,
   TooltipContent,
 } from '@/components/ui/tooltip'
-import { VoiceStatus } from '@/lib/entities/user'
-import { t } from '@/lib/i18n'
-import { clsx } from '@/lib/utils'
-import { generateFakeCurrentUser } from '@/lib/utils/mock'
-import { useCurrentUserStore } from '@/state/user'
 import { useState, useEffect } from 'react'
 import { BsGearFill, BsHeadphones, BsMicFill } from 'react-icons/bs'
+import clsx from '../../../rediscord-lib/clsx'
+import { generateFakeCurrentUser } from '../../../rediscord-lib/utils/mock'
+import { useCurrentUserStore } from '../../../rediscord-state/user'
+import { VoiceStatus } from '../../../rediscord-lib/entities/user'
+import Avatar from '../../ui/avatar'
+import { t } from '../../../rediscord-lib/i18n'
 
 type VoiceStatusButton = {
   icon: React.ReactNode

@@ -1,7 +1,7 @@
-import Avatar from '@/components/ui/avatar'
-import { ListItem } from '@/components/ui/list'
-import { ListedDMChannel } from '@/lib/entities/channel'
 import { BsFillChatLeftTextFill, BsX } from 'react-icons/bs'
+import { ListItem } from '../../ui/list'
+import { ListedDMChannel } from '../../../rediscord-lib/entities/channel'
+import Avatar from '../../ui/avatar'
 
 type DMChannelListItemProps = {
   active?: boolean

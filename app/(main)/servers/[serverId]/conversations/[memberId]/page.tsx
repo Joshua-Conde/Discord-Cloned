@@ -1,12 +1,12 @@
-import { redirectToSignIn } from '@clerk/nextjs'
-import { redirect } from 'next/navigation'
-import { db } from '@/lib/db'
 import { findOrCreateConversation } from '@/lib/conversation'
 import currentProfile from '@/lib/current-profile'
-import ChatHeader from '../../../../../../../components/chat/ChatHeader'
-import ChatMessages from '../../../../../../../components/chat/ChatMessages'
-import ChatInput from '../../../../../../../components/chat/ChatInput'
-import { MediaRoom } from '../../../../../../../components/MediaRoom'
+import { db } from '@/lib/db'
+import { redirectToSignIn } from '@clerk/nextjs'
+import { redirect } from 'next/navigation'
+import { MediaRoom } from '../../../../../../components/MediaRoom'
+import ChatHeader from '../../../../../../components/chat/ChatHeader'
+import ChatInput from '../../../../../../components/chat/ChatInput'
+import ChatMessages from '../../../../../../components/chat/ChatMessages'
 
 type MemberIDPageProps = {
   params: {

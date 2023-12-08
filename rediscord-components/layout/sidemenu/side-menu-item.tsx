@@ -1,14 +1,15 @@
 'use client'
-import BorderedBadge from '@/components/ui/badge/bordered-badge'
-import { clsx } from '@/lib/utils'
 import Image from 'next/image'
+import Link from 'next/link'
+import React from 'react'
+import clsx from '../../../rediscord-lib/clsx'
+import BorderedBadge from '../../ui/badge/bordered-badge'
+
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import Link from 'next/link'
-import React from 'react'
 
 type SideMenuItemProps = {
   isActive?: boolean

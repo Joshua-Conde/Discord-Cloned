@@ -1,24 +1,25 @@
 'use client'
-import { PageContent, PageHeader } from '@/components/layout/page'
-import Avatar from '@/components/ui/avatar'
-import Divider from '@/components/ui/divider'
 import { Input } from '@/components/ui/input'
+import { CgSmileMouthOpen } from 'react-icons/cg'
+import React from 'react'
+import { useChannelStore } from '../../../rediscord-state/channel-list'
+import { useFriendStore } from '../../../rediscord-state/friend-list'
+import { useCurrentUserStore } from '../../../rediscord-state/user'
+import { User } from '../../../rediscord-lib/entities/user'
+import { PageContent, PageHeader } from '../../layout/page'
+import Avatar from '../../ui/avatar'
+import AudioVideoCall from '../../ui/audio-video-calls'
+import { UserProfileInfo } from '../user-info-in-chat'
+import Divider from '../../ui/divider'
+import { ChatDM } from '../dm-chat'
+import InputField from '../../ui/input/input-field'
+
 import {
   AiFillGift,
   AiFillPlusCircle,
   AiOutlineFileText,
   AiOutlineGif,
 } from 'react-icons/ai'
-import { CgSmileMouthOpen } from 'react-icons/cg'
-import { useChannelStore } from '@/state/channel-list'
-import React from 'react'
-import InputField from '@/components/ui/input/input-field'
-import { useCurrentUserStore } from '@/state/user'
-import { useFriendStore } from '@/state/friend-list'
-import { ChatDM } from '@/components/islets/dm-chat'
-import { UserProfileInfo } from '@/components/islets/user-info-in-chat'
-import { User } from '@/lib/entities/user'
-import AudioVideoCall from '@/components/ui/audio-video-calls'
 interface Message {
   id: number
   userId?: string

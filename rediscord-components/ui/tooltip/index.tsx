@@ -2,8 +2,7 @@
 
 import * as React from 'react'
 import * as TooltipPrimitive from '@radix-ui/react-tooltip'
-
-import { clsx } from '@/lib/utils'
+import clsx from '../../../rediscord-lib/clsx'
 
 const TooltipProvider = TooltipPrimitive.Provider
 

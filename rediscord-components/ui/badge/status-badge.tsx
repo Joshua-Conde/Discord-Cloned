@@ -1,6 +1,6 @@
-import { clsx } from '@/lib/utils'
-import { UserStatuses } from '@/lib/entities/user'
 import { MdPhoneAndroid } from 'react-icons/md'
+import { UserStatuses } from '../../../rediscord-lib/entities/user'
+import clsx from '../../../rediscord-lib/clsx'
 
 interface StatusBadgeProps extends React.HTMLAttributes<HTMLDivElement> {
   status: UserStatuses | 'skeleton'

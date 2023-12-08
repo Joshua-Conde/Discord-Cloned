@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import * as PopoverPrimitive from '@radix-ui/react-popover'
-import { clsx } from '@/lib/utils'
+import clsx from '../../../rediscord-lib/clsx'
 
 const Popover = PopoverPrimitive.Root
 

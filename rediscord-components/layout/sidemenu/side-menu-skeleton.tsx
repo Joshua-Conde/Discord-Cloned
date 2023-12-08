@@ -1,8 +1,8 @@
-import Divider from '@/components/ui/divider'
+import clsx from '../../../rediscord-lib/clsx'
+import { MOCK_SERVERS } from '../../../rediscord-lib/utils/mock'
+import Divider from '../../ui/divider'
 import SideMenuWrapper from './side-menu-wrapper'
-import { clsx } from '@/lib/utils'
 import { BsDiscord } from 'react-icons/bs'
-import { MOCK_SERVERS } from '@/lib/utils/mock'
 
 interface SideMenuItemSkeletonProps
   extends React.HTMLAttributes<HTMLAnchorElement> {

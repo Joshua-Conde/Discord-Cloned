@@ -1,7 +1,7 @@
-import Avatar from '@/components/ui/avatar'
-import { User } from '@/lib/entities/user'
 import React from 'react'
+import { User } from '../../../rediscord-lib/entities/user'
 import { MdCall } from 'react-icons/md'
+import Avatar from '../../ui/avatar'
 
 interface ChatDMProps {
   user: User | null

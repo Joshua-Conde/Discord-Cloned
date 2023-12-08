@@ -1,4 +1,4 @@
-import clsx from '@/lib/clsx'
+import clsx from '../../../rediscord-lib/clsx'
 
 interface InputSkeletonProps {
   size?: 'sm' | 'md' | 'lg'

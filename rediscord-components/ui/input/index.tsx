@@ -1,5 +1,5 @@
-import { clsx } from '@/lib/utils'
 import * as React from 'react'
+import clsx from '../../../rediscord-lib/clsx'
 
 export interface InputProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {

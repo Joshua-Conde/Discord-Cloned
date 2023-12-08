@@ -1,8 +1,8 @@
 import { redirectToSignIn } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
-import ServerSidebar from '../../../../../components/server/ServerSidebar'
-import currentProfile from '../../../../../lib/current-profile'
-import { db } from '../../../../../lib/db'
+import ServerSidebar from '../../../../components/server/ServerSidebar'
+import currentProfile from '../../../../lib/current-profile'
+import { db } from '../../../../lib/db'
 
 export default async function ServerIDLayout({
   children,

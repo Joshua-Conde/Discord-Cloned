@@ -1,22 +1,23 @@
 'use client'
+
 import React, { useEffect } from 'react'
 import { Input } from '@/components/ui/input'
-import InputField from '@/components/ui/input/input-field'
-import { List } from '@/components/ui/list'
-import { TooltipProvider } from '@/components/ui/tooltip'
-import { User } from '@/lib/entities/user'
-import { BsSearch, BsXLg } from 'react-icons/bs'
-import { useFriendsTabStore } from '@/state/friends-tab'
-import FriendListItem from './friend-list-item'
-import { normalizedCompare } from '@/lib/utils/string'
-import { EmptyBox } from '../empty-box-image'
 import {
-  FriendsTabEnum,
   FriendsTab,
+  FriendsTabEnum,
   friendsTabsProps,
-} from '@/lib/types/friend-tab-prop'
-import { useFriendStore } from '@/state/friend-list'
-import clsx from '@/lib/clsx'
+} from '../../../rediscord-lib/types/friend-tab-prop'
+import { User } from '../../../rediscord-lib/entities/user'
+import { normalizedCompare } from '../../../rediscord-lib/utils/string'
+import InputField from '../../ui/input/input-field'
+import { BsSearch, BsXLg } from 'react-icons/bs'
+import clsx from '../../../rediscord-lib/clsx'
+import FriendListItem from './friend-list-item'
+import { EmptyBox } from '../empty-box-image'
+import { useFriendsTabStore } from '../../../rediscord-state/friends-tab'
+import { useFriendStore } from '../../../rediscord-state/friend-list'
+import { TooltipProvider } from '../../../components/ui/tooltip'
+import { List } from '../../ui/list'
 
 interface ListDataProps {
   tab: FriendsTab
@@ -110,7 +111,9 @@ export default function FriendList({
     }
   }, [])
 
-  const tab = friendsTabsProps[currentTab]
+  const tab = friendsTabsProps[
+    currentTab as keyof typeof friendsTabsProps
+  ] as FriendsTab
   const isAllOrAvailableTab = [
     FriendsTabEnum.All,
     FriendsTabEnum.Available,

@@ -1,11 +1,14 @@
 'use client'
 
-import Badge from '@/components/ui/badge'
-import TabGroup from '@/components/ui/tab-group'
-import TabGroupButton from '@/components/ui/tab-group/tab-group-button'
-import { FriendsTabEnum, friendsTabsProps } from '@/lib/types/friend-tab-prop'
-import { useFriendRequestStore } from '@/state/friendRequest-list'
-import { useFriendsTabStore } from '@/state/friends-tab'
+import {
+  FriendsTabEnum,
+  friendsTabsProps,
+} from '../../../rediscord-lib/types/friend-tab-prop'
+import { useFriendRequestStore } from '../../../rediscord-state/friendRequest-list'
+import { useFriendsTabStore } from '../../../rediscord-state/friends-tab'
+import Badge from '../../ui/badge'
+import TabGroup from '../../ui/tab-group'
+import TabGroupButton from '../../ui/tab-group/tab-group-button'
 
 export default function FriendsTabGroup() {
   const { currentTab, setCurrentTab } = useFriendsTabStore()

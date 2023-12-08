@@ -1,4 +1,4 @@
-import { clsx } from '@/lib/utils'
+import clsx from '../../../rediscord-lib/clsx'
 
 export default function Sidebar({
   children,

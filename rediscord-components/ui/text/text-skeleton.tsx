@@ -1,4 +1,4 @@
-import clsx from '@/lib/clsx'
+import clsx from '../../../rediscord-lib/clsx'
 
 interface TextSkeletonProps extends React.HTMLAttributes<HTMLSpanElement> {
   fontSize?: 'xs' | 'sm' | 'md' | 'lg'

@@ -1,4 +1,4 @@
-import { clsx } from '@/lib/utils'
+import clsx from '../../../rediscord-lib/clsx'
 
 type BadgeProps = { count?: number } & React.HTMLAttributes<HTMLDivElement>
 

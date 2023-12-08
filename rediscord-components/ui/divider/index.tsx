@@ -1,4 +1,4 @@
-import { clsx } from '@/lib/utils'
+import clsx from '../../../rediscord-lib/clsx'
 
 interface DividerProps extends React.HTMLAttributes<HTMLDivElement> {
   vertical?: boolean

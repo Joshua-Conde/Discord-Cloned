@@ -1,11 +1,12 @@
 'use client'
 import React, { useState } from 'react'
-import { ListedServer } from '@/lib/entities/server'
 import SideMenuItem from './side-menu-item'
-import { clsx } from '@/lib/utils'
-import { BsDiscord } from 'react-icons/bs'
 import { TooltipProvider } from '@radix-ui/react-tooltip'
-import Divider from '@/components/ui/divider'
+import { ListedServer } from '../../../rediscord-lib/entities/server'
+import clsx from '../../../rediscord-lib/clsx'
+import Divider from '../../ui/divider'
+import { BsDiscord } from 'react-icons/bs'
+import NavigationSidebar from '../../../components/navigation/NavigationSidebar'
 
 type SideMenuTrackProps = {
   servers: ListedServer[]

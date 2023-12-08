@@ -1,7 +1,9 @@
+'use client'
+
 import { useRouter } from 'next/navigation'
-import { useChannelStore } from '@/state/channel-list'
-import { User } from '@/lib/entities/user'
 import React from 'react'
+import { User } from '../rediscord-lib/entities/user'
+import { useChannelStore } from '../rediscord-state/channel-list'
 
 export const useAddChannel = () => {
   const [selectedFriend, setSelectedFriend] = React.useState<User | null>(null)

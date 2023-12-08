@@ -1,8 +1,8 @@
-import { clsx } from '@/lib/utils'
-import { UserStatuses } from '@/lib/entities/user'
 import Image from 'next/image'
 import { BsDiscord } from 'react-icons/bs'
-import StatusBadge from '@/components/ui/badge/status-badge'
+import clsx from '../../../rediscord-lib/clsx'
+import StatusBadge from '../badge/status-badge'
+import { UserStatuses } from '../../../rediscord-lib/entities/user'
 
 interface AvatarProps {
   status?: UserStatuses

@@ -1,5 +1,5 @@
-import { FriendsTabEnum } from '@/lib/types/friend-tab-prop'
 import { create } from 'zustand'
+import { FriendsTabEnum } from '../rediscord-lib/types/friend-tab-prop'
 
 interface FriendsTabState {
   currentTab: FriendsTabEnum

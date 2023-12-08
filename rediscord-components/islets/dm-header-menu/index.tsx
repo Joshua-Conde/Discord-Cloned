@@ -1,11 +1,11 @@
 'use client'
 
 import { BsInboxFill, BsPersonFill, BsStars } from 'react-icons/bs'
-import { List, ListItem } from '@/components/ui/list'
-import Badge from '@/components/ui/badge'
-import { clsx } from '@/lib/utils'
 import { usePathname } from 'next/navigation'
-import { useFriendRequestStore } from '@/state/friendRequest-list'
+import { List, ListItem } from '../../ui/list'
+import clsx from '../../../rediscord-lib/clsx'
+import { useFriendRequestStore } from '../../../rediscord-state/friendRequest-list'
+import Badge from '../../ui/badge'
 
 type HeaderMenuListItemProps = {
   icon: React.ReactNode

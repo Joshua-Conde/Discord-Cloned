@@ -1,8 +1,8 @@
-import AvatarSkeleton from '@/components/ui/avatar/avatar-skeleton'
-import TextSkeleton from '@/components/ui/text/text-skeleton'
-import clsx from '@/lib/clsx'
-import { MOCK_CHANNELS } from '@/lib/utils/mock'
 import React from 'react'
+import TextSkeleton from '../../ui/text/text-skeleton'
+import AvatarSkeleton from '../../ui/avatar/avatar-skeleton'
+import clsx from '../../../rediscord-lib/clsx'
+import { MOCK_CHANNELS } from '../../../rediscord-lib/utils/mock'
 
 export default function DMChannelListSkeleton() {
   return (

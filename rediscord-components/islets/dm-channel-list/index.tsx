@@ -1,11 +1,11 @@
 'use client'
 import React from 'react'
-import { ListedDMChannel } from '@/lib/entities/channel'
-import { List } from '@/components/ui/list'
 import DMChannelListHeader from './dm-channel-list-header'
 import DMChannelListItem from './dm-channel-list-item'
 import { useParams } from 'next/navigation'
-import { useChannelStore } from '@/state/channel-list'
+import { ListedDMChannel } from '../../../rediscord-lib/entities/channel'
+import { useChannelStore } from '../../../rediscord-state/channel-list'
+import { List } from '../../ui/list'
 
 interface DMChannelListrops {
   channelsData: ListedDMChannel[]
@@ -32,7 +32,7 @@ export default function DMChannelList({ channelsData }: DMChannelListrops) {
       <List className="mt-1">
         {channels?.map((channel) => (
           <DMChannelListItem
-            active={params.id === channel.id}
+            active={params?.id === channel.id}
             key={channel.id}
             channel={channel}
             onDelete={() => {

@@ -1,4 +1,4 @@
-import { clsx } from '@/lib/utils'
+import clsx from '../../../rediscord-lib/clsx'
 
 interface HeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   verticalPadding?: string

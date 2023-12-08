@@ -1,9 +1,9 @@
-import { FindChatButtonSkeleton } from '@/components/islets/find-chat-button'
-import Header from '@/components/layout/header'
-import Sidebar from '@/components/layout/sidebar'
 import DMHeaderMenuSkeleton from '../dm-header-menu/dm-header-menu-skeleton'
 import DMChannelListSkeleton from '../dm-channel-list/dm-channel-list-skeleton'
 import VoiceStatusFooterSkeleton from '../voice-status-footer/voice-status-footer-skeleton'
+import Sidebar from '../../layout/sidebar'
+import Header from '../../layout/header'
+import { FindChatButtonSkeleton } from '../find-chat-button'
 
 export default function DMLayoutSkeleton({
   children,

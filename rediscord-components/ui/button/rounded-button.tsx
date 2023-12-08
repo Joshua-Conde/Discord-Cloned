@@ -1,6 +1,6 @@
 'use client'
 
-import clsx from '@/lib/clsx'
+import clsx from '../../../rediscord-lib/clsx'
 import HybridButton, { HybridButtonProps } from '../hybrid/hybrid-button'
 import { Tooltip, TooltipContent, TooltipTrigger } from '../tooltip'
 

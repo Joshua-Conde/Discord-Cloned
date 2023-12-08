@@ -2,13 +2,7 @@
 import { BsChatRightFill, BsGithub, BsInboxFill } from 'react-icons/bs'
 import { BiSolidPhoneCall } from 'react-icons/bi'
 import Header from '../header'
-import Divider from '@/components/ui/divider'
-import React from 'react'
-import clsx from '@/lib/clsx'
-import HybridButton, {
-  HybridButtonProps,
-  HybridButtonRef,
-} from '@/components/ui/hybrid/hybrid-button'
+
 import {
   Tooltip,
   TooltipContent,
@@ -20,11 +14,18 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
-import { useFriendStore } from '@/state/friend-list'
-import { ListItem } from '@/components/ui/list'
-import Avatar from '@/components/ui/avatar'
-import { useAddChannel } from '@/customHooks/useAddChannel'
-import { User } from '@/lib/entities/user'
+import HybridButton, {
+  HybridButtonProps,
+  HybridButtonRef,
+} from '../../ui/hybrid/hybrid-button'
+import React from 'react'
+import clsx from '../../../rediscord-lib/clsx'
+import { User } from '../../../rediscord-lib/entities/user'
+import { useAddChannel } from '../../../rediscord-customHooks/useAddChannel'
+import { useFriendStore } from '../../../rediscord-state/friend-list'
+import Divider from '../../ui/divider'
+import { ListItem } from '../../ui/list'
+import Avatar from '../../ui/avatar'
 
 type PageHeaderButtonProps = HybridButtonProps
 

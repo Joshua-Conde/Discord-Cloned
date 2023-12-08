@@ -1,7 +1,7 @@
-import AvatarSkeleton from '@/components/ui/avatar/avatar-skeleton'
-import InputSkeleton from '@/components/ui/input/input-skeleton'
-import TextSkeleton from '@/components/ui/text/text-skeleton'
-import { MOCK_FRIENDS } from '@/lib/utils/mock'
+import { MOCK_FRIENDS } from '../../../rediscord-lib/utils/mock'
+import AvatarSkeleton from '../../ui/avatar/avatar-skeleton'
+import InputSkeleton from '../../ui/input/input-skeleton'
+import TextSkeleton from '../../ui/text/text-skeleton'
 
 export default function FriendListSkeleton() {
   return (

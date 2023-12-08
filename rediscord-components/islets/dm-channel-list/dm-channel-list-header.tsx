@@ -1,6 +1,8 @@
 'use client'
-import { clsx } from '@/lib/utils'
+
 import { BsPlus } from 'react-icons/bs'
+import clsx from '../../../rediscord-lib/clsx'
+
 import {
   Tooltip,
   TooltipContent,

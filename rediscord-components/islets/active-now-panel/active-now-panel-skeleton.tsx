@@ -1,4 +1,4 @@
-import TextSkeleton from '@/components/ui/text/text-skeleton'
+import TextSkeleton from '../../ui/text/text-skeleton'
 import { ActiveNowListItemSkeleton } from './active-now-list'
 
 export default function ActiveNowPanelSkeleton() {

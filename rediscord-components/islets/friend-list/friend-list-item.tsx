@@ -1,20 +1,26 @@
 'use client'
+
 import React from 'react'
-import Avatar from '@/components/ui/avatar'
-import RoundedButton from '@/components/ui/button/rounded-button'
-import { ListItem } from '@/components/ui/list'
-import { User } from '@/lib/entities/user'
-import { t } from '@/lib/i18n'
+import { User } from '../../../rediscord-lib/entities/user'
+import { useFriendStore } from '../../../rediscord-state/friend-list'
+import { useFriendRequestStore } from '../../../rediscord-state/friendRequest-list'
+import { useChannelStore } from '../../../rediscord-state/channel-list'
+import { ListItem } from '../../ui/list'
+import Avatar from '../../ui/avatar'
+import { t } from '../../../rediscord-lib/i18n'
+import RoundedButton from '../../ui/button/rounded-button'
+
 import {
   BsChatLeftFill,
   BsCheck2,
   BsThreeDotsVertical,
   BsX,
 } from 'react-icons/bs'
-import { FriendsTab, FriendsTabEnum } from '@/lib/types/friend-tab-prop'
-import { useFriendStore } from '@/state/friend-list'
-import { useFriendRequestStore } from '@/state/friendRequest-list'
-import { useChannelStore } from '@/state/channel-list'
+
+import {
+  FriendsTab,
+  FriendsTabEnum,
+} from '../../../rediscord-lib/types/friend-tab-prop'
 
 interface FriendListItemProps {
   friend: User

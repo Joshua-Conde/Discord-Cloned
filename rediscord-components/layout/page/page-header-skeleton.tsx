@@ -1,7 +1,7 @@
-import TextSkeleton from '@/components/ui/text/text-skeleton'
+import clsx from '../../../rediscord-lib/clsx'
+import AvatarSkeleton from '../../ui/avatar/avatar-skeleton'
+import TextSkeleton from '../../ui/text/text-skeleton'
 import Header from '../header'
-import AvatarSkeleton from '@/components/ui/avatar/avatar-skeleton'
-import clsx from '@/lib/clsx'
 
 interface PageHeaderSkeletonProps {
   gap?: string

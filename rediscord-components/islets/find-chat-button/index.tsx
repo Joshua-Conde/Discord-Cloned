@@ -1,6 +1,6 @@
 'use client'
 
-import { sendSearchModalEvent } from '@/lib/events/searchModalEvent'
+import { sendSearchModalEvent } from '../../../rediscord-lib/events/searchModalEvent'
 
 export const FindChatButtonSkeleton = () => {
   return (

@@ -1,6 +1,6 @@
-import Avatar from '@/components/ui/avatar'
-import { User } from '@/lib/entities/user'
 import React from 'react'
+import Avatar from '../../ui/avatar'
+import { User } from '../../../rediscord-lib/entities/user'
 
 interface UserProfileInfoProps {
   user: User

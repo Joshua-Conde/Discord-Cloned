@@ -1,8 +1,8 @@
-import { faker } from '@faker-js/faker'
-import { User, UserStatuses } from '@/lib/entities/user'
-import { Activity, ActivityTypes } from '@/lib/entities/activity'
 import { ListedServer } from '../entities/server'
 import { ListedDMChannel } from '../entities/channel'
+import { User, UserStatuses } from '../entities/user'
+import { Activity, ActivityTypes } from '../entities/activity'
+import { faker } from '@faker-js/faker'
 
 export const MOCK_DELAY = 2000
 export const MOCK_FRIENDS = 18

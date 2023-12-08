@@ -1,4 +1,4 @@
-import clsx from '@/lib/clsx'
+import clsx from '../clsx'
 
 export function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms))
