@@ -1,25 +1,26 @@
 import { redirectToSignIn } from '@clerk/nextjs'
-import { User } from '../../rediscord-lib/entities/user'
-import currentProfile from '../../lib/current-profile'
 import { BsPersonFill } from 'react-icons/bs'
-import Divider from '../../rediscord-components/ui/divider'
-import FriendsTabGroup from '../../rediscord-components/islets/friends-tab-group'
-import FriendList from '../../rediscord-components/islets/friend-list'
+import currentProfile from '../../lib/current-profile'
 import ActiveNowPanel from '../../rediscord-components/islets/active-now-panel'
-
-import {
-  MOCK_DELAY,
-  MOCK_FRIENDS,
-  generateRandomFakeUsers,
-} from '../../rediscord-lib/utils/mock'
+import FriendList from '../../rediscord-components/islets/friend-list'
+import FriendsTabGroup from '../../rediscord-components/islets/friends-tab-group'
+import Divider from '../../rediscord-components/ui/divider'
+import { User } from '../../rediscord-lib/entities/user'
 import { delay } from '../../rediscord-lib/utils'
+
 import {
   Page,
   PageContent,
   PageHeader,
 } from '../../rediscord-components/layout/page'
 
-interface FriendFetchData {
+import {
+  MOCK_DELAY,
+  MOCK_FRIENDS,
+  generateRandomFakeUsers,
+} from '../../rediscord-lib/utils/mock'
+
+type FriendFetchData = {
   friends: User[]
   friendRequests: User[]
   blockedFriends: User[]
