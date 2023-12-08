@@ -1,12 +1,12 @@
-import Divider from "@/components/ui/divider";
-import SideMenuWrapper from "./side-menu-wrapper";
-import { clsx } from "@/lib/utils";
-import { BsDiscord } from "react-icons/bs";
-import { MOCK_SERVERS } from "@/lib/utils/mock";
+import Divider from '@/components/ui/divider'
+import SideMenuWrapper from './side-menu-wrapper'
+import { clsx } from '@/lib/utils'
+import { BsDiscord } from 'react-icons/bs'
+import { MOCK_SERVERS } from '@/lib/utils/mock'
 
 interface SideMenuItemSkeletonProps
   extends React.HTMLAttributes<HTMLAnchorElement> {
-  isActive?: boolean;
+  isActive?: boolean
 }
 const SideMenuItemSkeleton = ({
   isActive,
@@ -16,14 +16,14 @@ const SideMenuItemSkeleton = ({
   <a
     href="#"
     className={clsx(
-      "relative block h-12 w-12 bg-foreground bg-cover transition-all",
-      "group hover:shadow-xl focus:outline-none",
-      isActive ? "rounded-[15px]" : "rounded-[100%]",
+      'relative block h-12 w-12 bg-foreground bg-cover transition-all',
+      'group hover:shadow-xl focus:outline-none',
+      isActive ? 'rounded-[15px]' : 'rounded-[100%]',
       className,
     )}
     {...props}
   />
-);
+)
 export default function SideMenuSkeleton() {
   return (
     <SideMenuWrapper>
@@ -40,5 +40,5 @@ export default function SideMenuSkeleton() {
         ))}
       </div>
     </SideMenuWrapper>
-  );
+  )
 }

@@ -1,56 +1,56 @@
-"use client";
-import React from "react";
-import Avatar from "@/components/ui/avatar";
-import RoundedButton from "@/components/ui/button/rounded-button";
-import { ListItem } from "@/components/ui/list";
-import { User } from "@/lib/entities/user";
-import { t } from "@/lib/i18n";
+'use client'
+import React from 'react'
+import Avatar from '@/components/ui/avatar'
+import RoundedButton from '@/components/ui/button/rounded-button'
+import { ListItem } from '@/components/ui/list'
+import { User } from '@/lib/entities/user'
+import { t } from '@/lib/i18n'
 import {
   BsChatLeftFill,
   BsCheck2,
   BsThreeDotsVertical,
   BsX,
-} from "react-icons/bs";
-import { FriendsTab, FriendsTabEnum } from "@/lib/types/friend-tab-prop";
-import { useFriendStore } from "@/state/friend-list";
-import { useFriendRequestStore } from "@/state/friendRequest-list";
-import { useChannelStore } from "@/state/channel-list";
+} from 'react-icons/bs'
+import { FriendsTab, FriendsTabEnum } from '@/lib/types/friend-tab-prop'
+import { useFriendStore } from '@/state/friend-list'
+import { useFriendRequestStore } from '@/state/friendRequest-list'
+import { useChannelStore } from '@/state/channel-list'
 
 interface FriendListItemProps {
-  friend: User;
-  tab: FriendsTab;
+  friend: User
+  tab: FriendsTab
 }
 
 export default function FriendListItem({ friend, tab }: FriendListItemProps) {
-  const { friends, setFriends } = useFriendStore();
-  const { friendRequest, setFriendRequests } = useFriendRequestStore();
-  const { channels, setChannels } = useChannelStore();
+  const { friends, setFriends } = useFriendStore()
+  const { friendRequest, setFriendRequests } = useFriendRequestStore()
+  const { channels, setChannels } = useChannelStore()
 
   const handleAcceptFriends = () => {
     if (friends !== null && friendRequest !== null) {
-      setFriendRequests(friendRequest.filter((item) => item.id !== friend.id));
-      setFriends([...friends, friend]);
+      setFriendRequests(friendRequest.filter((item) => item.id !== friend.id))
+      setFriends([...friends, friend])
     }
-  };
+  }
 
   const handleDeclineFriends = () => {
     if (friendRequest !== null) {
-      setFriendRequests(friendRequest.filter((item) => item.id !== friend.id));
+      setFriendRequests(friendRequest.filter((item) => item.id !== friend.id))
     }
-  };
+  }
   const handleAddChannel = () => {
     if (channels !== null) {
       const isFriendAlreadyAdded = channels.some(
         (channel) => channel.id === friend.id,
-      );
+      )
       if (!isFriendAlreadyAdded) {
-        setChannels([friend, ...channels]);
+        setChannels([friend, ...channels])
       }
     }
-  };
+  }
   return (
     <ListItem
-      href={tab.key === FriendsTabEnum.Pending ? "" : `/channels/${friend.id}`}
+      href={tab.key === FriendsTabEnum.Pending ? '' : `/channels/${friend.id}`}
       className={`group justify-between border-t-[1px] border-gray-800 py-2.5 pr-3 `}
       noVerticalPadding
     >
@@ -72,7 +72,7 @@ export default function FriendListItem({ friend, tab }: FriendListItemProps) {
           </div>
           <div className="text-[13px] text-gray-300">
             {tab.key === FriendsTabEnum.Pending
-              ? "Incoming Friend Request"
+              ? 'Incoming Friend Request'
               : t(`user.status.${friend.status}`)}
           </div>
         </div>
@@ -107,5 +107,5 @@ export default function FriendListItem({ friend, tab }: FriendListItemProps) {
         )}
       </div>
     </ListItem>
-  );
+  )
 }

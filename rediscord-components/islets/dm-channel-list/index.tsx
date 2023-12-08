@@ -1,30 +1,30 @@
-"use client";
-import React from "react";
-import { ListedDMChannel } from "@/lib/entities/channel";
-import { List } from "@/components/ui/list";
-import DMChannelListHeader from "./dm-channel-list-header";
-import DMChannelListItem from "./dm-channel-list-item";
-import { useParams } from "next/navigation";
-import { useChannelStore } from "@/state/channel-list";
+'use client'
+import React from 'react'
+import { ListedDMChannel } from '@/lib/entities/channel'
+import { List } from '@/components/ui/list'
+import DMChannelListHeader from './dm-channel-list-header'
+import DMChannelListItem from './dm-channel-list-item'
+import { useParams } from 'next/navigation'
+import { useChannelStore } from '@/state/channel-list'
 
 interface DMChannelListrops {
-  channelsData: ListedDMChannel[];
+  channelsData: ListedDMChannel[]
 }
 export default function DMChannelList({ channelsData }: DMChannelListrops) {
-  const { channels, setChannels } = useChannelStore();
+  const { channels, setChannels } = useChannelStore()
 
   React.useEffect(() => {
     if (channelsData) {
-      setChannels(channelsData);
+      setChannels(channelsData)
     }
-  }, []);
+  }, [])
 
   const handleChannelDelete = (channelId: string) => {
     if (channels !== null) {
-      setChannels(channels.filter((channel) => channel.id !== channelId));
+      setChannels(channels.filter((channel) => channel.id !== channelId))
     }
-  };
-  const params = useParams();
+  }
+  const params = useParams()
 
   return (
     <div className="pt-4">
@@ -36,11 +36,11 @@ export default function DMChannelList({ channelsData }: DMChannelListrops) {
             key={channel.id}
             channel={channel}
             onDelete={() => {
-              handleChannelDelete(channel.id);
+              handleChannelDelete(channel.id)
             }}
           />
         ))}
       </List>
     </div>
-  );
+  )
 }

@@ -1,7 +1,7 @@
-import AvatarSkeleton from "@/components/ui/avatar/avatar-skeleton";
-import InputSkeleton from "@/components/ui/input/input-skeleton";
-import TextSkeleton from "@/components/ui/text/text-skeleton";
-import { MOCK_FRIENDS } from "@/lib/utils/mock";
+import AvatarSkeleton from '@/components/ui/avatar/avatar-skeleton'
+import InputSkeleton from '@/components/ui/input/input-skeleton'
+import TextSkeleton from '@/components/ui/text/text-skeleton'
+import { MOCK_FRIENDS } from '@/lib/utils/mock'
 
 export default function FriendListSkeleton() {
   return (
@@ -35,5 +35,5 @@ export default function FriendListSkeleton() {
         ))}
       </div>
     </div>
-  );
+  )
 }

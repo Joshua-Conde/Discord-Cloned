@@ -1,27 +1,27 @@
-import Sidebar from "@/components/layout/sidebar";
-import FindChatButton from "@/components/islets/find-chat-button";
+import Sidebar from '@/components/layout/sidebar'
+import FindChatButton from '@/components/islets/find-chat-button'
 
-import Header from "@/components/layout/header";
-import DMHeaderMenu from "@/components/islets/dm-header-menu";
-import DMChannelList from "@/components/islets/dm-channel-list";
-import VoiceStatusFooter from "@/components/islets/voice-status-footer";
+import Header from '@/components/layout/header'
+import DMHeaderMenu from '@/components/islets/dm-header-menu'
+import DMChannelList from '@/components/islets/dm-channel-list'
+import VoiceStatusFooter from '@/components/islets/voice-status-footer'
 
-import { ListedDMChannel } from "@/lib/entities/channel";
+import { ListedDMChannel } from '@/lib/entities/channel'
 import {
   MOCK_DELAY,
   MOCK_CHANNELS,
   generateRandomFakeChannels,
-} from "@/lib/utils/mock";
-import { delay } from "@/lib/utils";
+} from '@/lib/utils/mock'
+import { delay } from '@/lib/utils'
 
 export const getData = async (): Promise<{ channels: ListedDMChannel[] }> => {
-  const channels: ListedDMChannel[] = generateRandomFakeChannels(MOCK_CHANNELS);
-  await delay(MOCK_DELAY);
-  return { channels };
-};
+  const channels: ListedDMChannel[] = generateRandomFakeChannels(MOCK_CHANNELS)
+  await delay(MOCK_DELAY)
+  return { channels }
+}
 
 export default async function DMLayout({ children }: React.PropsWithChildren) {
-  const { channels } = await getData();
+  const { channels } = await getData()
   return (
     <>
       <Sidebar className="bottom-70 flex flex-col">
@@ -36,5 +36,5 @@ export default async function DMLayout({ children }: React.PropsWithChildren) {
       </Sidebar>
       {children}
     </>
-  );
+  )
 }

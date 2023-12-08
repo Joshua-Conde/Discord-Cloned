@@ -1,10 +1,10 @@
-import clsx from "@/lib/clsx";
+import clsx from '@/lib/clsx'
 
 interface PageContentProps extends React.HTMLAttributes<HTMLDivElement> {
-  padding?: "none" | "md" | "lg";
+  padding?: 'none' | 'md' | 'lg'
 }
 export default function PageContent({
-  padding = "md",
+  padding = 'md',
   className,
   children,
   ...props
@@ -12,14 +12,14 @@ export default function PageContent({
   return (
     <div
       className={clsx(
-        "flex flex-1 lg:overflow-hidden",
-        padding === "md" && "px-6 pt-4",
-        padding === "lg" && "px-8 pt-6",
+        'flex flex-1 lg:overflow-hidden',
+        padding === 'md' && 'px-6 pt-4',
+        padding === 'lg' && 'px-8 pt-6',
         className,
       )}
       {...props}
     >
       {children}
     </div>
-  );
+  )
 }

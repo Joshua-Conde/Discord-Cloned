@@ -1,8 +1,8 @@
-import Image from "next/image";
+import Image from 'next/image'
 interface EmptyBoxProps {
-  src: string;
-  text: string;
-  alt: string;
+  src: string
+  text: string
+  alt: string
 }
 
 export const EmptyBox = ({ src, text, alt }: EmptyBoxProps) => {
@@ -17,5 +17,5 @@ export const EmptyBox = ({ src, text, alt }: EmptyBoxProps) => {
       />
       <p className="text-gray-400">{text}</p>
     </div>
-  );
-};
+  )
+}

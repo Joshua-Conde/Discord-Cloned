@@ -1,13 +1,13 @@
-import { clsx } from "@/lib/utils";
+import { clsx } from '@/lib/utils'
 
 interface TabGroupProps extends React.HTMLAttributes<HTMLDivElement> {
-  gap?: string;
+  gap?: string
 }
 
 export default function TabGroup({
-  gap = "4",
+  gap = '4',
   className,
   ...props
 }: TabGroupProps) {
-  return <div className={clsx(`flex gap-${gap}`, className)} {...props} />;
+  return <div className={clsx(`flex gap-${gap}`, className)} {...props} />
 }

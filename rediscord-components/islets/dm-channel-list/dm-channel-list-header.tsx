@@ -1,20 +1,20 @@
-"use client";
-import { clsx } from "@/lib/utils";
-import { BsPlus } from "react-icons/bs";
+'use client'
+import { clsx } from '@/lib/utils'
+import { BsPlus } from 'react-icons/bs'
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from '@/components/ui/tooltip'
 
 export default function DMChannelListHeader() {
   return (
     <TooltipProvider>
       <div
         className={clsx(
-          "flex cursor-default items-center justify-between pl-3 pr-2.5 text-xs font-semibold",
-          "align-middle text-gray-400 hover:text-gray-200",
+          'flex cursor-default items-center justify-between pl-3 pr-2.5 text-xs font-semibold',
+          'align-middle text-gray-400 hover:text-gray-200',
         )}
       >
         DIRECT MESSAGES
@@ -30,5 +30,5 @@ export default function DMChannelListHeader() {
         </Tooltip>
       </div>
     </TooltipProvider>
-  );
+  )
 }

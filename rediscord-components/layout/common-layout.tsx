@@ -1,7 +1,7 @@
-import { Suspense } from "react";
-import SideMenuSkeleton from "./sidemenu/side-menu-skeleton";
-import SideMenu from "./sidemenu";
-import SearchModal from "../islets/search-modal";
+import { Suspense } from 'react'
+import SideMenuSkeleton from './sidemenu/side-menu-skeleton'
+import SideMenu from './sidemenu'
+import SearchModal from '../islets/search-modal'
 
 export default function CommonLayout() {
   return (
@@ -11,5 +11,5 @@ export default function CommonLayout() {
       </Suspense>
       <SearchModal />
     </>
-  );
+  )
 }

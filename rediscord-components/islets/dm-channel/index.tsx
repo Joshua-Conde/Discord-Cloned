@@ -1,53 +1,53 @@
-"use client";
-import { PageContent, PageHeader } from "@/components/layout/page";
-import Avatar from "@/components/ui/avatar";
-import Divider from "@/components/ui/divider";
-import { Input } from "@/components/ui/input";
+'use client'
+import { PageContent, PageHeader } from '@/components/layout/page'
+import Avatar from '@/components/ui/avatar'
+import Divider from '@/components/ui/divider'
+import { Input } from '@/components/ui/input'
 import {
   AiFillGift,
   AiFillPlusCircle,
   AiOutlineFileText,
   AiOutlineGif,
-} from "react-icons/ai";
-import { CgSmileMouthOpen } from "react-icons/cg";
-import { useChannelStore } from "@/state/channel-list";
-import React from "react";
-import InputField from "@/components/ui/input/input-field";
-import { useCurrentUserStore } from "@/state/user";
-import { useFriendStore } from "@/state/friend-list";
-import { ChatDM } from "@/components/islets/dm-chat";
-import { UserProfileInfo } from "@/components/islets/user-info-in-chat";
-import { User } from "@/lib/entities/user";
-import AudioVideoCall from "@/components/ui/audio-video-calls";
+} from 'react-icons/ai'
+import { CgSmileMouthOpen } from 'react-icons/cg'
+import { useChannelStore } from '@/state/channel-list'
+import React from 'react'
+import InputField from '@/components/ui/input/input-field'
+import { useCurrentUserStore } from '@/state/user'
+import { useFriendStore } from '@/state/friend-list'
+import { ChatDM } from '@/components/islets/dm-chat'
+import { UserProfileInfo } from '@/components/islets/user-info-in-chat'
+import { User } from '@/lib/entities/user'
+import AudioVideoCall from '@/components/ui/audio-video-calls'
 interface Message {
-  id: number;
-  userId?: string;
-  text: string;
-  timestamp: string;
-  bot?: string;
+  id: number
+  userId?: string
+  text: string
+  timestamp: string
+  bot?: string
 }
 
 export default function ChannelDM({ user }: { user: User | undefined }) {
-  const { channels } = useChannelStore();
+  const { channels } = useChannelStore()
 
-  const { friends, setFriends } = useFriendStore();
-  const { currentUser } = useCurrentUserStore();
-  const [showAudioVideoCall, setShowAudioVideoCall] = React.useState(false);
+  const { friends, setFriends } = useFriendStore()
+  const { currentUser } = useCurrentUserStore()
+  const [showAudioVideoCall, setShowAudioVideoCall] = React.useState(false)
 
-  const currentDate = new Date();
+  const currentDate = new Date()
   const formattedDate = `${currentDate.getDate()} ${currentDate.toLocaleString(
-    "default",
-    { month: "long" },
-  )} ${currentDate.getFullYear()}`;
-  const [newMessage, setNewMessageText] = React.useState("");
+    'default',
+    { month: 'long' },
+  )} ${currentDate.getFullYear()}`
+  const [newMessage, setNewMessageText] = React.useState('')
   const [messages, setMessages] = React.useState<Message[]>([
     {
       id: 1,
       userId: user?.id,
-      text: "Hello! How are you?",
+      text: 'Hello! How are you?',
       timestamp: new Date().toISOString(),
     },
-  ]);
+  ])
 
   const handleSubmit = () => {
     const newMessageObj = {
@@ -55,49 +55,47 @@ export default function ChannelDM({ user }: { user: User | undefined }) {
       userId: currentUser?.id,
       text: newMessage,
       timestamp: new Date().toISOString(),
-    };
-    setMessages((prevMessages) => [...prevMessages, newMessageObj]);
-    setNewMessageText("");
-  };
+    }
+    setMessages((prevMessages) => [...prevMessages, newMessageObj])
+    setNewMessageText('')
+  }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewMessageText(e.target.value);
-  };
+    setNewMessageText(e.target.value)
+  }
   const handleAudioVideoCall = () => {
     if (user) {
-      setShowAudioVideoCall(true);
+      setShowAudioVideoCall(true)
     }
-  };
+  }
   const handleVideoCallEnd = () => {
-    setShowAudioVideoCall(false);
+    setShowAudioVideoCall(false)
 
     const endedMessage = {
       id: messages.length + 1,
-      bot: "endCall",
-      text: "He/She initiated a conversation, which lasted for a few seconds.",
+      bot: 'endCall',
+      text: 'He/She initiated a conversation, which lasted for a few seconds.',
       timestamp: new Date().toISOString(),
-    };
-    setMessages((prevMessages) => [...prevMessages, endedMessage]);
-  };
-  console.log(messages);
+    }
+    setMessages((prevMessages) => [...prevMessages, endedMessage])
+  }
+  console.log(messages)
 
-  const intersection = channels?.filter(
-    (channel) => friends?.includes(channel),
-  );
-  const isFriend = intersection?.some((friend) => friend.id === user?.id);
+  const intersection = channels?.filter((channel) => friends?.includes(channel))
+  const isFriend = intersection?.some((friend) => friend.id === user?.id)
 
   const handleAddDelete = () => {
     if (friends !== null) {
       if (isFriend) {
-        setFriends(friends.filter((friend) => friend.id !== user?.id));
+        setFriends(friends.filter((friend) => friend.id !== user?.id))
       } else {
-        const newFriend = channels?.find((channel) => channel.id === user?.id);
+        const newFriend = channels?.find((channel) => channel.id === user?.id)
         if (newFriend) {
-          setFriends([newFriend, ...friends]);
+          setFriends([newFriend, ...friends])
         }
       }
     }
-  };
+  }
 
   return (
     <>
@@ -178,8 +176,8 @@ export default function ChannelDM({ user }: { user: User | undefined }) {
                 placeholder={`write something to @${user.name}`}
                 value={newMessage}
                 onKeyDown={(event) => {
-                  if (event.key === "Enter") {
-                    handleSubmit();
+                  if (event.key === 'Enter') {
+                    handleSubmit()
                   }
                 }}
                 onChange={handleInputChange}
@@ -190,5 +188,5 @@ export default function ChannelDM({ user }: { user: User | undefined }) {
         </>
       )}
     </>
-  );
+  )
 }

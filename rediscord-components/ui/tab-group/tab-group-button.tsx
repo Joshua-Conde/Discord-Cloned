@@ -1,7 +1,7 @@
-import { clsx } from "@/lib/utils";
+import { clsx } from '@/lib/utils'
 
 interface TabGroupButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
-  active?: boolean;
+  active?: boolean
 }
 
 export default function TabGroupButton({
@@ -12,14 +12,14 @@ export default function TabGroupButton({
   return (
     <button
       className={clsx(
-        "rounded px-2 py-0.5 text-sm hover:bg-gray-800/50",
-        "active:bg-gray-800 active:text-gray-100",
+        'rounded px-2 py-0.5 text-sm hover:bg-gray-800/50',
+        'active:bg-gray-800 active:text-gray-100',
         active
-          ? "cursor-default bg-gray-800 text-gray-100"
-          : "text-gray-300 hover:text-gray-200",
+          ? 'cursor-default bg-gray-800 text-gray-100'
+          : 'text-gray-300 hover:text-gray-200',
         className,
       )}
       {...props}
     />
-  );
+  )
 }

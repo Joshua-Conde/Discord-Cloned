@@ -1,8 +1,8 @@
-import AvatarSkeleton from "@/components/ui/avatar/avatar-skeleton";
-import TextSkeleton from "@/components/ui/text/text-skeleton";
-import clsx from "@/lib/clsx";
-import { MOCK_CHANNELS } from "@/lib/utils/mock";
-import React from "react";
+import AvatarSkeleton from '@/components/ui/avatar/avatar-skeleton'
+import TextSkeleton from '@/components/ui/text/text-skeleton'
+import clsx from '@/lib/clsx'
+import { MOCK_CHANNELS } from '@/lib/utils/mock'
+import React from 'react'
 
 export default function DMChannelListSkeleton() {
   return (
@@ -22,17 +22,17 @@ export default function DMChannelListSkeleton() {
               <TextSkeleton
                 fontSize="sm"
                 place="midground"
-                className={clsx(i % 2 ? "w-5/6" : "w-3/4")}
+                className={clsx(i % 2 ? 'w-5/6' : 'w-3/4')}
               />
               <TextSkeleton
                 fontSize="xs"
                 place="midground"
-                className={clsx(i % 2 ? "w-3/4" : "w-2/3")}
+                className={clsx(i % 2 ? 'w-3/4' : 'w-2/3')}
               />
             </div>
           </div>
         ))}
       </div>
     </div>
-  );
+  )
 }

@@ -1,11 +1,11 @@
-import { clsx } from "@/lib/utils";
+import { clsx } from '@/lib/utils'
 
 interface HeaderProps extends React.HTMLAttributes<HTMLDivElement> {
-  verticalPadding?: string;
+  verticalPadding?: string
 }
 
 export default function Header({
-  verticalPadding = "4",
+  verticalPadding = '4',
   className,
   ...props
 }: HeaderProps) {
@@ -17,5 +17,5 @@ export default function Header({
       )}
       {...props}
     />
-  );
+  )
 }

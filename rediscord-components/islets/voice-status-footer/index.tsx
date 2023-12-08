@@ -1,32 +1,32 @@
-"use client";
-import Avatar from "@/components/ui/avatar";
+'use client'
+import Avatar from '@/components/ui/avatar'
 import {
   TooltipProvider,
   TooltipTrigger,
   Tooltip,
   TooltipContent,
-} from "@/components/ui/tooltip";
-import { VoiceStatus } from "@/lib/entities/user";
-import { t } from "@/lib/i18n";
-import { clsx } from "@/lib/utils";
-import { generateFakeCurrentUser } from "@/lib/utils/mock";
-import { useCurrentUserStore } from "@/state/user";
-import { useState, useEffect } from "react";
-import { BsGearFill, BsHeadphones, BsMicFill } from "react-icons/bs";
+} from '@/components/ui/tooltip'
+import { VoiceStatus } from '@/lib/entities/user'
+import { t } from '@/lib/i18n'
+import { clsx } from '@/lib/utils'
+import { generateFakeCurrentUser } from '@/lib/utils/mock'
+import { useCurrentUserStore } from '@/state/user'
+import { useState, useEffect } from 'react'
+import { BsGearFill, BsHeadphones, BsMicFill } from 'react-icons/bs'
 
 type VoiceStatusButton = {
-  icon: React.ReactNode;
-  muted?: boolean;
-  tooltipText: string;
-  onClick?: () => void;
-};
+  icon: React.ReactNode
+  muted?: boolean
+  tooltipText: string
+  onClick?: () => void
+}
 const VoiceStatusButton = ({
   icon,
   muted,
   tooltipText,
   onClick,
 }: VoiceStatusButton) => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
 
   return (
     <Tooltip open={open}>
@@ -38,8 +38,8 @@ const VoiceStatusButton = ({
         <button
           onClick={onClick}
           className={clsx(
-            "group relative flex h-8 w-8 items-center justify-center rounded-md hover:bg-gray-700",
-            "text-gray-300 hover:text-gray-200",
+            'group relative flex h-8 w-8 items-center justify-center rounded-md hover:bg-gray-700',
+            'text-gray-300 hover:text-gray-200',
           )}
         >
           {icon}
@@ -52,19 +52,19 @@ const VoiceStatusButton = ({
         {tooltipText}
       </TooltipContent>
     </Tooltip>
-  );
-};
+  )
+}
 
 export default function VoiceStatusFooter() {
-  const [voiceStatus, setVoiceStatus] = useState<VoiceStatus>({ mute: true });
-  const currentUserData = generateFakeCurrentUser();
-  const { currentUser, setCurrentUser } = useCurrentUserStore();
+  const [voiceStatus, setVoiceStatus] = useState<VoiceStatus>({ mute: true })
+  const currentUserData = generateFakeCurrentUser()
+  const { currentUser, setCurrentUser } = useCurrentUserStore()
 
   useEffect(() => {
     if (currentUserData !== null) {
-      setCurrentUser(currentUserData);
+      setCurrentUser(currentUserData)
     }
-  }, []);
+  }, [])
 
   return (
     <>
@@ -88,7 +88,7 @@ export default function VoiceStatusFooter() {
               <VoiceStatusButton
                 muted={voiceStatus.mute || voiceStatus.deaf}
                 tooltipText={
-                  voiceStatus.mute || voiceStatus.deaf ? "Unmute" : "Mute"
+                  voiceStatus.mute || voiceStatus.deaf ? 'Unmute' : 'Mute'
                 }
                 onClick={() =>
                   setVoiceStatus((prev) => ({
@@ -101,7 +101,7 @@ export default function VoiceStatusFooter() {
               />
               <VoiceStatusButton
                 muted={voiceStatus.deaf}
-                tooltipText={voiceStatus.deaf ? "Undeaf" : "Deaf"}
+                tooltipText={voiceStatus.deaf ? 'Undeaf' : 'Deaf'}
                 onClick={() =>
                   setVoiceStatus((prev) => ({ ...prev, deaf: !prev.deaf }))
                 }
@@ -116,5 +116,5 @@ export default function VoiceStatusFooter() {
         </TooltipProvider>
       ) : null}
     </>
-  );
+  )
 }

@@ -1,26 +1,26 @@
-"use client";
-import React, { useState } from "react";
-import { ListedServer } from "@/lib/entities/server";
-import SideMenuItem from "./side-menu-item";
-import { clsx } from "@/lib/utils";
-import { BsDiscord } from "react-icons/bs";
-import { TooltipProvider } from "@radix-ui/react-tooltip";
-import Divider from "@/components/ui/divider";
+'use client'
+import React, { useState } from 'react'
+import { ListedServer } from '@/lib/entities/server'
+import SideMenuItem from './side-menu-item'
+import { clsx } from '@/lib/utils'
+import { BsDiscord } from 'react-icons/bs'
+import { TooltipProvider } from '@radix-ui/react-tooltip'
+import Divider from '@/components/ui/divider'
 
 type SideMenuTrackProps = {
-  servers: ListedServer[];
-};
+  servers: ListedServer[]
+}
 
 type ServerMenuItemProps = {
-  server: ListedServer;
-  isActive: boolean;
-} & React.ComponentProps<typeof SideMenuItem>;
+  server: ListedServer
+  isActive: boolean
+} & React.ComponentProps<typeof SideMenuItem>
 
 const ServerMenuItem = ({
   server,
   isActive,
   ...props
-}: Omit<ServerMenuItemProps, "tooltipContent">) => {
+}: Omit<ServerMenuItemProps, 'tooltipContent'>) => {
   return (
     <SideMenuItem
       isActive={isActive}
@@ -33,11 +33,11 @@ const ServerMenuItem = ({
       }}
       {...props}
     />
-  );
-};
+  )
+}
 
 export default function SideMenuTrack({ servers }: SideMenuTrackProps) {
-  const [active, setActive] = useState<string>("default");
+  const [active, setActive] = useState<string>('default')
 
   return (
     <>
@@ -47,14 +47,14 @@ export default function SideMenuTrack({ servers }: SideMenuTrackProps) {
         */}
         <SideMenuItem
           href="/channels/me"
-          onClick={() => setActive("default")}
+          onClick={() => setActive('default')}
           tooltipContent={<div className="font-semibold">Direct messages</div>}
           notificationCount={432}
           className={clsx(
-            "mx-auto mb-2 flex items-center justify-center bg-foreground",
-            active === "default" ? "bg-primary text-white" : "text-gray-300",
+            'mx-auto mb-2 flex items-center justify-center bg-foreground',
+            active === 'default' ? 'bg-primary text-white' : 'text-gray-300',
           )}
-          isActive={active === "default"}
+          isActive={active === 'default'}
         >
           <BsDiscord fontSize={26} />
         </SideMenuItem>
@@ -71,11 +71,11 @@ export default function SideMenuTrack({ servers }: SideMenuTrackProps) {
             server={server}
             isActive={active === server.id}
             onClick={() => {
-              setActive(server.id);
+              setActive(server.id)
             }}
           />
         ))}
       </TooltipProvider>
     </>
-  );
+  )
 }

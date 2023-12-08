@@ -1,43 +1,43 @@
-"use client";
+'use client'
 
 import {
   SEARCH_MODAL_EVENT,
   SearchModalEvent,
-} from "@/lib/events/searchModalEvent";
-import { useEffect, useState } from "react";
+} from '@/lib/events/searchModalEvent'
+import { useEffect, useState } from 'react'
 
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
+} from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
 
 export default function SearchModal() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
     const handleEvent = (event: Event) => {
-      const { detail } = event as SearchModalEvent;
-      setOpen(detail.action === "open");
-    };
+      const { detail } = event as SearchModalEvent
+      setOpen(detail.action === 'open')
+    }
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if ((event.ctrlKey || event.metaKey) && event.key === "k") {
-        event.preventDefault();
-        setOpen(true);
+      if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
+        event.preventDefault()
+        setOpen(true)
       }
-    };
+    }
 
-    window.addEventListener(SEARCH_MODAL_EVENT, handleEvent);
-    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener(SEARCH_MODAL_EVENT, handleEvent)
+    window.addEventListener('keydown', handleKeyDown)
 
     return () => {
-      window.removeEventListener(SEARCH_MODAL_EVENT, handleEvent);
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);
+      window.removeEventListener(SEARCH_MODAL_EVENT, handleEvent)
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [])
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -59,5 +59,5 @@ export default function SearchModal() {
         </div>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

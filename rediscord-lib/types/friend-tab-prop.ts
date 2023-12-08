@@ -1,29 +1,29 @@
-import { UserStatuses } from "../entities/user";
+import { UserStatuses } from '../entities/user'
 
 export enum FriendsTabEnum {
-  Available = "Available",
-  All = "All",
-  Pending = "Pending",
-  Blocked = "Blocked",
-  AddFriend = "AddFriend",
+  Available = 'Available',
+  All = 'All',
+  Pending = 'Pending',
+  Blocked = 'Blocked',
+  AddFriend = 'AddFriend',
 }
 
 export type FriendsTab = {
-  key: FriendsTabEnum;
-  title: string;
-  name?: string;
-  status?: UserStatuses[];
+  key: FriendsTabEnum
+  title: string
+  name?: string
+  status?: UserStatuses[]
   empty: {
-    imageSrc: string;
-    imageAlt: string;
-    text: string;
-  };
-};
+    imageSrc: string
+    imageAlt: string
+    text: string
+  }
+}
 const FRIENDS_EMPTY_PROP = {
-  imageSrc: "/NotFoundSearching.svg",
-  imageAlt: "No friends found",
+  imageSrc: '/NotFoundSearching.svg',
+  imageAlt: 'No friends found',
   text: "we can't find anyone with that name :(",
-};
+}
 
 export const friendsTabsProps: Record<
   FriendsTabEnum,
@@ -31,7 +31,7 @@ export const friendsTabsProps: Record<
 > = Object.freeze({
   [FriendsTabEnum.Available]: {
     key: FriendsTabEnum.Available,
-    title: "Online",
+    title: 'Online',
     status: [
       UserStatuses.Online,
       UserStatuses.DND,
@@ -42,32 +42,32 @@ export const friendsTabsProps: Record<
   },
   [FriendsTabEnum.All]: {
     key: FriendsTabEnum.All,
-    title: "All your Friends",
-    name: "All",
+    title: 'All your Friends',
+    name: 'All',
     status: Object.values(UserStatuses),
     empty: FRIENDS_EMPTY_PROP,
   },
   [FriendsTabEnum.Pending]: {
     key: FriendsTabEnum.Pending,
-    title: "Pending",
+    title: 'Pending',
     empty: {
-      imageSrc: "/Waiting.svg",
-      imageAlt: "No friend requests",
-      text: "Looks like no one requested to be your friend :(",
+      imageSrc: '/Waiting.svg',
+      imageAlt: 'No friend requests',
+      text: 'Looks like no one requested to be your friend :(',
     },
   },
   [FriendsTabEnum.Blocked]: {
     key: FriendsTabEnum.Blocked,
-    title: "Blocked",
+    title: 'Blocked',
     empty: {
-      imageSrc: "/Waiting.svg",
-      imageAlt: "No blocked friends",
+      imageSrc: '/Waiting.svg',
+      imageAlt: 'No blocked friends',
       text: "You haven't blocked anyone :)",
     },
   },
   [FriendsTabEnum.AddFriend]: {
     key: FriendsTabEnum.AddFriend,
-    title: "Add a Friend",
+    title: 'Add a Friend',
     empty: FRIENDS_EMPTY_PROP,
   },
-});
+})

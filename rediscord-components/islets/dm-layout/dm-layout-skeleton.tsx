@@ -1,10 +1,9 @@
-import { FindChatButtonSkeleton } from "@/components/islets/find-chat-button";
-import Header from "@/components/layout/header";
-import Sidebar from "@/components/layout/sidebar";
-import DMHeaderMenuSkeleton from "../dm-header-menu/dm-header-menu-skeleton";
-import DMChannelListSkeleton from "../dm-channel-list/dm-channel-list-skeleton";
-import VoiceStatusFooterSkeleton from "../voice-status-footer/voice-status-footer-skeleton";
-
+import { FindChatButtonSkeleton } from '@/components/islets/find-chat-button'
+import Header from '@/components/layout/header'
+import Sidebar from '@/components/layout/sidebar'
+import DMHeaderMenuSkeleton from '../dm-header-menu/dm-header-menu-skeleton'
+import DMChannelListSkeleton from '../dm-channel-list/dm-channel-list-skeleton'
+import VoiceStatusFooterSkeleton from '../voice-status-footer/voice-status-footer-skeleton'
 
 export default function DMLayoutSkeleton({
   children,
@@ -23,5 +22,5 @@ export default function DMLayoutSkeleton({
       </Sidebar>
       {children}
     </>
-  );
+  )
 }

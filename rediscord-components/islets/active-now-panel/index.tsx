@@ -1,4 +1,4 @@
-import ActiveNowList from "./active-now-list";
+import ActiveNowList from './active-now-list'
 
 export default function ActiveNowPanel() {
   return (
@@ -6,5 +6,5 @@ export default function ActiveNowPanel() {
       <h1 className="mb-4 text-lg  font-extrabold">Active Now</h1>
       <ActiveNowList />
     </div>
-  );
+  )
 }

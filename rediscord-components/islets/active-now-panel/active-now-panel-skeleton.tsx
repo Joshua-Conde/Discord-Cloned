@@ -1,5 +1,5 @@
-import TextSkeleton from "@/components/ui/text/text-skeleton";
-import { ActiveNowListItemSkeleton } from "./active-now-list";
+import TextSkeleton from '@/components/ui/text/text-skeleton'
+import { ActiveNowListItemSkeleton } from './active-now-list'
 
 export default function ActiveNowPanelSkeleton() {
   return (
@@ -9,5 +9,5 @@ export default function ActiveNowPanelSkeleton() {
       </h1>
       <ActiveNowListItemSkeleton />
     </div>
-  );
+  )
 }

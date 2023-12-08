@@ -1,11 +1,11 @@
-import Avatar from "@/components/ui/avatar";
-import { User } from "@/lib/entities/user";
-import React from "react";
+import Avatar from '@/components/ui/avatar'
+import { User } from '@/lib/entities/user'
+import React from 'react'
 
 interface UserProfileInfoProps {
-  user: User;
-  handleAddDelete: () => void;
-  isFriend: boolean | undefined;
+  user: User
+  handleAddDelete: () => void
+  isFriend: boolean | undefined
 }
 export function UserProfileInfo({
   user,
@@ -29,20 +29,20 @@ export function UserProfileInfo({
         <p>no shared servers</p>
         <button
           onClick={() => {
-            handleAddDelete();
+            handleAddDelete()
           }}
           className={`duration-400 ${
             isFriend
-              ? "bg-gray-600 hover:bg-gray-500"
-              : "bg-blue-500 hover:bg-blue-600"
+              ? 'bg-gray-600 hover:bg-gray-500'
+              : 'bg-blue-500 hover:bg-blue-600'
           } rounded px-3 py-0.5 transition-colors ease-in-out `}
         >
-          {isFriend ? " Delete Friend" : "Add Friend"}
+          {isFriend ? ' Delete Friend' : 'Add Friend'}
         </button>
         <button className="duration-400 rounded bg-gray-600 px-3 py-0.5 transition-colors ease-in-out hover:bg-gray-500">
           Block
         </button>
       </div>
     </div>
-  );
+  )
 }

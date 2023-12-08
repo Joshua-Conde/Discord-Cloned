@@ -1,39 +1,39 @@
-import Avatar from "@/components/ui/avatar";
-import { User } from "@/lib/entities/user";
-import React from "react";
-import { MdCall } from "react-icons/md";
+import Avatar from '@/components/ui/avatar'
+import { User } from '@/lib/entities/user'
+import React from 'react'
+import { MdCall } from 'react-icons/md'
 
 interface ChatDMProps {
-  user: User | null;
-  currentUser: User | null;
+  user: User | null
+  currentUser: User | null
   messages: {
-    id: number;
-    userId?: string;
-    text: string;
-    timestamp: string;
-    bot?: string;
-  }[];
+    id: number
+    userId?: string
+    text: string
+    timestamp: string
+    bot?: string
+  }[]
 }
 
 export function ChatDM({ messages, user, currentUser }: ChatDMProps) {
-  const chatContainerRef = React.useRef<HTMLDivElement | null>(null);
+  const chatContainerRef = React.useRef<HTMLDivElement | null>(null)
 
   const scrollToBottom = () => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "end",
-      });
+        behavior: 'smooth',
+        block: 'end',
+      })
     }
-  };
+  }
 
   React.useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
+    scrollToBottom()
+  }, [messages])
 
   const [showDetailMessage, setShowDetailMessage] = React.useState<{
-    [key: number]: boolean;
-  }>({});
+    [key: number]: boolean
+  }>({})
 
   return (
     <>
@@ -44,19 +44,19 @@ export function ChatDM({ messages, user, currentUser }: ChatDMProps) {
           className={`  ${
             index === 0 ||
             messages[index]?.userId !== messages[index - 1]?.userId
-              ? "my-4"
-              : "my-0 h-fit"
+              ? 'my-4'
+              : 'my-0 h-fit'
           } relative flex items-start gap-2`}
         >
-          {message.bot === "endCall" ? (
+          {message.bot === 'endCall' ? (
             <div className="flex items-center space-x-2 py-1 text-xs text-gray-300">
               <MdCall className="text-lg text-green-500" />
               <p className="text-white"> {currentUser?.name}</p>
               <p className=""> {message.text}</p>
               <div className=" text-xs text-gray-400">
                 {new Date(message.timestamp).toLocaleTimeString([], {
-                  hour: "numeric",
-                  minute: "numeric",
+                  hour: 'numeric',
+                  minute: 'numeric',
                 })}
               </div>
             </div>
@@ -66,8 +66,8 @@ export function ChatDM({ messages, user, currentUser }: ChatDMProps) {
                 className={` ${
                   index === 0 ||
                   messages[index]?.userId !== messages[index - 1]?.userId
-                    ? "opacity-100"
-                    : "!h-0 opacity-0"
+                    ? 'opacity-100'
+                    : '!h-0 opacity-0'
                 } z-[1]`}
                 size="sm"
                 src={
@@ -81,8 +81,8 @@ export function ChatDM({ messages, user, currentUser }: ChatDMProps) {
               {showDetailMessage[message.id] && (
                 <div className="absolute top-1.5 z-0 text-xs text-gray-400">
                   {new Date(message.timestamp).toLocaleTimeString([], {
-                    hour: "numeric",
-                    minute: "numeric",
+                    hour: 'numeric',
+                    minute: 'numeric',
                   })}
                 </div>
               )}
@@ -105,13 +105,13 @@ export function ChatDM({ messages, user, currentUser }: ChatDMProps) {
                     setShowDetailMessage((prev) => ({
                       ...prev,
                       [message.id]: true,
-                    }));
+                    }))
                   }}
                   onMouseLeave={() => {
                     setShowDetailMessage((prev) => ({
                       ...prev,
                       [message.id]: false,
-                    }));
+                    }))
                   }}
                   className="break-words pr-12"
                 >
@@ -123,5 +123,5 @@ export function ChatDM({ messages, user, currentUser }: ChatDMProps) {
         </div>
       ))}
     </>
-  );
+  )
 }
