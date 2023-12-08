@@ -1,21 +1,21 @@
-import { redirectToSignIn } from '@clerk/nextjs/server'
-import { redirect } from 'next/navigation'
+import { redirectToSignIn } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 
-import ServerSidebar from '../../../../../components/server/ServerSidebar'
-import currentProfile from '../../../../../lib/current-profile'
-import { db } from '../../../../../lib/db'
+import ServerSidebar from "../../../../../components/server/ServerSidebar";
+import currentProfile from "../../../../../lib/current-profile";
+import { db } from "../../../../../lib/db";
 
 export default async function ServerIDLayout({
   children,
   params,
 }: {
-  children: React.ReactNode
-  params: { serverId: string }
+  children: React.ReactNode;
+  params: { serverId: string };
 }) {
-  const profile = await currentProfile()
+  const profile = await currentProfile();
 
   if (!profile) {
-    return redirectToSignIn()
+    return redirectToSignIn();
     // how does this differ from the "@clerk/nextjs" version?
     // is the "return," too, really necessary? this should take care of the my needing to worry about
     // the continued excution of the function, right?
@@ -31,10 +31,10 @@ export default async function ServerIDLayout({
         },
       },
     },
-  })
+  });
 
   if (!server) {
-    redirect('/')
+    redirect("/");
   }
 
   return (
@@ -44,5 +44,5 @@ export default async function ServerIDLayout({
       </div>
       <main className="h-full md:pl-60">{children}</main>
     </div>
-  )
+  );
 }

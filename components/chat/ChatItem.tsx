@@ -1,50 +1,50 @@
-'use client'
+"use client";
 
-import { Button } from '@/components/ui/button'
-import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { cn } from '@/lib/utils'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Member, MemberRole, Profile } from '@prisma/client'
-import axios from 'axios'
-import { Edit, FileIcon, ShieldAlert, ShieldCheck, Trash } from 'lucide-react'
-import Image from 'next/image'
-import qs from 'query-string'
-import { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
-import * as z from 'zod'
-import { useModal } from '../../hooks/use-modal-store'
-import ActionTooltip from '../ActionTooltip'
-import UserAvatar from '../UserAvatar'
-import { useParams, useRouter } from 'next/navigation'
+import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Member, MemberRole, Profile } from "@prisma/client";
+import axios from "axios";
+import { Edit, FileIcon, ShieldAlert, ShieldCheck, Trash } from "lucide-react";
+import Image from "next/image";
+import qs from "query-string";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { useModal } from "../../hooks/use-modal-store";
+import ActionTooltip from "../ActionTooltip";
+import UserAvatar from "../UserAvatar";
+import { useParams, useRouter } from "next/navigation";
 
 type ChatItemProps = {
-  id: string
-  content: string
-  fileUrl: string | null
+  id: string;
+  content: string;
+  fileUrl: string | null;
 
-  timestamp: string
-  isUpdated: boolean
-  deleted: boolean
+  timestamp: string;
+  isUpdated: boolean;
+  deleted: boolean;
 
   member: Member & {
-    profile: Profile
-  }
-  currentMember: Member
+    profile: Profile;
+  };
+  currentMember: Member;
 
-  socketUrl: string
-  socketQuery: Record<string, string>
-}
+  socketUrl: string;
+  socketQuery: Record<string, string>;
+};
 
 const roleIconMap = {
   GUEST: null,
   MODERATOR: <ShieldCheck className="w-4 h-4 ml-2 text-indigo-500" />,
   ADMIN: <ShieldAlert className="w-4 h-4 ml-2 text-rose-500" />,
-}
+};
 
 const formSchema = z.object({
   content: z.string().min(1),
-})
+});
 
 export default function ChatItem({
   id,
@@ -58,48 +58,48 @@ export default function ChatItem({
   socketUrl,
   socketQuery,
 }: ChatItemProps) {
-  const [isEditing, setIsEditing] = useState(false)
+  const [isEditing, setIsEditing] = useState(false);
 
-  const { onOpen } = useModal()
+  const { onOpen } = useModal();
 
-  const router = useRouter()
+  const router = useRouter();
 
-  const params = useParams()
+  const params = useParams();
 
   const onMemberClick = () => {
     if (member?.id === currentMember?.id) {
-      return
+      return;
     }
 
-    router.push(`/servers/${params?.serverId}/conversations/${member?.id}`)
+    router.push(`/servers/${params?.serverId}/conversations/${member?.id}`);
     // ^ "params?.serverId" is supplied to us via. through the corresponding page.tsx file for this url (the one that is responsible for indirectly rendering this component)
-  }
+  };
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      content: '',
+      content: "",
     },
-  })
+  });
 
-  const isLoading = form.formState.isSubmitting
+  const isLoading = form.formState.isSubmitting;
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' || e.keyCode === 27) {
-        setIsEditing(false)
+      if (e.key === "Escape" || e.keyCode === 27) {
+        setIsEditing(false);
       }
-    }
+    };
 
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [])
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   useEffect(() => {
     form.reset({
       content, // === content: content
-    })
-  }, [content])
+    });
+  }, [content]);
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
@@ -107,26 +107,26 @@ export default function ChatItem({
         url: `${socketUrl}/${id}`,
         query: socketQuery, // why does query: { socketQuery } results in a type error?
         // ^ it could be due to socketQuery's ALREADY being an object
-      })
+      });
 
-      await axios.patch(url, values)
+      await axios.patch(url, values);
 
-      form.reset()
-      setIsEditing(false) // does this getting invoked BEFORE (instead of AFTER) form.reset() make any differnce whatsoever?
+      form.reset();
+      setIsEditing(false); // does this getting invoked BEFORE (instead of AFTER) form.reset() make any differnce whatsoever?
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
-  const fileType = fileUrl?.split('.')?.pop()
+  const fileType = fileUrl?.split(".")?.pop();
 
-  const isAdmin = currentMember.role === MemberRole.ADMIN
-  const isModerator = currentMember.role === MemberRole.MODERATOR
-  const isOwner = currentMember.id === member.id
-  const canDeleteMessage = !deleted && (isAdmin || isModerator || isOwner)
-  const canEditMessage = !deleted && isOwner && !fileUrl
-  const isPDF = fileType === 'pdf' && fileUrl
-  const isImage = !isPDF && fileUrl
+  const isAdmin = currentMember.role === MemberRole.ADMIN;
+  const isModerator = currentMember.role === MemberRole.MODERATOR;
+  const isOwner = currentMember.id === member.id;
+  const canDeleteMessage = !deleted && (isAdmin || isModerator || isOwner);
+  const canEditMessage = !deleted && isOwner && !fileUrl;
+  const isPDF = fileType === "pdf" && fileUrl;
+  const isImage = !isPDF && fileUrl;
 
   return (
     <div className="relative group flex items-center hover:bg-black/5 p-4 transition w-full">
@@ -185,9 +185,9 @@ export default function ChatItem({
           {!fileUrl && !isEditing && (
             <p
               className={cn(
-                'text-sm text-zinc-600 dark:text-zinc-300',
+                "text-sm text-zinc-600 dark:text-zinc-300",
                 deleted &&
-                  'italic text-zinc-500 dark:text-zinc-400 text-xs mt-1',
+                  "italic text-zinc-500 dark:text-zinc-400 text-xs mt-1",
               )}
             >
               {content}
@@ -222,11 +222,7 @@ export default function ChatItem({
                     </FormItem>
                   )}
                 />
-                <Button
-                  disabled={isLoading}
-                  size="sm"
-                  variant="primary"
-                >
+                <Button disabled={isLoading} size="sm" variant="primary">
                   Save
                 </Button>
               </form>
@@ -250,7 +246,7 @@ export default function ChatItem({
           <ActionTooltip label="Delete">
             <Trash
               onClick={() =>
-                onOpen('deleteMessage', {
+                onOpen("deleteMessage", {
                   apiUrl: `${socketUrl}/${id}`, // this instance of a "property syntax" is due to the name mis-match
                   query: socketQuery,
                 })
@@ -261,5 +257,5 @@ export default function ChatItem({
         </div>
       )}
     </div>
-  )
+  );
 }

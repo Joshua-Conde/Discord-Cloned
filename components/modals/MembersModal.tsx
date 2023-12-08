@@ -1,14 +1,14 @@
-'use client'
+"use client";
 
-import UserAvatar from '../UserAvatar'
-import axios from 'axios'
-import qs from 'query-string'
-import { useModal } from '../../hooks/use-modal-store'
-import { useState } from 'react'
-import { ServerWithMembersAndProfiles } from '../../types'
-import { ScrollArea } from '../ui/scroll-area'
-import { MemberRole } from 'prisma/prisma-client'
-import { useRouter } from 'next/navigation'
+import UserAvatar from "../UserAvatar";
+import axios from "axios";
+import qs from "query-string";
+import { useModal } from "../../hooks/use-modal-store";
+import { useState } from "react";
+import { ServerWithMembersAndProfiles } from "../../types";
+import { ScrollArea } from "../ui/scroll-area";
+import { MemberRole } from "prisma/prisma-client";
+import { useRouter } from "next/navigation";
 
 import {
   Dialog,
@@ -16,7 +16,7 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog'
+} from "@/components/ui/dialog";
 
 import {
   Check,
@@ -27,7 +27,7 @@ import {
   ShieldAlert,
   ShieldCheck,
   ShieldQuestion,
-} from 'lucide-react'
+} from "lucide-react";
 
 import {
   DropdownMenu,
@@ -39,28 +39,28 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from '../ui/dropdown-menu'
+} from "../ui/dropdown-menu";
 
 const roleIconMap = {
   GUEST: null,
   MODERATOR: <ShieldCheck className="h-4 w-4 text-indigo-500" />, // ml-2
   ADMIN: <ShieldAlert className="h-4 w-4 text-rose-500" />,
-}
+};
 
 export default function MembersModal() {
-  const { type, data, isOpen, onOpen, onClose } = useModal()
+  const { type, data, isOpen, onOpen, onClose } = useModal();
 
-  const [loadingId, setLoadingId] = useState('')
+  const [loadingId, setLoadingId] = useState("");
 
-  const router = useRouter()
+  const router = useRouter();
 
-  const { server } = data as { server: ServerWithMembersAndProfiles } // data.server, being of type Server, has no working knowledge of its members, their profiles, and the channels that it holds ^
+  const { server } = data as { server: ServerWithMembersAndProfiles }; // data.server, being of type Server, has no working knowledge of its members, their profiles, and the channels that it holds ^
 
-  const isModalOpen = isOpen && type === 'members'
+  const isModalOpen = isOpen && type === "members";
 
   const onRoleChange = async (memberId: string, role: MemberRole) => {
     try {
-      setLoadingId(memberId)
+      setLoadingId(memberId);
 
       // "npm install query-string" -> it'll help us generate some url queries
       const url = qs.stringifyUrl({
@@ -70,45 +70,42 @@ export default function MembersModal() {
 
           // memberId, -> this isn't needed thanks to the above `${memberId}`
         },
-      })
+      });
 
-      const response = await axios.patch(url, { role }) // this is an object literal with a standalone "role" property/value
+      const response = await axios.patch(url, { role }); // this is an object literal with a standalone "role" property/value
       // "axios.patch" REQUIRES that we pass to it (as a second argument) an object of some sort
 
-      router.refresh()
-      onOpen('members', { server: response?.data })
+      router.refresh();
+      onOpen("members", { server: response?.data });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     } finally {
-      setLoadingId('')
+      setLoadingId("");
     }
-  }
+  };
 
   const onKick = async (memberId: string) => {
     try {
-      setLoadingId(memberId) // does this make it so that the member being manipulated on has an adjacent, concurrent loading icon?
+      setLoadingId(memberId); // does this make it so that the member being manipulated on has an adjacent, concurrent loading icon?
       const url = qs.stringifyUrl({
         url: `/api/members/${memberId}`,
         query: {
           serverId: server?.id,
         },
-      })
-      const response = await axios.delete(url)
+      });
+      const response = await axios.delete(url);
 
-      router.refresh()
-      onOpen('members', { server: response?.data }) // the second argument, here, is just our assigning a value to the "server" property of "ModalData" (use-modal-store.tsx)
+      router.refresh();
+      onOpen("members", { server: response?.data }); // the second argument, here, is just our assigning a value to the "server" property of "ModalData" (use-modal-store.tsx)
     } catch (error) {
-      console.log(error)
+      console.log(error);
     } finally {
-      setLoadingId('')
+      setLoadingId("");
     }
-  }
+  };
 
   return (
-    <Dialog
-      open={isModalOpen}
-      onOpenChange={onClose}
-    >
+    <Dialog open={isModalOpen} onOpenChange={onClose}>
       <DialogContent className="bg-white text-black overflow-hidden">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold">
@@ -120,10 +117,7 @@ export default function MembersModal() {
         </DialogHeader>
         <ScrollArea className="mt-8 max-h-[420px] pr-6">
           {server?.members?.map((member) => (
-            <div
-              key={member?.id}
-              className="flex items-center gap-x-2 mb-6"
-            >
+            <div key={member?.id} className="flex items-center gap-x-2 mb-6">
               <UserAvatar src={member?.profile?.imageUrl} />
               <div className="flex flex-col gap-y-1">
                 <div className="text-xs font-semibold flex items-center gap-x-1">
@@ -151,23 +145,23 @@ export default function MembersModal() {
                             <DropdownMenuSubContent>
                               <DropdownMenuItem
                                 onClick={() =>
-                                  onRoleChange(member?.id, 'GUEST')
+                                  onRoleChange(member?.id, "GUEST")
                                 }
                               >
                                 <Shield className="h-4 w-4 mr-2" />
                                 Guest
-                                {member?.role === 'GUEST' && (
+                                {member?.role === "GUEST" && (
                                   <Check className="h-4 w-4 ml-auto" /> // is there a way to increase the ml, here?
                                 )}
                               </DropdownMenuItem>
                               <DropdownMenuItem
                                 onClick={() =>
-                                  onRoleChange(member?.id, 'MODERATOR')
+                                  onRoleChange(member?.id, "MODERATOR")
                                 }
                               >
                                 <ShieldCheck className="h-4 w-4 mr-2" />
                                 Moderator
-                                {member?.role === 'MODERATOR' && (
+                                {member?.role === "MODERATOR" && (
                                   <Check className="h-4 w-4 ml-auto" />
                                 )}
                               </DropdownMenuItem>
@@ -192,5 +186,5 @@ export default function MembersModal() {
         </ScrollArea>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

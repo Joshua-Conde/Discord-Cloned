@@ -1,16 +1,16 @@
-'use client'
+"use client";
 
-import { useForm } from 'react-hook-form'
-import { useParams, useRouter } from 'next/navigation'
-import { zodResolver } from '@hookform/resolvers/zod'
-import z from 'zod'
-import axios from 'axios'
-import { Input } from '@/components/ui/input'
-import { Button } from '../ui/button'
-import { useModal } from '../../hooks/use-modal-store'
-import { ChannelType } from 'prisma/prisma-client'
-import { useEffect } from 'react'
-import qs from 'query-string'
+import { useForm } from "react-hook-form";
+import { useParams, useRouter } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import z from "zod";
+import axios from "axios";
+import { Input } from "@/components/ui/input";
+import { Button } from "../ui/button";
+import { useModal } from "../../hooks/use-modal-store";
+import { ChannelType } from "prisma/prisma-client";
+import { useEffect } from "react";
+import qs from "query-string";
 
 import {
   Form,
@@ -19,7 +19,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
+} from "@/components/ui/form";
 
 import {
   Dialog,
@@ -27,7 +27,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog'
+} from "@/components/ui/dialog";
 
 import {
   Select,
@@ -35,79 +35,76 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
+} from "@/components/ui/select";
 
 const formSchema = z.object({
   name: z
     .string()
     .min(1, {
-      message: 'Channel name is required.',
+      message: "Channel name is required.",
     })
-    .refine((name) => name !== 'general', {
+    .refine((name) => name !== "general", {
       message: "Channel name cannot be 'general'",
     }),
   type: z.nativeEnum(ChannelType),
-})
+});
 
 export default function CreateChannelModal() {
-  const { type, data, isOpen, onClose } = useModal()
+  const { type, data, isOpen, onClose } = useModal();
 
-  const router = useRouter()
-  const params = useParams()
+  const router = useRouter();
+  const params = useParams();
 
-  const { channelType } = data // we'll ONLY ever provide a value for channelType within <ServerSection />
+  const { channelType } = data; // we'll ONLY ever provide a value for channelType within <ServerSection />
 
-  const isModalOpen = isOpen && type === 'createChannel'
+  const isModalOpen = isOpen && type === "createChannel";
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: '',
+      name: "",
       type: channelType || ChannelType.TEXT, // an empty string, here, results in an error
     },
-  })
+  });
 
   useEffect(() => {
     if (channelType) {
-      form.setValue('type', channelType)
+      form.setValue("type", channelType);
     } else {
-      form.setValue('type', ChannelType.TEXT)
+      form.setValue("type", ChannelType.TEXT);
     }
-  }, [form, channelType])
+  }, [form, channelType]);
 
-  const isLoading = form.formState.isSubmitting
+  const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       // we need a ref. to the server that we'd like to create a channel on
       const url = qs.stringifyUrl({
-        url: '/api/channels',
+        url: "/api/channels",
         query: {
           serverId: params?.serverId, // a perfect use-case for useParams()!
 
           // remember: route handlers have immediate access to "any" dynamic params
         },
-      })
-      await axios.post(url, values)
-      form.reset()
-      router.refresh()
+      });
+      await axios.post(url, values);
+      form.reset();
+      router.refresh();
       // why no window.location.reload()?
-      onClose()
+      onClose();
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   const handleClose = () => {
-    form.reset()
+    form.reset();
     // why no router.refresh()?
-    onClose()
-  }
+    onClose();
+  };
   return (
-    <Dialog
-      open={isModalOpen}
-      onOpenChange={handleClose}
-    >
+    <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent className="bg-white text-black p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold">
@@ -115,10 +112,7 @@ export default function CreateChannelModal() {
           </DialogTitle>
         </DialogHeader>
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-8"
-          >
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <div className="space-y-8 px-6">
               <FormField
                 control={form.control}
@@ -176,10 +170,7 @@ export default function CreateChannelModal() {
               />
             </div>
             <DialogFooter className="bg-gray-100 px-6 py-4">
-              <Button
-                variant="primary"
-                disabled={isLoading}
-              >
+              <Button variant="primary" disabled={isLoading}>
                 Create
               </Button>
             </DialogFooter>
@@ -187,5 +178,5 @@ export default function CreateChannelModal() {
         </Form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

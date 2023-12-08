@@ -1,9 +1,9 @@
-import NavigationSidebar from '../../components/navigation/NavigationSidebar'
+import NavigationSidebar from "../../components/navigation/NavigationSidebar";
 
 export default function MainLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <div className="h-full">
@@ -12,7 +12,7 @@ export default function MainLayout({
       </div>
       <main className="md:pl-[72px] h-full">{children}</main>
     </div>
-  )
+  );
 }
 
 // md:pl-[72px] dictates the width of our (navigation) sidebar

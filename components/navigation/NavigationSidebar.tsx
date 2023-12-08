@@ -1,19 +1,19 @@
 // import { redirect } from 'next/navigation'
-import { redirectToSignIn } from '@clerk/nextjs'
-import currentProfile from '../../lib/current-profile'
-import { db } from '../../lib/db'
-import NavigationAction from './NavigationAction'
-import { Separator } from '../ui/separator'
-import { ScrollArea } from '../ui/scroll-area'
-import NavigationItem from './NavigationItem'
-import { ModeToggle } from '../mode-toggle'
-import { UserButton } from '@clerk/nextjs'
+import { redirectToSignIn } from "@clerk/nextjs";
+import currentProfile from "../../lib/current-profile";
+import { db } from "../../lib/db";
+import NavigationAction from "./NavigationAction";
+import { Separator } from "../ui/separator";
+import { ScrollArea } from "../ui/scroll-area";
+import NavigationItem from "./NavigationItem";
+import { ModeToggle } from "../mode-toggle";
+import { UserButton } from "@clerk/nextjs";
 
 export default async function NavigationSidebar() {
-  const profile = await currentProfile()
+  const profile = await currentProfile();
 
   if (!profile) {
-    return redirectToSignIn() // this, like the rest of the app, SHOULD redirect (instead) to "/sign-in," prev: "redirect('/')"
+    return redirectToSignIn(); // this, like the rest of the app, SHOULD redirect (instead) to "/sign-in," prev: "redirect('/')"
   }
 
   const servers = await db.server.findMany({
@@ -24,7 +24,7 @@ export default async function NavigationSidebar() {
         },
       },
     },
-  })
+  });
 
   return (
     <div className="space-y-4 flex flex-col items-center h-full text-primary w-full dark:bg-[#1E1F22] bg-[#E3E5E8] py-3">
@@ -34,10 +34,7 @@ export default async function NavigationSidebar() {
       {/* installed shadcn-ui's "scroll-area" */}
       <ScrollArea className="flex-1 w-full">
         {servers?.map((server) => (
-          <div
-            key={server?.id}
-            className="mb-4"
-          >
+          <div key={server?.id} className="mb-4">
             <NavigationItem
               id={server?.id}
               name={server?.name}
@@ -52,12 +49,12 @@ export default async function NavigationSidebar() {
           afterSignOutUrl="/"
           appearance={{
             elements: {
-              avatarBox: 'h-[48px] w-[48px]', // this was done to make the <UserButton />'s size identical to the <NavigationItem /> instances
+              avatarBox: "h-[48px] w-[48px]", // this was done to make the <UserButton />'s size identical to the <NavigationItem /> instances
             },
           }}
         />
         {/* installed "zustand" */}
       </div>
     </div>
-  )
+  );
 }

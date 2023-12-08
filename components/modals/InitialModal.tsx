@@ -1,14 +1,14 @@
-'use client'
+"use client";
 
-import { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { useRouter } from 'next/navigation'
-import { zodResolver } from '@hookform/resolvers/zod'
-import z from 'zod'
-import axios from 'axios'
-import { Input } from '@/components/ui/input'
-import { Button } from '../ui/button'
-import FileUpload from '../FileUpload'
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import z from "zod";
+import axios from "axios";
+import { Input } from "@/components/ui/input";
+import { Button } from "../ui/button";
+import FileUpload from "../FileUpload";
 
 import {
   Form,
@@ -17,7 +17,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
+} from "@/components/ui/form";
 
 import {
   Dialog,
@@ -26,50 +26,50 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog'
+} from "@/components/ui/dialog";
 
 const formSchema = z.object({
   name: z.string().min(1, {
-    message: 'Server name is required.',
+    message: "Server name is required.",
   }),
   imageUrl: z.string().min(1, {
-    message: 'Server image is required.',
+    message: "Server image is required.",
   }),
-})
+});
 
 export default function InitialModal() {
-  const [isMounted, setIsMounted] = useState(false) // this is to suppress the hydration error
+  const [isMounted, setIsMounted] = useState(false); // this is to suppress the hydration error
 
-  const router = useRouter()
+  const router = useRouter();
 
   useEffect(() => {
-    setIsMounted(true)
-  }, [])
+    setIsMounted(true);
+  }, []);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: '',
-      imageUrl: '',
+      name: "",
+      imageUrl: "",
     },
-  })
+  });
 
-  const isLoading = form.formState.isSubmitting
+  const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.post('/api/servers', values)
+      await axios.post("/api/servers", values);
 
-      form.reset()
-      router.refresh()
-      window.location.reload()
+      form.reset();
+      router.refresh();
+      window.location.reload();
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   if (!isMounted) {
-    return null
+    return null;
   }
 
   return (
@@ -85,10 +85,7 @@ export default function InitialModal() {
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-8"
-          >
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <div className="space-y-8 px-6">
               <div className="flex justify-center items-center text-center">
                 <FormField
@@ -141,5 +138,5 @@ export default function InitialModal() {
         </Form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

@@ -1,16 +1,16 @@
-'use client'
+"use client";
 
-import qs from 'query-string'
-import axios from 'axios'
-import * as z from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { ChannelType } from '@prisma/client'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
-import { useModal } from '@/hooks/use-modal-store'
+import qs from "query-string";
+import axios from "axios";
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { ChannelType } from "@prisma/client";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { useModal } from "@/hooks/use-modal-store";
 
 import {
   Dialog,
@@ -18,7 +18,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog'
+} from "@/components/ui/dialog";
 
 import {
   Form,
@@ -27,7 +27,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
+} from "@/components/ui/form";
 
 import {
   Select,
@@ -35,45 +35,45 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
+} from "@/components/ui/select";
 
 const formSchema = z.object({
   name: z
     .string()
     .min(1, {
-      message: 'Channel name is required.',
+      message: "Channel name is required.",
     })
-    .refine((name) => name !== 'general', {
+    .refine((name) => name !== "general", {
       message: "Channel name cannot be 'general'",
     }),
   type: z.nativeEnum(ChannelType),
-})
+});
 
 export default function EditChannelModal() {
-  const { isOpen, onClose, type, data } = useModal()
+  const { isOpen, onClose, type, data } = useModal();
 
-  const router = useRouter()
+  const router = useRouter();
 
-  const { channel, server } = data
+  const { channel, server } = data;
 
-  const isModalOpen = isOpen && type === 'editChannel'
+  const isModalOpen = isOpen && type === "editChannel";
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: '',
+      name: "",
       type: channel?.type || ChannelType.TEXT,
     },
-  })
+  });
 
-  const isLoading = form.formState.isSubmitting
+  const isLoading = form.formState.isSubmitting;
 
   useEffect(() => {
     if (channel) {
-      form.setValue('name', channel.name)
-      form.setValue('type', channel.type)
+      form.setValue("name", channel.name);
+      form.setValue("type", channel.type);
     }
-  }, [form, channel])
+  }, [form, channel]);
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
@@ -82,27 +82,24 @@ export default function EditChannelModal() {
         query: {
           serverId: server?.id,
         },
-      })
-      await axios.patch(url, values)
+      });
+      await axios.patch(url, values);
 
-      form.reset()
-      router.refresh()
-      onClose()
+      form.reset();
+      router.refresh();
+      onClose();
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   const handleClose = () => {
-    form.reset()
-    onClose()
-  }
+    form.reset();
+    onClose();
+  };
 
   return (
-    <Dialog
-      open={isModalOpen}
-      onOpenChange={handleClose}
-    >
+    <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent className="bg-white text-black p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold">
@@ -110,10 +107,7 @@ export default function EditChannelModal() {
           </DialogTitle>
         </DialogHeader>
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-8"
-          >
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <div className="space-y-8 px-6">
               <FormField
                 control={form.control}
@@ -170,10 +164,7 @@ export default function EditChannelModal() {
               />
             </div>
             <DialogFooter className="bg-gray-100 px-6 py-4">
-              <Button
-                disabled={isLoading}
-                variant="primary"
-              >
+              <Button disabled={isLoading} variant="primary">
                 Save
               </Button>
             </DialogFooter>
@@ -181,5 +172,5 @@ export default function EditChannelModal() {
         </Form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

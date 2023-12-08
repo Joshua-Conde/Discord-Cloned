@@ -1,34 +1,34 @@
-import { NextResponse } from 'next/server'
-import { MemberRole } from '@prisma/client'
-import { db } from '@/lib/db'
-import currentProfile from '../../../../lib/current-profile'
+import { NextResponse } from "next/server";
+import { MemberRole } from "@prisma/client";
+import { db } from "@/lib/db";
+import currentProfile from "../../../../lib/current-profile";
 
 export async function PATCH(
   req: Request,
   { params }: { params: { channelId: string } },
 ) {
   try {
-    const profile = await currentProfile()
+    const profile = await currentProfile();
 
     if (!profile) {
-      return new NextResponse('Unauthorized', { status: 401 })
+      return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const { name, type } = await req.json()
+    const { name, type } = await req.json();
 
-    const { searchParams } = new URL(req.url)
-    const serverId = searchParams.get('serverId')
+    const { searchParams } = new URL(req.url);
+    const serverId = searchParams.get("serverId");
 
     if (!serverId) {
-      return new NextResponse('Server ID missing', { status: 400 })
+      return new NextResponse("Server ID missing", { status: 400 });
     }
 
     if (!params.channelId) {
-      return new NextResponse('Channel ID missing', { status: 400 })
+      return new NextResponse("Channel ID missing", { status: 400 });
     }
 
-    if (name === 'general') {
-      return new NextResponse("Name cannot be 'general'", { status: 400 })
+    if (name === "general") {
+      return new NextResponse("Name cannot be 'general'", { status: 400 });
     }
 
     const server = await db.server.update({
@@ -49,7 +49,7 @@ export async function PATCH(
             where: {
               id: params.channelId,
               NOT: {
-                name: 'general',
+                name: "general",
               },
             },
             data: {
@@ -59,12 +59,12 @@ export async function PATCH(
           },
         },
       },
-    })
+    });
 
-    return NextResponse.json(server)
+    return NextResponse.json(server);
   } catch (error) {
-    console.log('/api/channels/[channelId]/route.ts: ', error)
-    return new NextResponse('Internal Error', { status: 500 })
+    console.log("/api/channels/[channelId]/route.ts: ", error);
+    return new NextResponse("Internal Error", { status: 500 });
   }
 }
 
@@ -73,21 +73,21 @@ export async function DELETE(
   { params }: { params: { channelId: string } },
 ) {
   try {
-    const profile = await currentProfile()
+    const profile = await currentProfile();
 
     if (!profile) {
-      return new NextResponse('Unauthorized', { status: 401 })
+      return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const { searchParams } = new URL(req.url)
-    const serverId = searchParams.get('serverId')
+    const { searchParams } = new URL(req.url);
+    const serverId = searchParams.get("serverId");
 
     if (!serverId) {
-      return new NextResponse('Server ID missing', { status: 400 })
+      return new NextResponse("Server ID missing", { status: 400 });
     }
 
     if (!params.channelId) {
-      return new NextResponse('Channel ID missing', { status: 400 })
+      return new NextResponse("Channel ID missing", { status: 400 });
     }
 
     const server = await db.server.update({
@@ -107,16 +107,16 @@ export async function DELETE(
           delete: {
             id: params.channelId,
             name: {
-              not: 'general',
+              not: "general",
             },
           },
         },
       },
-    })
+    });
 
-    return NextResponse.json(server)
+    return NextResponse.json(server);
   } catch (error) {
-    console.log('/api/channels/[channelId]/route.ts: ', error)
-    return new NextResponse('Internal Error', { status: 500 })
+    console.log("/api/channels/[channelId]/route.ts: ", error);
+    return new NextResponse("Internal Error", { status: 500 });
   }
 }

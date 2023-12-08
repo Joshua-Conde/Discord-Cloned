@@ -1,8 +1,8 @@
-'use client'
+"use client";
 
-import { MemberRole } from '@prisma/client'
-import { useModal } from '../../hooks/use-modal-store'
-import { ServerWithMembersAndProfiles } from '../../types'
+import { MemberRole } from "@prisma/client";
+import { useModal } from "../../hooks/use-modal-store";
+import { ServerWithMembersAndProfiles } from "../../types";
 
 import {
   ChevronDown,
@@ -12,7 +12,7 @@ import {
   Trash,
   UserPlus,
   Users,
-} from 'lucide-react'
+} from "lucide-react";
 
 import {
   DropdownMenu,
@@ -20,25 +20,22 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+} from "@/components/ui/dropdown-menu";
 
 type ServerHeaderProps = {
-  server: ServerWithMembersAndProfiles // "Server" (standalone) fails to include channels, members, and their respective profiles, too
-  role?: MemberRole
-}
+  server: ServerWithMembersAndProfiles; // "Server" (standalone) fails to include channels, members, and their respective profiles, too
+  role?: MemberRole;
+};
 
 export default function ServerHeader({ server, role }: ServerHeaderProps) {
-  const { onOpen } = useModal() // this is our way of interfacing with AND using the modal store for actually selecting which/whatever modal we'd like to see rendered
+  const { onOpen } = useModal(); // this is our way of interfacing with AND using the modal store for actually selecting which/whatever modal we'd like to see rendered
 
-  const isAdmin = role === MemberRole.ADMIN
-  const isModerator = isAdmin || role === MemberRole.MODERATOR
+  const isAdmin = role === MemberRole.ADMIN;
+  const isModerator = isAdmin || role === MemberRole.MODERATOR;
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger
-        className="focus:outline-none"
-        asChild
-      >
+      <DropdownMenuTrigger className="focus:outline-none" asChild>
         <button className="w-full text-md font-semibold px-3 flex items-center h-12 border-neutral-200 dark:border-neutral-800 border-b-2 hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition capitalize">
           {server?.name?.toLowerCase()}
           <ChevronDown className="h-5 w-5 ml-auto" />
@@ -47,7 +44,7 @@ export default function ServerHeader({ server, role }: ServerHeaderProps) {
       <DropdownMenuContent className="w-56 text-xs font-medium text-black dark:text-neutral-400 space-y-[2px]">
         {isModerator && (
           <DropdownMenuItem
-            onClick={() => onOpen('invite', { server })} // = { server: server }
+            onClick={() => onOpen("invite", { server })} // = { server: server }
             className="text-indigo-600 dark:text-indigo-400 px-3 py-2 text-sm cursor-pointer"
           >
             Invite People
@@ -56,7 +53,7 @@ export default function ServerHeader({ server, role }: ServerHeaderProps) {
         )}
         {isAdmin && (
           <DropdownMenuItem
-            onClick={() => onOpen('editServer', { server })}
+            onClick={() => onOpen("editServer", { server })}
             className="px-3 py-2 text-sm cursor-pointer"
           >
             Server Settings
@@ -65,7 +62,7 @@ export default function ServerHeader({ server, role }: ServerHeaderProps) {
         )}
         {isAdmin && (
           <DropdownMenuItem
-            onClick={() => onOpen('members', { server })}
+            onClick={() => onOpen("members", { server })}
             className="px-3 py-2 text-sm cursor-pointer"
           >
             Manage Members
@@ -74,7 +71,7 @@ export default function ServerHeader({ server, role }: ServerHeaderProps) {
         )}
         {isModerator && (
           <DropdownMenuItem
-            onClick={() => onOpen('createChannel')}
+            onClick={() => onOpen("createChannel")}
             className="px-3 py-2 text-sm cursor-pointer"
           >
             Create Channel
@@ -84,7 +81,7 @@ export default function ServerHeader({ server, role }: ServerHeaderProps) {
         {isModerator && <DropdownMenuSeparator />}
         {isAdmin && (
           <DropdownMenuItem
-            onClick={() => onOpen('deleteServer', { server })}
+            onClick={() => onOpen("deleteServer", { server })}
             className="text-rose-500 px-3 py-2 text-sm cursor-pointer"
           >
             Delete Server
@@ -93,7 +90,7 @@ export default function ServerHeader({ server, role }: ServerHeaderProps) {
         )}
         {!isAdmin && (
           <DropdownMenuItem
-            onClick={() => onOpen('leaveServer', { server })}
+            onClick={() => onOpen("leaveServer", { server })}
             className="text-rose-500 px-3 py-2 text-sm cursor-pointer"
           >
             Leave Server
@@ -102,5 +99,5 @@ export default function ServerHeader({ server, role }: ServerHeaderProps) {
         )}
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }

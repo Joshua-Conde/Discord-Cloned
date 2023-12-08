@@ -1,21 +1,21 @@
-import { NextResponse } from 'next/server'
-import { v4 as uuidv4 } from 'uuid'
-import currentProfile from '../../../../../lib/current-profile'
-import { db } from '../../../../../lib/db'
+import { NextResponse } from "next/server";
+import { v4 as uuidv4 } from "uuid";
+import currentProfile from "../../../../../lib/current-profile";
+import { db } from "../../../../../lib/db";
 
 export async function PATCH(
   req: Request,
   { params }: { params: { serverId: string } },
 ) {
   try {
-    const profile = await currentProfile()
+    const profile = await currentProfile();
 
     if (!profile) {
-      return new NextResponse('Unauthorized', { status: 401 })
+      return new NextResponse("Unauthorized", { status: 401 });
     }
 
     if (!params.serverId) {
-      return new NextResponse('Server ID missing', { status: 400 })
+      return new NextResponse("Server ID missing", { status: 400 });
     }
 
     const server = await db.server.update({
@@ -26,13 +26,13 @@ export async function PATCH(
       data: {
         inviteCode: uuidv4(),
       },
-    })
+    });
 
-    return NextResponse.json(server) // no "new?"
+    return NextResponse.json(server); // no "new?"
     // we suffer from continued 404's... (a good reason for our needing to create a new "invite" route group)
   } catch (error) {
-    console.log('/api/servers/[serverId]/route.ts: ', error)
+    console.log("/api/servers/[serverId]/route.ts: ", error);
 
-    return new NextResponse('Internal Error', { status: 500 })
+    return new NextResponse("Internal Error", { status: 500 });
   }
 }

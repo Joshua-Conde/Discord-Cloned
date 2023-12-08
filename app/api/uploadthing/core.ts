@@ -1,27 +1,27 @@
-import { auth } from '@clerk/nextjs'
+import { auth } from "@clerk/nextjs";
 
-import { createUploadthing, type FileRouter } from 'uploadthing/next'
+import { createUploadthing, type FileRouter } from "uploadthing/next";
 
-const f = createUploadthing()
+const f = createUploadthing();
 
 const handleAuth = () => {
-  const { userId } = auth()
+  const { userId } = auth();
 
   if (!userId) {
-    throw new Error('Unauthorized')
+    throw new Error("Unauthorized");
   }
-  return { userId: userId }
-}
+  return { userId: userId };
+};
 
 // FileRouter for your app, can contain multiple FileRoutes
 export const ourFileRouter = {
-  serverImage: f({ image: { maxFileSize: '4MB', maxFileCount: 1 } })
+  serverImage: f({ image: { maxFileSize: "4MB", maxFileCount: 1 } })
     .middleware(() => handleAuth())
     .onUploadComplete(() => {}), // endpoint #1
 
-  messageFile: f(['image', 'pdf'])
+  messageFile: f(["image", "pdf"])
     .middleware(() => handleAuth())
     .onUploadComplete(() => {}), // endpoint #2
-} satisfies FileRouter
+} satisfies FileRouter;
 
-export type OurFileRouter = typeof ourFileRouter
+export type OurFileRouter = typeof ourFileRouter;

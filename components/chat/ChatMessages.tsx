@@ -1,36 +1,36 @@
-'use client'
+"use client";
 
-import { Member, Message, Profile } from 'prisma/prisma-client'
-import { ChatWelcome } from './ChatWelcome'
-import { useChatQuery } from '../../hooks/use-chat-query'
-import { Loader2, ServerCrash } from 'lucide-react'
-import { Fragment, useRef, ElementRef } from 'react'
-import ChatItem from './ChatItem'
-import { format } from 'date-fns'
-import { useChatSocket } from '../../hooks/use-chat-socket'
-import { useChatScroll } from '../../hooks/use-chat-scroll'
+import { Member, Message, Profile } from "prisma/prisma-client";
+import { ChatWelcome } from "./ChatWelcome";
+import { useChatQuery } from "../../hooks/use-chat-query";
+import { Loader2, ServerCrash } from "lucide-react";
+import { Fragment, useRef, ElementRef } from "react";
+import ChatItem from "./ChatItem";
+import { format } from "date-fns";
+import { useChatSocket } from "../../hooks/use-chat-socket";
+import { useChatScroll } from "../../hooks/use-chat-scroll";
 
-const DATE_FORMAT = 'd MMM yyyy, HH:mm'
+const DATE_FORMAT = "d MMM yyyy, HH:mm";
 
 type MessageWithMemberAndProfile = Message & {
   member: Member & {
-    profile: Profile
-  }
-}
+    profile: Profile;
+  };
+};
 
 // Record<string, string> & Record<string, any>(as of now) are BOTH assigned to their holding { channelId: channel?.id, serverId: channel?.serverId }
 
 type ChatMessagesProps = {
-  member: Member
-  name: string
-  type: 'channel' | 'conversation'
-  chatId: string
-  paramKey: 'channelId' | 'conversationId'
-  paramValue: string
-  apiUrl: string // "app" router (from where to fetch all (including old) messages)
-  socketUrl: string // "pages" router (from where we trigger a sending of new messages)
-  socketQuery: Record<string, string>
-}
+  member: Member;
+  name: string;
+  type: "channel" | "conversation";
+  chatId: string;
+  paramKey: "channelId" | "conversationId";
+  paramValue: string;
+  apiUrl: string; // "app" router (from where to fetch all (including old) messages)
+  socketUrl: string; // "pages" router (from where we trigger a sending of new messages)
+  socketQuery: Record<string, string>;
+};
 
 export default function ChatMessages({
   member,
@@ -43,9 +43,9 @@ export default function ChatMessages({
   socketUrl,
   socketQuery,
 }: ChatMessagesProps) {
-  const queryKey = `chat:${chatId}`
-  const addKey = `chat:${chatId}:messages`
-  const updateKey = `chat:${chatId}:messages:update`
+  const queryKey = `chat:${chatId}`;
+  const addKey = `chat:${chatId}:messages`;
+  const updateKey = `chat:${chatId}:messages:update`;
 
   const { data, status, hasNextPage, fetchNextPage, isFetchingNextPage } =
     useChatQuery({
@@ -53,14 +53,14 @@ export default function ChatMessages({
       apiUrl,
       paramKey,
       paramValue,
-    })
+    });
 
   // console.log(data?.pages?.[0]?.items?.[0]) -> the structuring of a message instance (the most recent message appears first - console ninja)
 
-  useChatSocket({ queryKey, addKey, updateKey })
+  useChatSocket({ queryKey, addKey, updateKey });
 
-  const topRef = useRef<ElementRef<'div'>>(null)
-  const bottomRef = useRef<ElementRef<'div'>>(null)
+  const topRef = useRef<ElementRef<"div">>(null);
+  const bottomRef = useRef<ElementRef<"div">>(null);
 
   useChatScroll({
     topRef,
@@ -68,10 +68,10 @@ export default function ChatMessages({
     loadMore: fetchNextPage,
     shouldLoadMore: !isFetchingNextPage && !!hasNextPage,
     count: data?.pages?.[0]?.items?.length ?? 0,
-  })
+  });
 
   // (status === loading)
-  if (status === 'pending') {
+  if (status === "pending") {
     return (
       <div className="flex flex-col flex-1 justify-center items-center">
         <Loader2 className="h-7 w-7 text-zinc-500 animate-spin my-4" />
@@ -79,10 +79,10 @@ export default function ChatMessages({
           Loading messages...
         </p>
       </div>
-    )
+    );
   }
 
-  if (status === 'error') {
+  if (status === "error") {
     return (
       <div className="flex flex-col flex-1 justify-center items-center">
         <ServerCrash className="h-7 w-7 text-zinc-500 my-4" />
@@ -90,21 +90,13 @@ export default function ChatMessages({
           Something went wrong!
         </p>
       </div>
-    )
+    );
   }
 
   return (
-    <div
-      ref={topRef}
-      className="flex-1 flex flex-col py-4 overflow-y-auto"
-    >
+    <div ref={topRef} className="flex-1 flex flex-col py-4 overflow-y-auto">
       {!hasNextPage && <div className="flex-1" />}
-      {!hasNextPage && (
-        <ChatWelcome
-          type={type}
-          name={name}
-        />
-      )}
+      {!hasNextPage && <ChatWelcome type={type} name={name} />}
       {hasNextPage && (
         <div className="flex justify-center">
           {isFetchingNextPage ? (
@@ -142,5 +134,5 @@ export default function ChatMessages({
       </div>
       <div ref={bottomRef} />
     </div>
-  )
+  );
 }

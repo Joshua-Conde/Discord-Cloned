@@ -1,64 +1,61 @@
-'use client'
+"use client";
 
-import axios from 'axios'
-import { Input } from '@/components/ui/input'
-import { Button } from '../ui/button'
-import { useModal } from '../../hooks/use-modal-store'
-import { Label } from '../ui/label'
-import { useOrigin } from '../../hooks/use-origin'
-import { useState } from 'react'
-import { Check, Copy, RefreshCw } from 'lucide-react'
+import axios from "axios";
+import { Input } from "@/components/ui/input";
+import { Button } from "../ui/button";
+import { useModal } from "../../hooks/use-modal-store";
+import { Label } from "../ui/label";
+import { useOrigin } from "../../hooks/use-origin";
+import { useState } from "react";
+import { Check, Copy, RefreshCw } from "lucide-react";
 
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog'
+} from "@/components/ui/dialog";
 
 export default function InviteModal() {
-  const { type, data, isOpen, onOpen, onClose } = useModal()
+  const { type, data, isOpen, onOpen, onClose } = useModal();
 
-  const [isCopied, setIsCopied] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
+  const [isCopied, setIsCopied] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const origin = useOrigin() // http://localhost:3000
+  const origin = useOrigin(); // http://localhost:3000
 
-  const { server } = data
+  const { server } = data;
 
-  const inviteUrl = `${origin}/invite/${server?.inviteCode}`
+  const inviteUrl = `${origin}/invite/${server?.inviteCode}`;
 
-  const isModalOpen = isOpen && type === 'invite'
+  const isModalOpen = isOpen && type === "invite";
 
   const onCopy = () => {
-    setIsCopied(true)
+    setIsCopied(true);
 
-    navigator.clipboard.writeText(inviteUrl)
+    navigator.clipboard.writeText(inviteUrl);
 
     setTimeout(() => {
-      setIsCopied(false)
-    }, 1000)
-  }
+      setIsCopied(false);
+    }, 1000);
+  };
 
   const onNew = async () => {
     try {
-      setIsLoading(true)
+      setIsLoading(true);
       const response = await axios.patch(
         `/api/servers/${server?.id}/invite-code`,
-      )
-      onOpen('invite', { server: response?.data }) // is the conditional chaining, here, really that necessary?
+      );
+      onOpen("invite", { server: response?.data }); // is the conditional chaining, here, really that necessary?
     } catch (error) {
-      console.log(error)
+      console.log(error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
-    <Dialog
-      open={isModalOpen}
-      onOpenChange={onClose}
-    >
+    <Dialog open={isModalOpen} onOpenChange={onClose}>
       <DialogContent className="bg-white text-black p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold">
@@ -75,11 +72,7 @@ export default function InviteModal() {
               value={inviteUrl}
               className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
             />
-            <Button
-              disabled={isLoading}
-              onClick={onCopy}
-              size="icon"
-            >
+            <Button disabled={isLoading} onClick={onCopy} size="icon">
               {isCopied ? (
                 <Check className="w-4 h-4" />
               ) : (
@@ -100,5 +93,5 @@ export default function InviteModal() {
         </div>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

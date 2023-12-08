@@ -1,12 +1,12 @@
-import { redirect } from 'next/navigation'
+import { redirect } from "next/navigation";
 
-import { db } from '../../lib/db'
+import { db } from "../../lib/db";
 
-import { initialProfile } from '../../lib/initial-profile'
-import InitialModal from '../../components/modals/InitialModal'
+import { initialProfile } from "../../lib/initial-profile";
+import InitialModal from "../../components/modals/InitialModal";
 
 export default async function SetupPage() {
-  const profile = await initialProfile()
+  const profile = await initialProfile();
 
   const server = await db.server.findFirst({
     where: {
@@ -16,11 +16,11 @@ export default async function SetupPage() {
         },
       },
     },
-  })
+  });
 
   if (server) {
-    return redirect(`/servers/${server.id}`)
+    return redirect(`/servers/${server.id}`);
   }
 
-  return <InitialModal />
+  return <InitialModal />;
 }

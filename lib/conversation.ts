@@ -1,4 +1,4 @@
-import { db } from '@/lib/db'
+import { db } from "@/lib/db";
 
 export const findOrCreateConversation = async (
   memberOneId: string,
@@ -6,14 +6,14 @@ export const findOrCreateConversation = async (
 ) => {
   let conversation =
     (await findConversation(memberOneId, memberTwoId)) ||
-    (await findConversation(memberTwoId, memberOneId))
+    (await findConversation(memberTwoId, memberOneId));
 
   if (!conversation) {
-    conversation = await createNewConversation(memberOneId, memberTwoId)
+    conversation = await createNewConversation(memberOneId, memberTwoId);
   }
 
-  return conversation
-}
+  return conversation;
+};
 
 const findConversation = async (memberOneId: string, memberTwoId: string) => {
   try {
@@ -33,11 +33,11 @@ const findConversation = async (memberOneId: string, memberTwoId: string) => {
           },
         },
       },
-    })
+    });
   } catch {
-    return null
+    return null;
   }
-}
+};
 
 const createNewConversation = async (
   memberOneId: string,
@@ -61,8 +61,8 @@ const createNewConversation = async (
           },
         },
       },
-    })
+    });
   } catch {
-    return null
+    return null;
   }
-}
+};

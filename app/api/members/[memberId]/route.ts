@@ -1,28 +1,28 @@
-import { NextResponse } from 'next/server'
-import currentProfile from '../../../../lib/current-profile'
-import { db } from '../../../../lib/db'
+import { NextResponse } from "next/server";
+import currentProfile from "../../../../lib/current-profile";
+import { db } from "../../../../lib/db";
 
 export async function PATCH( // a NAMED export is required -> a default export is forbidden
   req: Request,
   { params }: { params: { memberId: string } },
 ) {
   try {
-    const profile = await currentProfile()
+    const profile = await currentProfile();
     if (!profile) {
-      return new NextResponse('Unauthorized', { status: 401 })
+      return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const { searchParams } = new URL(req.url) // this is thanks to query-string
-    const { role } = await req.json()
+    const { searchParams } = new URL(req.url); // this is thanks to query-string
+    const { role } = await req.json();
 
-    const serverId = searchParams.get('serverId')
+    const serverId = searchParams.get("serverId");
     if (!serverId) {
-      return new NextResponse('Server ID missing', { status: 400 })
+      return new NextResponse("Server ID missing", { status: 400 });
     }
 
     if (!params.memberId) {
       // this .memberId comes from the "above" dynamic route segment
-      return new NextResponse('Member ID missing', { status: 400 })
+      return new NextResponse("Member ID missing", { status: 400 });
     }
 
     const server = await db.server.update({
@@ -52,16 +52,16 @@ export async function PATCH( // a NAMED export is required -> a default export i
             profile: true,
           },
           orderBy: {
-            role: 'asc',
+            role: "asc",
           },
         },
       },
-    })
+    });
 
-    return NextResponse.json(server)
+    return NextResponse.json(server);
   } catch (error) {
-    console.log('/api/members/[memberId]/route.ts: ', error)
-    return new NextResponse('Internal Error', { status: 500 })
+    console.log("/api/members/[memberId]/route.ts: ", error);
+    return new NextResponse("Internal Error", { status: 500 });
   }
 }
 
@@ -71,24 +71,24 @@ export async function DELETE(
 ) {
   // ANY axios calls made to custom api endpoints (and their corresponding route handlers) MUST be contained within a "try-catch-(finally)" block
   try {
-    const profile = await currentProfile()
+    const profile = await currentProfile();
 
     if (!profile) {
-      return new NextResponse('Unauthorized', { status: 401 })
+      return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const { searchParams } = new URL(req.url) // a new URL from req.URL
+    const { searchParams } = new URL(req.url); // a new URL from req.URL
 
-    const serverId = searchParams.get('serverId') // this is spelled IDENTICALLY to how it was (originally) spelled within the query object
+    const serverId = searchParams.get("serverId"); // this is spelled IDENTICALLY to how it was (originally) spelled within the query object
     // take into account, too, the fact that searchParams defines a .get() method that allows to these "external" dynamic route segments
 
     if (!serverId) {
-      return new NextResponse('Server ID missing', { status: 400 })
+      return new NextResponse("Server ID missing", { status: 400 });
     }
 
     if (!params.memberId) {
       // memberId cannot be ref.'d directly; only through the specified params object
-      return new NextResponse('Member ID missing', { status: 400 })
+      return new NextResponse("Member ID missing", { status: 400 });
     }
 
     const server = await db.server.update({
@@ -112,15 +112,15 @@ export async function DELETE(
             profile: true,
           },
           orderBy: {
-            role: 'asc',
+            role: "asc",
           },
         },
       },
-    })
+    });
 
-    return NextResponse.json(server)
+    return NextResponse.json(server);
   } catch (error) {
-    console.log('/api/members/[memberId]/route.ts: ', error)
-    return new NextResponse('Internal Error', { status: 500 })
+    console.log("/api/members/[memberId]/route.ts: ", error);
+    return new NextResponse("Internal Error", { status: 500 });
   }
 }

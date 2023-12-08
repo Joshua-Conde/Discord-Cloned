@@ -1,26 +1,26 @@
-import { redirectToSignIn } from '@clerk/nextjs'
-import { ChannelType, MemberRole } from '@prisma/client'
-import currentProfile from '../../lib/current-profile'
-import { db } from '../../lib/db'
-import { redirect } from 'next/navigation'
-import ServerHeader from './ServerHeader'
-import { Hash, Mic, ShieldAlert, ShieldCheck, Video } from 'lucide-react'
-import { ScrollArea } from '../ui/scroll-area'
-import ServerSearch from './ServerSearch'
-import { ServerSection } from './ServerSection'
-import { ServerMember } from './ServerMember'
-import { ServerChannel } from './ServerChannel'
-import { Separator } from '../ui/separator'
+import { redirectToSignIn } from "@clerk/nextjs";
+import { ChannelType, MemberRole } from "@prisma/client";
+import currentProfile from "../../lib/current-profile";
+import { db } from "../../lib/db";
+import { redirect } from "next/navigation";
+import ServerHeader from "./ServerHeader";
+import { Hash, Mic, ShieldAlert, ShieldCheck, Video } from "lucide-react";
+import { ScrollArea } from "../ui/scroll-area";
+import ServerSearch from "./ServerSearch";
+import { ServerSection } from "./ServerSection";
+import { ServerMember } from "./ServerMember";
+import { ServerChannel } from "./ServerChannel";
+import { Separator } from "../ui/separator";
 
 type ServerSidebarProps = {
-  serverId: string
-}
+  serverId: string;
+};
 
 const iconMap = {
   [ChannelType.TEXT]: <Hash className="mr-2 h-4 w-4" />,
   [ChannelType.AUDIO]: <Mic className="mr-2 h-4 w-4" />,
   [ChannelType.VIDEO]: <Video className="mr-2 h-4 w-4" />,
-}
+};
 
 const roleIconMap = {
   [MemberRole.GUEST]: null,
@@ -28,13 +28,13 @@ const roleIconMap = {
     <ShieldCheck className="h-4 w-4 mr-2 text-indigo-500" />
   ),
   [MemberRole.ADMIN]: <ShieldAlert className="h-4 w-4 mr-2 text-rose-500" />,
-}
+};
 
 export default async function ServerSidebar({ serverId }: ServerSidebarProps) {
-  const profile = await currentProfile()
+  const profile = await currentProfile();
 
   if (!profile) {
-    return redirectToSignIn()
+    return redirectToSignIn();
   }
 
   const server = await db.server.findUnique({
@@ -45,7 +45,7 @@ export default async function ServerSidebar({ serverId }: ServerSidebarProps) {
       // a server "include"
       channels: {
         orderBy: {
-          createdAt: 'asc',
+          createdAt: "asc",
         },
       },
       members: {
@@ -54,47 +54,44 @@ export default async function ServerSidebar({ serverId }: ServerSidebarProps) {
           profile: true, // what does "profile" even mean, here? does it refer to the same "profile" received from the above call to currentProfile()?
         },
         orderBy: {
-          role: 'asc',
+          role: "asc",
         },
       },
     },
-  })
+  });
 
   if (!server) {
-    redirect('/')
+    redirect("/");
   }
 
   const members = server?.members?.filter(
     (member) => member?.profileId !== profile?.id,
-  ) // we could care less about rendering ourselves in this list
+  ); // we could care less about rendering ourselves in this list
 
   const textChannels = server?.channels?.filter(
     (channel) => channel?.type === ChannelType.TEXT,
-  )
+  );
   const audioChannels = server?.channels?.filter(
     (channel) => channel?.type === ChannelType.AUDIO,
-  )
+  );
   const videoChannels = server?.channels?.filter(
     (channel) => channel?.type === ChannelType.VIDEO,
-  )
+  );
 
   const role = server?.members?.find(
     (member) => member?.profileId === profile?.id,
-  )?.role // what's the role of the currently logged-in user?
+  )?.role; // what's the role of the currently logged-in user?
 
   return (
     <div className="flex flex-col w-full h-full text-primary dark:bg-[#2B2D31] bg-[#F2F3F5]">
-      <ServerHeader
-        server={server}
-        role={role}
-      />
+      <ServerHeader server={server} role={role} />
       <ScrollArea className="flex-1 px-3">
         <div className="mt-2">
           <ServerSearch
             data={[
               {
-                label: 'Text Channels',
-                type: 'channel',
+                label: "Text Channels",
+                type: "channel",
                 data: textChannels?.map((channel) => ({
                   id: channel?.id,
                   name: channel?.name,
@@ -102,8 +99,8 @@ export default async function ServerSidebar({ serverId }: ServerSidebarProps) {
                 })),
               },
               {
-                label: 'Voice Channels',
-                type: 'channel',
+                label: "Voice Channels",
+                type: "channel",
                 data: audioChannels?.map((channel) => ({
                   id: channel?.id,
                   name: channel?.name,
@@ -111,8 +108,8 @@ export default async function ServerSidebar({ serverId }: ServerSidebarProps) {
                 })),
               },
               {
-                label: 'Video Channels',
-                type: 'channel',
+                label: "Video Channels",
+                type: "channel",
                 data: videoChannels?.map((channel) => ({
                   id: channel?.id,
                   name: channel?.name,
@@ -120,8 +117,8 @@ export default async function ServerSidebar({ serverId }: ServerSidebarProps) {
                 })),
               },
               {
-                label: 'Members',
-                type: 'member',
+                label: "Members",
+                type: "member",
                 data: members?.map((member) => ({
                   id: member?.id,
                   name: member?.profile?.name,
@@ -213,5 +210,5 @@ export default async function ServerSidebar({ serverId }: ServerSidebarProps) {
         )}
       </ScrollArea>
     </div>
-  )
+  );
 }

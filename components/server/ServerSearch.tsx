@@ -1,8 +1,8 @@
-'use client'
+"use client";
 
-import { Search } from 'lucide-react'
-import { useEffect, useState } from 'react'
-import { useParams, useRouter } from 'next/navigation'
+import { Search } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
 
 import {
   CommandDialog,
@@ -11,59 +11,59 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from '@/components/ui/command'
+} from "@/components/ui/command";
 
 type ServerSearchProps = {
   data: {
-    label: string
-    type: 'channel' | 'member'
+    label: string;
+    type: "channel" | "member";
     data:
       | {
-          icon: React.ReactNode
-          name: string
-          id: string
+          icon: React.ReactNode;
+          name: string;
+          id: string;
         }[]
-      | undefined
-  }[] // the above "pair of pipes" is valid syntax
-}
+      | undefined;
+  }[]; // the above "pair of pipes" is valid syntax
+};
 
 export default function ServerSearch({ data }: ServerSearchProps) {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
 
-  const router = useRouter()
-  const params = useParams()
+  const router = useRouter();
+  const params = useParams();
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
-      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
+      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
         // metaKey = "cmd" key on mac; ctrlKey = "ctrl" key on windows
-        e.preventDefault()
-        setOpen((open) => !open)
+        e.preventDefault();
+        setOpen((open) => !open);
       }
-    }
+    };
 
     // so... keybinding logic can be placed in useEffects, but it must ALL be undone within the "clean-up" function?
-    document.addEventListener('keydown', down)
-    return () => document.removeEventListener('keydown', down)
-  }, []) // this functions in full regardless of its being void of any dependencies?
+    document.addEventListener("keydown", down);
+    return () => document.removeEventListener("keydown", down);
+  }, []); // this functions in full regardless of its being void of any dependencies?
 
   const onClick = ({
     id,
     type,
   }: {
-    id: string
-    type: 'channel' | 'member'
+    id: string;
+    type: "channel" | "member";
   }) => {
-    setOpen(false)
+    setOpen(false);
 
-    if (type === 'channel') {
-      return router.push(`/servers/${params?.serverId}/channels/${id}`)
+    if (type === "channel") {
+      return router.push(`/servers/${params?.serverId}/channels/${id}`);
     }
 
-    if (type === 'member') {
-      return router.push(`/servers/${params?.serverId}/conversations/${id}`)
+    if (type === "member") {
+      return router.push(`/servers/${params?.serverId}/conversations/${id}`);
     }
-  }
+  };
 
   return (
     <>
@@ -79,24 +79,18 @@ export default function ServerSearch({ data }: ServerSearchProps) {
           <span className="text-xs">⌘</span>K
         </kbd>
       </button>
-      <CommandDialog
-        open={open}
-        onOpenChange={setOpen}
-      >
+      <CommandDialog open={open} onOpenChange={setOpen}>
         <CommandInput placeholder="Search all channels and members" />
         <CommandList>
           <CommandEmpty>No Results found</CommandEmpty>
           {data?.map(({ label, type, data }) => {
             // i added the conditional chain for some enhanced security
             if (!data?.length) {
-              return null
+              return null;
             }
 
             return (
-              <CommandGroup
-                key={label}
-                heading={label}
-              >
+              <CommandGroup key={label} heading={label}>
                 {data?.map(({ id, icon, name }) => {
                   return (
                     <CommandItem
@@ -106,13 +100,13 @@ export default function ServerSearch({ data }: ServerSearchProps) {
                       {icon}
                       <span>{name}</span>
                     </CommandItem>
-                  )
+                  );
                 })}
               </CommandGroup>
-            )
+            );
           })}
         </CommandList>
       </CommandDialog>
     </>
-  )
+  );
 }
