@@ -31,7 +31,6 @@ export default function SuspendedDMLayout({
       <div className="hidden md:flex h-full w-[72px] fixed inset-y-0">
         <NavigationSidebar />
       </div>
-
       {/* Main Content Area */}
       <div className="flex-1 md:pl-200 h-full">
         {/* DMLayout */}
@@ -40,9 +39,8 @@ export default function SuspendedDMLayout({
             <DMLayout />
           </Suspense>
         </div>
-
         {/* Children */}
-        <div>{children}</div>
+        <main className="md:pl-[72px] h-full">{children}</main>
       </div>
     </div>
   )

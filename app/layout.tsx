@@ -7,6 +7,7 @@ import './globals.css'
 import ModalProvider from '../components/providers/ModalProvider'
 import { SocketProvider } from '../components/providers/SocketProvider'
 import { QueryProvider } from '../components/providers/QueryProvider'
+import CommonLayout from '../rediscord-components/layout/common-layout'
 
 const font = Open_Sans({ subsets: ['latin'] })
 
@@ -22,7 +23,8 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
-        <body className={cn(font?.className, 'bg-white dark:bg-[#313338]')}>
+        {/*<body className={cn(font?.className, 'bg-white dark:bg-[#313338]')}>*/}
+        <body className={font?.className + ' dark'}>
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"
@@ -31,7 +33,10 @@ export default function RootLayout({
           >
             <SocketProvider>
               <ModalProvider />
-              <QueryProvider>{children}</QueryProvider>
+              <QueryProvider>
+                <CommonLayout />
+                {children}
+              </QueryProvider>
             </SocketProvider>
           </ThemeProvider>
         </body>

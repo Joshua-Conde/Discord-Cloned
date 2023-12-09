@@ -6,7 +6,6 @@ import { ListedServer } from '../../../rediscord-lib/entities/server'
 import clsx from '../../../rediscord-lib/clsx'
 import Divider from '../../ui/divider'
 import { BsDiscord } from 'react-icons/bs'
-import NavigationSidebar from '../../../components/navigation/NavigationSidebar'
 
 type SideMenuTrackProps = {
   servers: ListedServer[]
